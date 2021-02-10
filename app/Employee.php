@@ -14,8 +14,11 @@ class Employee extends Model
         'phone',
         'address',
         'email',
-        'password',
-        'employee_id',
+        'employee_code',
+        'state_id',
+        'state_code',
+        'blood_group',
+        'head_quarter',
         'branch_id',
         'department_id',
         'designation_id',
@@ -29,6 +32,7 @@ class Employee extends Model
         'tax_payer_id',
         'salary_type',
         'salary',
+        'transfer_date',
         'created_by',
     ];
 

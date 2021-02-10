@@ -43,6 +43,7 @@ class CreateEmployeesTable extends Migration
             $table->string('tax_payer_id')->nullable();
             $table->integer('salary_type')->nullable();
             $table->integer('salary')->nullable();
+            $table->string('transfer_date')->nullable();
             $table->integer('is_active')->default('1');
             $table->integer('created_by');
             $table->timestamps();
