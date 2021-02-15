@@ -59,9 +59,9 @@
                         <span class="badge badge-pill badge-blue">{{ !empty($employee->designation)?$employee->designation->name:'' }}</span>
                         <div class="Id">
                             @can('Show Employee Profile')
-                                <a href="{{route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
+                                <a href="{{route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->employee_id))}}">{{ \Auth::user()->employeeIdFormat($employee->employee_code) }}</a>
                             @else
-                                <a href="#">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
+                                <a href="#">{{ \Auth::user()->employeeIdFormat($employee->employee_code) }}</a>
                             @endcan
                         </div>
                     </div>

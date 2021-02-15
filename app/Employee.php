@@ -206,7 +206,7 @@ class Employee extends Model
     {
         $employee = Employee::latest()->first();
 
-        return !empty($employee) ? $employee->id + 1 : 1;
+        return !empty($employee) ? $employee->employee_id + 1 : 1;
     }
 
     public function branch()

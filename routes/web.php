@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/register/{lang?}', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::get('/kl/{lang?}', 'Auth\LoginController@showLoginForm')->name('kl');
+Route::get('/login/{lang?}', 'Auth\LoginController@showLoginForm')->name('login');
 
 Route::get('/check', 'HomeController@check')->middleware(
     [

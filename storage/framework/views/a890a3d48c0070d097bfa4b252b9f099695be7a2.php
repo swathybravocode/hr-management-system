@@ -66,9 +66,9 @@
                         <span class="badge badge-pill badge-blue"><?php echo e(!empty($employee->designation)?$employee->designation->name:''); ?></span>
                         <div class="Id">
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Employee Profile')): ?>
-                                <a href="<?php echo e(route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?></a>
+                                <a href="<?php echo e(route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->employee_code))); ?>"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_code)); ?></a>
                             <?php else: ?>
-                                <a href="#"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?></a>
+                                <a href="#"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_code)); ?></a>
                             <?php endif; ?>
                         </div>
                     </div>

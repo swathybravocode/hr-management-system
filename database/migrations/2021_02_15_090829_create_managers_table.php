@@ -14,7 +14,14 @@ class CreateManagersTable extends Migration
     public function up()
     {
         Schema::create('managers', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('manager_id');
+            $table->integer('user_id');
+            $table->integer('manager_branch_id');
+            $table->string('manager_name');
+            $table->string('manager_email');
+            $table->string('manager_contact');
+            $table->string('manager_type');
+            $table->string('created_by');
             $table->timestamps();
         });
     }
