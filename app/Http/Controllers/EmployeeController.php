@@ -60,7 +60,9 @@ class EmployeeController extends Controller
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
-            return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));
+            $employee_number  = $this->employeeNumber();
+
+            return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings','employee_number'));
         }
         else
         {
@@ -127,7 +129,7 @@ class EmployeeController extends Controller
                     'address' => $request['address'],
                     'email' => $request['email'],
                     'password' => Hash::make($request['password']),
-                    'employee_code' => $this->employeeNumber(),
+                    'employee_id' => $this->employeeNumber(),
                     'branch_id' => $request['branch_id'],
                     'department_id' => $request['department_id'],
                     'designation_id' => $request['designation_id'],

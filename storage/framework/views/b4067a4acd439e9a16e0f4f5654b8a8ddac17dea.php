@@ -13,9 +13,20 @@
                 <div class="card-header"><h6 class="mb-0"><?php echo e(__('Personal Detail')); ?></h6></div>
                 <div class="card-body ">
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <?php echo Form::label('name', __('Name'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                        <div class="form-group col-md-4">
+                            <?php echo Form::label('name', __('First Name'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                             <?php echo Form::text('name', old('name'), ['class' => 'form-control','required' => 'required']); ?>
+
+                        </div>
+                        <div class="form-group col-md-4">
+                            <?php echo Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('middle_name', old('middle_name'), ['class' => 'form-control','required' => 'required']); ?>
+
+                        </div>
+                        <div class="form-group col-md-4">
+                            <?php echo Form::label('last_name', __('Last Name'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::text('last_name', old('last_name'), ['class' => 'form-control','required' => 'required']); ?>
 
                         </div>
                         <div class="form-group col-md-6">
@@ -30,6 +41,8 @@
 
                             </div>
                         </div>
+
+                        
 
                         <div class="col-md-6 ">
                             <div class="form-group ">
@@ -46,6 +59,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group col-md-6">
+                            <?php echo Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::number('aadhaar_card_number',old('aadhaar_card_number'), ['class' => 'form-control']); ?>
+
+                        </div>
+
                         <div class="form-group col-md-6">
                             <?php echo Form::label('email', __('Email'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                             <?php echo Form::email('email',old('email'), ['class' => 'form-control','required' => 'required']); ?>
@@ -71,18 +90,13 @@
                 <div class="card-body employee-detail-create-body">
                     <div class="row">
                         <?php echo csrf_field(); ?>
-                        <div class="form-group col-md-12">
-                            <?php echo Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']); ?>
-
-                            <?php echo Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
-
-                        </div>
 
                         <div class="form-group col-md-6">
                             <?php echo e(Form::label('branch_id', __('Branch'),['class'=>'form-control-label'])); ?>
 
-                            <?php echo e(Form::select('branch_id', $branches,null, array('class' => 'form-control  select2','required'=>'required'))); ?>
+                            <?php echo e(Form::select('branch_id', $branches, null, array('class' => 'form-control  select2','required'=>'required'))); ?>
 
+                        
                         </div>
 
                         <div class="form-group col-md-6">
@@ -91,6 +105,19 @@
                             <?php echo e(Form::select('department_id', $departments,null, array('class' => 'form-control  select2','id'=>'department_id','required'=>'required'))); ?>
 
                         </div>
+
+                        <div class="form-group col-md-12">
+                            <?php echo Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <?php echo Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('employee_code', $employeesId, ['id'=>'employee_code', 'class' => 'form-control']); ?>
+
+                        </div>                        
 
                         <div class="form-group col-md-12">
                             <?php echo e(Form::label('designation_id', __('Designation'),['class'=>'form-control-label'])); ?>
@@ -190,6 +217,12 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
                             <?php echo Form::text('tax_payer_id',old('tax_payer_id'), ['class' => 'form-control']); ?>
 
                         </div>
+                        <div class="form-group col-md-6">
+                            <?php echo Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control']); ?>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -216,6 +249,12 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
         $(document).on('change', 'select[name=department_id]', function () {
             var department_id = $(this).val();
             getDesignation(department_id);
+        });
+
+        $(document).on('change', 'select[name=branch_id]', function () {
+            var branch_id = $(this).val();
+            var employee_nuber = "<?php echo e($employee_number); ?>";  
+             
         });
 
         function getDesignation(did) {

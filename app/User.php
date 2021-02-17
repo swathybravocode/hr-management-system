@@ -95,7 +95,7 @@ class User extends Authenticatable
 
     public function getEmployee($employee)
     {
-        $employee = Employee::where('id', '=', $employee)->first();
+        $employee = Employee::where('employee_id', '=', $employee)->first();
 
         return $employee;
     }
@@ -322,6 +322,6 @@ class User extends Authenticatable
 
     public function employee()
     {
-        return $this->hasOne('App\Employee', 'user_id', 'id');
+        return $this->hasOne('App\Employee', 'user_id', 'employee_id');
     }
 }

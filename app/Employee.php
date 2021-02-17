@@ -9,11 +9,14 @@ class Employee extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'middle_name',
+        'last_name',
         'dob',
         'gender',
         'phone',
         'address',
         'email',
+        'employee_id',
         'employee_code',
         'state_id',
         'state_code',
@@ -33,6 +36,8 @@ class Employee extends Model
         'salary_type',
         'salary',
         'transfer_date',
+        'pan_card_number',
+        'aadhaar_card_number',
         'created_by',
     ];
 
@@ -206,7 +211,7 @@ class Employee extends Model
     {
         $employee = Employee::latest()->first();
 
-        return !empty($employee) ? $employee->employee_id + 1 : 1;
+        return !empty($employee) ? $employee->id + 1 : 1;
     }
 
     public function branch()

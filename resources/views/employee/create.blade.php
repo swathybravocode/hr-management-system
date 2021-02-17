@@ -13,9 +13,17 @@
                 <div class="card-header"><h6 class="mb-0">{{__('Personal Detail')}}</h6></div>
                 <div class="card-body ">
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            {!! Form::label('name', __('Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                        <div class="form-group col-md-4">
+                            {!! Form::label('name', __('First Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::text('name', old('name'), ['class' => 'form-control','required' => 'required']) !!}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {!! Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('middle_name', old('middle_name'), ['class' => 'form-control','required' => 'required']) !!}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {!! Form::label('last_name', __('Last Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::text('last_name', old('last_name'), ['class' => 'form-control','required' => 'required']) !!}
                         </div>
                         <div class="form-group col-md-6">
                             {!! Form::label('phone', __('Phone'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
@@ -27,6 +35,8 @@
                                 {!! Form::text('dob', old('dob'), ['class' => 'form-control datepicker']) !!}
                             </div>
                         </div>
+
+                        
 
                         <div class="col-md-6 ">
                             <div class="form-group ">
@@ -43,6 +53,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::number('aadhaar_card_number',old('aadhaar_card_number'), ['class' => 'form-control']) !!}
+                        </div>
+
                         <div class="form-group col-md-6">
                             {!! Form::label('email', __('Email'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::email('email',old('email'), ['class' => 'form-control','required' => 'required']) !!}
@@ -65,20 +80,26 @@
                 <div class="card-body employee-detail-create-body">
                     <div class="row">
                         @csrf
-                        <div class="form-group col-md-12">
-                            {!! Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']) !!}
-                        </div>
 
                         <div class="form-group col-md-6">
                             {{ Form::label('branch_id', __('Branch'),['class'=>'form-control-label']) }}
-                            {{ Form::select('branch_id', $branches,null, array('class' => 'form-control  select2','required'=>'required')) }}
+                            {{ Form::select('branch_id', $branches, null, array('class' => 'form-control  select2','required'=>'required')) }}
+                        
                         </div>
 
                         <div class="form-group col-md-6">
                             {{ Form::label('department_id', __('Department'),['class'=>'form-control-label']) }}
                             {{ Form::select('department_id', $departments,null, array('class' => 'form-control  select2','id'=>'department_id','required'=>'required')) }}
                         </div>
+
+                        <div class="form-group col-md-12">
+                            {!! Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']) !!}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {!! Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('employee_code', $employeesId, ['id'=>'employee_code', 'class' => 'form-control']) !!}
+                        </div>                        
 
                         <div class="form-group col-md-12">
                             {{ Form::label('designation_id', __('Designation'),['class'=>'form-control-label']) }}
@@ -156,6 +177,10 @@
                             {!! Form::label('tax_payer_id', __('Tax Payer Id'),['class'=>'form-control-label']) !!}
                             {!! Form::text('tax_payer_id',old('tax_payer_id'), ['class' => 'form-control']) !!}
                         </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control']) !!}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -181,6 +206,12 @@
         $(document).on('change', 'select[name=department_id]', function () {
             var department_id = $(this).val();
             getDesignation(department_id);
+        });
+
+        $(document).on('change', 'select[name=branch_id]', function () {
+            var branch_id = $(this).val();
+            var employee_nuber = "{{$employee_number}}";  
+             
         });
 
         function getDesignation(did) {
