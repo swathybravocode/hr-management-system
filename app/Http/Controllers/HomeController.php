@@ -143,7 +143,7 @@ class HomeController extends Controller
             }
             else
             {
-                return redirect('kl');
+                return redirect('login');
             }
         }
     }

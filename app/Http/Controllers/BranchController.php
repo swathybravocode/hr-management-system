@@ -175,4 +175,29 @@ class BranchController extends Controller
 
         return response()->json($employees);
     }
+
+    public function get_branch_code(Request $request)
+    {
+        $branch_id = $request->branch_id;
+
+        $branch = Branch::where('id',$branch_id)->first();
+
+        if($branch->name=='KL')
+        {
+            $branch_code = "IHC/".$branch->name;
+        }
+
+        elseif($branch->name=='KA')
+        {
+            $branch_code = "EY/".$branch->name;
+        }
+
+        elseif($branch->name=='TN')
+        {
+            $branch_code = "IHC/".$branch->name;
+        }
+
+        return response()->json($branch_code);
+
+    }
 }

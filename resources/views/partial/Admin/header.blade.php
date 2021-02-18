@@ -115,17 +115,8 @@
                 @endif
                 <li class="nav-item">
                     <div class="dropdown global-icon" data-toggle="tooltip" data-original-titla="{{__('Choose Language')}}">
-                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-globe-europe"></i>
-                        </button>
-                        <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            @can('Create Language')
-                                <a class="dropdown-item" href="{{route('manage.language',[$currantLang])}}">{{ __('Create & Customize') }}</a>
-                            @endcan
-                            @foreach($languages as $language)
-                                <a class="dropdown-item @if($language == $currantLang) text-danger @endif" href="{{route('change.language',$language)}}">{{Str::upper($language)}}</a>
-                            @endforeach
-                        </div>
+
+
                     </div>
                 </li>
             </ul>

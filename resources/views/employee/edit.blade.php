@@ -17,9 +17,17 @@
                 <div class="card-body employee-detail-edit-body">
 
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             {!! Form::label('name', __('Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::text('name', null, ['class' => 'form-control','required' => 'required']) !!}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {!! Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('middle_name', null, ['class' => 'form-control','required' => 'required']) !!}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {!! Form::label('last_name', __('Last Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::text('last_name', null, ['class' => 'form-control','required' => 'required']) !!}
                         </div>
                         <div class="form-group col-md-6">
                             {!! Form::label('phone', __('Phone'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
@@ -45,6 +53,14 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('blood_group', __('Blood Group'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::text('blood_group', null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {!! Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::number('aadhaar_card_number', null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     <div class="form-group">
@@ -76,6 +92,16 @@
                                 {{ Form::label('department_id', __('Department'),['class'=>'form-control-label']) }}
                                 {{ Form::select('department_id', $departments,null, array('class' => 'form-control select2','required'=>'required')) }}
                             </div>
+
+                            <div class="form-group col-md-12">
+                                {!! Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) !!}
+                                {!! Form::text('employee_code', null, ['id'=>'employee_code', 'class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group col-md-12">
+                                {!! Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']) !!}
+                                {!! Form::text('head_quarter', null, ['id'=>'head_quarter', 'class' => 'form-control']) !!}
+                            </div>
+
                             <div class="form-group col-md-6">
                                 {{ Form::label('designation_id', __('Designation'),['class'=>'form-control-label']) }}
                                 <select class="select2 form-control select2-multiple" id="designation_id" name="designation_id" data-toggle="select2" data-placeholder="{{ __('Select Designation ...') }}">
@@ -197,6 +223,10 @@
                         <div class="form-group col-md-6">
                             {!! Form::label('tax_payer_id', __('Tax Payer Id'),['class'=>'form-control-label']) !!}
                             {!! Form::text('tax_payer_id',null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('pan_card_number', null, ['class' => 'form-control']) !!}
                         </div>
                         </div>
                     </div>

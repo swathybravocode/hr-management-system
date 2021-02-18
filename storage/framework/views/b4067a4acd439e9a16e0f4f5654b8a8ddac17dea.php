@@ -21,7 +21,7 @@
                         <div class="form-group col-md-4">
                             <?php echo Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('middle_name', old('middle_name'), ['class' => 'form-control','required' => 'required']); ?>
+                            <?php echo Form::text('middle_name', old('middle_name'), ['class' => 'form-control']); ?>
 
                         </div>
                         <div class="form-group col-md-4">
@@ -42,7 +42,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="col-md-6 ">
                             <div class="form-group ">
@@ -60,6 +60,11 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
+                            <?php echo Form::label('blood_group', __('Blood Group'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::text('blood_group',old('blood_group'), ['class' => 'form-control']); ?>
+
+                        </div>
+                        <div class="form-group col-md-12">
                             <?php echo Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                             <?php echo Form::number('aadhaar_card_number',old('aadhaar_card_number'), ['class' => 'form-control']); ?>
 
@@ -91,12 +96,19 @@
                     <div class="row">
                         <?php echo csrf_field(); ?>
 
+                        <div class="form-group col-md-12">
+                            <?php echo Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
+
+                        </div>
+
                         <div class="form-group col-md-6">
                             <?php echo e(Form::label('branch_id', __('Branch'),['class'=>'form-control-label'])); ?>
 
                             <?php echo e(Form::select('branch_id', $branches, null, array('class' => 'form-control  select2','required'=>'required'))); ?>
 
-                        
+
                         </div>
 
                         <div class="form-group col-md-6">
@@ -106,18 +118,19 @@
 
                         </div>
 
-                        <div class="form-group col-md-12">
-                            <?php echo Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
-
-                        </div>
                         <div class="form-group col-md-12">
                             <?php echo Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('employee_code', $employeesId, ['id'=>'employee_code', 'class' => 'form-control']); ?>
+                            <?php echo Form::text('employee_code', "", ['id'=>'employee_code', 'class' => 'form-control']); ?>
 
-                        </div>                        
+                        </div>
+                        <div class="form-group col-md-12">
+                            <?php echo Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']); ?>
+
+                            <?php echo Form::text('head_quarter', "", ['id'=>'head_quarter', 'class' => 'form-control']); ?>
+
+                        </div>
 
                         <div class="form-group col-md-12">
                             <?php echo e(Form::label('designation_id', __('Designation'),['class'=>'form-control-label'])); ?>
@@ -253,8 +266,23 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
 
         $(document).on('change', 'select[name=branch_id]', function () {
             var branch_id = $(this).val();
-            var employee_nuber = "<?php echo e($employee_number); ?>";  
-             
+            var employee_nuber = "<?php echo e($employee_number); ?>";
+
+
+
+            $.ajax({
+                url: '<?php echo e(route('branchcode.get')); ?>',
+                type: 'POST',
+                data: {
+                    "branch_id": branch_id, "_token": "<?php echo e(csrf_token()); ?>",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
         });
 
         function getDesignation(did) {

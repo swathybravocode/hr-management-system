@@ -19,7 +19,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             {!! Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('middle_name', old('middle_name'), ['class' => 'form-control','required' => 'required']) !!}
+                            {!! Form::text('middle_name', old('middle_name'), ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-md-4">
                             {!! Form::label('last_name', __('Last Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
@@ -36,7 +36,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="col-md-6 ">
                             <div class="form-group ">
@@ -54,6 +54,10 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
+                            {!! Form::label('blood_group', __('Blood Group'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::text('blood_group',old('blood_group'), ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-12">
                             {!! Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::number('aadhaar_card_number',old('aadhaar_card_number'), ['class' => 'form-control']) !!}
                         </div>
@@ -81,10 +85,15 @@
                     <div class="row">
                         @csrf
 
+                        <div class="form-group col-md-12">
+                            {!! Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']) !!}
+                        </div>
+
                         <div class="form-group col-md-6">
                             {{ Form::label('branch_id', __('Branch'),['class'=>'form-control-label']) }}
                             {{ Form::select('branch_id', $branches, null, array('class' => 'form-control  select2','required'=>'required')) }}
-                        
+
                         </div>
 
                         <div class="form-group col-md-6">
@@ -92,14 +101,15 @@
                             {{ Form::select('department_id', $departments,null, array('class' => 'form-control  select2','id'=>'department_id','required'=>'required')) }}
                         </div>
 
-                        <div class="form-group col-md-12">
-                            {!! Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('employee_id', $employeesId, ['class' => 'form-control','disabled'=>'disabled']) !!}
-                        </div>
+
                         <div class="form-group col-md-12">
                             {!! Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('employee_code', $employeesId, ['id'=>'employee_code', 'class' => 'form-control']) !!}
-                        </div>                        
+                            {!! Form::text('employee_code', "", ['id'=>'employee_code', 'class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {!! Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']) !!}
+                            {!! Form::text('head_quarter', "", ['id'=>'head_quarter', 'class' => 'form-control']) !!}
+                        </div>
 
                         <div class="form-group col-md-12">
                             {{ Form::label('designation_id', __('Designation'),['class'=>'form-control-label']) }}
@@ -210,8 +220,23 @@
 
         $(document).on('change', 'select[name=branch_id]', function () {
             var branch_id = $(this).val();
-            var employee_nuber = "{{$employee_number}}";  
-             
+            var employee_nuber = "{{$employee_number}}";
+
+
+
+            $.ajax({
+                url: '{{route('branchcode.get')}}',
+                type: 'POST',
+                data: {
+                    "branch_id": branch_id, "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
         });
 
         function getDesignation(did) {

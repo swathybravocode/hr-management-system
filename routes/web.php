@@ -801,3 +801,12 @@ Route::get('report/timesheet', 'ReportController@timesheet')->name('report.times
         'XSS',
     ]
 );
+
+// new routes 18/02/2021
+
+Route::post('getbranchcode', 'BranchController@get_branch_code')->name('branchcode.get')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);

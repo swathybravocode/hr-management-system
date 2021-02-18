@@ -76,13 +76,15 @@ class EmployeeController extends Controller
         {
             $validator = \Validator::make(
                 $request->all(), [
-                                   'name' => 'required',
-                                   'dob' => 'required',
-                                   'gender' => 'required',
-                                   'phone' => 'required',
-                                   'address' => 'required',
-                                   'email' => 'required|unique:users',
-                                   'password' => 'required',
+                                   'name' => 'required|string',
+                                   'dob' => 'required|string',
+                                   'gender' => 'required|string',
+                                   'phone' => 'required|numeric',
+                                   'aadhaar_card_number' => 'required|string',
+                                   'last_name' => 'required|string',
+                                   'address' => 'required|string',
+                                   'email' => 'required|unique:users|string',
+                                   'password' => 'required|string',
                                    'department_id' => 'required',
                                    'designation_id' => 'required',
                                    'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
@@ -142,6 +144,14 @@ class EmployeeController extends Controller
                     'branch_location' => $request['branch_location'],
                     'tax_payer_id' => $request['tax_payer_id'],
                     'created_by' => \Auth::user()->creatorId(),
+                    'blood_group' => $request['blood_group'],
+                    'head_quarter' => $request['head_quarter'],
+                    'middle_name' => $request['middle_name'],
+                    'last_name' => $request['last_name'],
+                    'employee_code' => $request['employee_code'],
+                    'pan_card_number' => $request['pan_card_number'],
+                    'aadhaar_card_number' => $request['aadhaar_card_number'],
+
                 ]
             );
 
@@ -238,6 +248,8 @@ class EmployeeController extends Controller
                                    'name' => 'required',
                                    'dob' => 'required',
                                    'gender' => 'required',
+                                   'aadhaar_card_number' => 'required|string',
+                                   'last_name' => 'required|string',
                                    'phone' => 'required|numeric',
                                    'address' => 'required',
                                    'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',

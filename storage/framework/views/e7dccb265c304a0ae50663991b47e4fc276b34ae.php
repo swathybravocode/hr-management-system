@@ -33,9 +33,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong><?php echo e(__('Employee Code')); ?></strong>
+                                    <span><?php echo e($employee->employee_code); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="info text-sm font-style">
-                                    <strong><?php echo e(__('Name')); ?></strong>
-                                    <span><?php echo e($employee->name); ?></span>
+                                    <strong><?php echo e(__('Full Name')); ?></strong>
+                                    <span><?php echo e($employee->name." ".$employee->middle_name." ".$employee->last_name); ?></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -51,6 +57,12 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong><?php echo e(__('Blood Group')); ?></strong>
+                                    <span><?php echo e($employee->blood_group); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="info text-sm">
                                     <strong><?php echo e(__('Phone')); ?></strong>
                                     <span><?php echo e($employee->phone); ?></span>
@@ -60,6 +72,12 @@
                                 <div class="info text-sm">
                                     <strong><?php echo e(__('Address')); ?></strong>
                                     <span><?php echo e($employee->address); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong><?php echo e(__('Aadhaar Number')); ?></strong>
+                                    <span><?php echo e($employee->aadhaar_card_number); ?></span>
                                 </div>
                             </div>
                             <div class="col-md-6">

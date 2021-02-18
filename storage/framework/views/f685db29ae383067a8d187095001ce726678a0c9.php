@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Employee Set Salary')); ?>
 
@@ -15,7 +16,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Set Salary')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('employee.basic.salary',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Set Basic Sallary')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Basic Salary')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('employee.basic.salary',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Set Basic Sallary')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Basic Salary')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -45,7 +46,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Allowance')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('allowances.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Allowance')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Allowance')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('allowances.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Allowance')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Allowance')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -98,7 +99,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Commission')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('commissions.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Commission')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Commission')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('commissions.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Commission')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Commission')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -149,7 +150,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Loan')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('loans.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Loan')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Loan')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('loans.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Loan')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Loan')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -206,7 +207,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Saturation Deduction')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('saturationdeductions.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Saturation Deduction')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Saturation Deduction')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('saturationdeductions.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Saturation Deduction')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Saturation Deduction')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -259,7 +260,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Other Payment')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('otherpayments.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Other Payment')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Other Payment')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('otherpayments.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Other Payment')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Other Payment')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
@@ -310,7 +311,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Overtime')): ?>
                                     <div class="col text-right">
-                                        <a href="#" data-url="<?php echo e(route('overtimes.create',$employee->employee_id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Overtime')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Overtime')); ?>" class="apply-btn">
+                                        <a href="#" data-url="<?php echo e(route('overtimes.create',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Create Overtime')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Create Overtime')); ?>" class="apply-btn">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>

@@ -33,9 +33,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Employee Code')}}</strong>
+                                    <span>{{$employee->employee_code}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="info text-sm font-style">
-                                    <strong>{{__('Name')}}</strong>
-                                    <span>{{$employee->name}}</span>
+                                    <strong>{{__('Full Name')}}</strong>
+                                    <span>{{$employee->name." ".$employee->middle_name." ".$employee->last_name}}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -51,6 +57,12 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Blood Group')}}</strong>
+                                    <span>{{$employee->blood_group}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="info text-sm">
                                     <strong>{{__('Phone')}}</strong>
                                     <span>{{$employee->phone}}</span>
@@ -60,6 +72,12 @@
                                 <div class="info text-sm">
                                     <strong>{{__('Address')}}</strong>
                                     <span>{{$employee->address}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Aadhaar Number')}}</strong>
+                                    <span>{{$employee->aadhaar_card_number}}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
