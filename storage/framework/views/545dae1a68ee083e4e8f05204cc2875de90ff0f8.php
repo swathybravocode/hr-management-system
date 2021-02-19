@@ -88,6 +88,12 @@
 
                             </a>
                         </li>
+                        <li class="nav-item <?php echo e((Request::route()->getName() == 'manager.index') ||  (Request::route()->getName() == 'manager.create') ||  (Request::route()->getName() == 'manager.edit') ||  (Request::route()->getName() == 'manager.show') ? 'active' : ''); ?>">
+                            <a href="<?php echo e(route('manager.index')); ?>" class="nav-link">
+                                <i class="fas fa-users"></i><?php echo e(__('Managers')); ?>
+
+                            </a>
+                        </li>
                     <?php endif; ?>
                 <?php endif; ?>
 

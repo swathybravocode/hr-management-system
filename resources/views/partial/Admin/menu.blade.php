@@ -83,6 +83,11 @@
                                 <i class="fas fa-users"></i>{{ __('Employee') }}
                             </a>
                         </li>
+                        <li class="nav-item {{ (Request::route()->getName() == 'manager.index') ||  (Request::route()->getName() == 'manager.create') ||  (Request::route()->getName() == 'manager.edit') ||  (Request::route()->getName() == 'manager.show') ? 'active' : '' }}">
+                            <a href="{{route('manager.index')}}" class="nav-link">
+                                <i class="fas fa-users"></i>{{ __('Managers') }}
+                            </a>
+                        </li>
                     @endif
                 @endif
 

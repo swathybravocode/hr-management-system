@@ -118,6 +118,21 @@
                                     <span>{{!empty($employee->department)?$employee->department->name:''}}</span>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Employee Code')}}</strong>
+                                    <span>{{!empty($employee->employee_code)?$employee->employee_code:''}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Head Quarter')}}</strong>
+                                    <span>{{!empty($employee->head_quarter)?$employee->head_quarter:''}}</span>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Designation')}}</strong>
@@ -204,6 +219,13 @@
                                 <div class="info text-sm">
                                     <strong>{{__('Tax Payer Id')}}</strong>
                                     <span>{{$employee->tax_payer_id}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('PAN Card Number')}}</strong>
+                                    <span>{{$employee->pan_card_number}}</span>
                                 </div>
                             </div>
 

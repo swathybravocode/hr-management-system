@@ -22,8 +22,8 @@ class Utility extends Model
         $data = $data->get();
 
         $settings = [
-            "site_currency" => "Dollars",
-            "site_currency_symbol" => "$",
+            "site_currency" => "Indian Rupees",
+            "site_currency_symbol" => "₹",
             "site_currency_symbol_position" => "pre",
             "site_date_format" => "M j, Y",
             "site_time_format" => "g:i A",

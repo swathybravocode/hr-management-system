@@ -79,7 +79,7 @@ class AttendanceEmployeeController extends Controller
                     $employee->where('department_id', $request->department);
                 }
 
-                $employee = $employee->get()->pluck('id');
+                $employee = $employee->get()->pluck('id','name');
 
                 $attendanceEmployee = AttendanceEmployee::whereIn('employee_id', $employee);
 
@@ -119,6 +119,8 @@ class AttendanceEmployeeController extends Controller
 
 
                 $attendanceEmployee = $attendanceEmployee->get();
+
+
 
             }
 

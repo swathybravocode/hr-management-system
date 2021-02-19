@@ -118,6 +118,21 @@
                                     <span><?php echo e(!empty($employee->department)?$employee->department->name:''); ?></span>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong><?php echo e(__('Employee Code')); ?></strong>
+                                    <span><?php echo e(!empty($employee->employee_code)?$employee->employee_code:''); ?></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong><?php echo e(__('Head Quarter')); ?></strong>
+                                    <span><?php echo e(!empty($employee->head_quarter)?$employee->head_quarter:''); ?></span>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="info text-sm font-style">
                                     <strong><?php echo e(__('Designation')); ?></strong>
@@ -204,6 +219,13 @@
                                 <div class="info text-sm">
                                     <strong><?php echo e(__('Tax Payer Id')); ?></strong>
                                     <span><?php echo e($employee->tax_payer_id); ?></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong><?php echo e(__('PAN Card Number')); ?></strong>
+                                    <span><?php echo e($employee->pan_card_number); ?></span>
                                 </div>
                             </div>
 

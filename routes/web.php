@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/register/{lang?}', 'Auth\RegisterController@showRegistrationForm')->name('register');
+// Route::get('/register/{lang?}', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::get('/login/{lang?}', 'Auth\LoginController@showLoginForm')->name('login');
 
 Route::get('/check', 'HomeController@check')->middleware(
@@ -97,6 +97,8 @@ Route::post('employee/json', 'EmployeeController@json')->name('employee.json')->
         'XSS',
     ]
 );
+
+
 Route::post('branch/employee/json', 'EmployeeController@employeeJson')->name('branch.employee.json')->middleware(
     [
         'auth',
@@ -810,3 +812,12 @@ Route::post('getbranchcode', 'BranchController@get_branch_code')->name('branchco
         'XSS',
     ]
 );
+
+
+Route::resource('manager', 'ManagerController')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+

@@ -1,3 +1,5 @@
+
+
 <?php $__env->startPush('css-page'); ?>
     <meta name="route" content="<?php echo e($route); ?>">
     <meta name="url" content="<?php echo e(url('').'/'.config('chatify.path')); ?>" data-user="<?php echo e(Auth::user()->id); ?>">
