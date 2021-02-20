@@ -77,6 +77,7 @@ return array(
     'App\\Http\\Controllers\\LeaveTypeController' => $baseDir . '/app/Http/Controllers/LeaveTypeController.php',
     'App\\Http\\Controllers\\LoanController' => $baseDir . '/app/Http/Controllers/LoanController.php',
     'App\\Http\\Controllers\\LoanOptionController' => $baseDir . '/app/Http/Controllers/LoanOptionController.php',
+    'App\\Http\\Controllers\\ManagerController' => $baseDir . '/app/Http/Controllers/ManagerController.php',
     'App\\Http\\Controllers\\MeetingController' => $baseDir . '/app/Http/Controllers/MeetingController.php',
     'App\\Http\\Controllers\\OtherPaymentController' => $baseDir . '/app/Http/Controllers/OtherPaymentController.php',
     'App\\Http\\Controllers\\OvertimeController' => $baseDir . '/app/Http/Controllers/OvertimeController.php',

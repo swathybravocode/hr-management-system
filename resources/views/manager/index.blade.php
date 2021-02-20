@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Manage Employee')}}
+    {{__('Managers')}}
 @endsection
 
 @section('action-button')
     <div class="all-button-box row d-flex justify-content-end">
         @can('Create Employee')
             <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                <a href="{{ route('employee.create') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
+                <a href="{{ route('manager.create') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
                     <i class="fa fa-plus"></i> {{ __('Create') }}
                 </a>
             </div>
@@ -24,11 +24,11 @@
                         <table class="table table-striped mb-0 dataTable">
                             <thead>
                             <tr>
-                                <th>{{__('Employee Code')}}</th>
+                                <th>{{__('Sl No')}}</th>
+                                <th>{{__('Branch') }}</th>
                                 <th>{{__('Name')}}</th>
                                 <th>{{__('Email')}}</th>
-                                <th>{{__('Branch') }}</th>
-                                <th>{{__('Department') }}</th>
+                                <th>{{__('Contact') }}</th>
                                 <th>{{__('Designation') }}</th>
                                 <th>{{__('Date Of Joining') }}</th>
                                 @if(Gate::check('Edit Employee') || Gate::check('Delete Employee'))
@@ -37,18 +37,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($employees as $employee)
+                            @foreach ($managers as $employee)
                                 <tr>
                                     <td class="Id">
                                         @can('Show Employee')
-                                            <a href="{{route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}">{{ $employee->employee_code }}</a>
+                                            <a href="{{route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
                                         @else
-                                            <a href="#">{{ \Auth::user()->employeeIdFormat($employee->employee_code) }}</a>
+                                            <a href="#">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
                                         @endcan
                                     </td>
+                                    <td class="font-style">{{!empty(\Auth::user()->getBranch($employee->branch_id ))?\Auth::user()->getBranch($employee->branch_id )->name:''}}</td>
+
                                     <td class="font-style">{{ $employee->name }}</td>
                                     <td>{{ $employee->email }}</td>
-                                    <td class="font-style">{{!empty(\Auth::user()->getBranch($employee->branch_id ))?\Auth::user()->getBranch($employee->branch_id )->name:''}}</td>
                                     <td class="font-style">{{!empty(\Auth::user()->getDepartment($employee->department_id ))?\Auth::user()->getDepartment($employee->department_id )->name:''}}</td>
                                     <td class="font-style">{{!empty(\Auth::user()->getDesignation($employee->designation_id ))?\Auth::user()->getDesignation($employee->designation_id )->name:''}}</td>
                                     <td class="font-style">{{ \Auth::user()->dateFormat($employee->company_doj )}}</td>

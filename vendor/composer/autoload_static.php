@@ -600,6 +600,7 @@ class ComposerStaticInit561250a71bd3f2b1389faf6bb34be2d5
         'App\\Http\\Controllers\\LeaveTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/LeaveTypeController.php',
         'App\\Http\\Controllers\\LoanController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoanController.php',
         'App\\Http\\Controllers\\LoanOptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoanOptionController.php',
+        'App\\Http\\Controllers\\ManagerController' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagerController.php',
         'App\\Http\\Controllers\\MeetingController' => __DIR__ . '/../..' . '/app/Http/Controllers/MeetingController.php',
         'App\\Http\\Controllers\\OtherPaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/OtherPaymentController.php',
         'App\\Http\\Controllers\\OvertimeController' => __DIR__ . '/../..' . '/app/Http/Controllers/OvertimeController.php',

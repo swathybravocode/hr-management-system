@@ -1,5 +1,5 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Employee')); ?>
+    <?php echo e(__('Managers')); ?>
 
 <?php $__env->stopSection(); ?>
 
@@ -7,7 +7,7 @@
     <div class="all-button-box row d-flex justify-content-end">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Employee')): ?>
             <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
-                <a href="<?php echo e(route('employee.create')); ?>" class="btn btn-xs btn-white btn-icon-only width-auto">
+                <a href="<?php echo e(route('manager.create')); ?>" class="btn btn-xs btn-white btn-icon-only width-auto">
                     <i class="fa fa-plus"></i> <?php echo e(__('Create')); ?>
 
                 </a>
@@ -25,11 +25,11 @@
                         <table class="table table-striped mb-0 dataTable">
                             <thead>
                             <tr>
-                                <th><?php echo e(__('Employee Code')); ?></th>
+                                <th><?php echo e(__('Sl No')); ?></th>
+                                <th><?php echo e(__('Branch')); ?></th>
                                 <th><?php echo e(__('Name')); ?></th>
                                 <th><?php echo e(__('Email')); ?></th>
-                                <th><?php echo e(__('Branch')); ?></th>
-                                <th><?php echo e(__('Department')); ?></th>
+                                <th><?php echo e(__('Contact')); ?></th>
                                 <th><?php echo e(__('Designation')); ?></th>
                                 <th><?php echo e(__('Date Of Joining')); ?></th>
                                 <?php if(Gate::check('Edit Employee') || Gate::check('Delete Employee')): ?>
@@ -38,18 +38,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $managers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td class="Id">
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Employee')): ?>
-                                            <a href="<?php echo e(route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"><?php echo e($employee->employee_code); ?></a>
+                                            <a href="<?php echo e(route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))); ?>"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?></a>
                                         <?php else: ?>
-                                            <a href="#"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_code)); ?></a>
+                                            <a href="#"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?></a>
                                         <?php endif; ?>
                                     </td>
+                                    <td class="font-style"><?php echo e(!empty(\Auth::user()->getBranch($employee->branch_id ))?\Auth::user()->getBranch($employee->branch_id )->name:''); ?></td>
+
                                     <td class="font-style"><?php echo e($employee->name); ?></td>
                                     <td><?php echo e($employee->email); ?></td>
-                                    <td class="font-style"><?php echo e(!empty(\Auth::user()->getBranch($employee->branch_id ))?\Auth::user()->getBranch($employee->branch_id )->name:''); ?></td>
                                     <td class="font-style"><?php echo e(!empty(\Auth::user()->getDepartment($employee->department_id ))?\Auth::user()->getDepartment($employee->department_id )->name:''); ?></td>
                                     <td class="font-style"><?php echo e(!empty(\Auth::user()->getDesignation($employee->designation_id ))?\Auth::user()->getDesignation($employee->designation_id )->name:''); ?></td>
                                     <td class="font-style"><?php echo e(\Auth::user()->dateFormat($employee->company_doj )); ?></td>
@@ -85,4 +86,4 @@
 
 
 
-<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\EysysHRM_Code\resources\views/employee/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\EysysHRM_Code\resources\views/manager/index.blade.php ENDPATH**/ ?>
