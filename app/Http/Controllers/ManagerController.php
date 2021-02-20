@@ -73,6 +73,8 @@ class ManagerController extends Controller
                                    'gender' => 'required|string',
                                    'email' => 'required|unique:users|string',
                                    'password' => 'required|string',
+                                   'address' => 'required|string',
+
                                    ]);
         }
     }
