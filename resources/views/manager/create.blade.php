@@ -90,7 +90,7 @@
 
                         <div class="form-group col-md-12">
                             {{ Form::label('designation_id', __('Designation'),['class'=>'form-control-label']) }}
-                            <select class="select2 form-control select2-multiple" id="designation_id" name="designation_id" data-toggle="select2" data-placeholder="{{ __('Select Designation ...') }}">
+                            <select class="select2 form-control select2-multiple" id="manager_type" name="manager_type" data-toggle="select2" data-placeholder="{{ __('Select Designation ...') }}">
                                 <option value="">{{__('Select any Designation')}}</option>
                             </select>
                         </div>

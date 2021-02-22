@@ -60,13 +60,13 @@ class ManagerController extends Controller
         }
     }
 
-    public function store()
+    public function store(Request $request)
     {
         if(\Auth::user()->can('Create Employee'))
         {
             $validator = \Validator::make(
                 $request->all(), [
-                                   'name' => 'required|string',
+                                   'manager_name' => 'required|string',
                                    'last_name' => 'required|string',
                                    'phone' => 'required|numeric',
                                    'date_of_birth' => 'required|string',
@@ -74,8 +74,40 @@ class ManagerController extends Controller
                                    'email' => 'required|unique:users|string',
                                    'password' => 'required|string',
                                    'address' => 'required|string',
+                                   'department_id' => 'required',
+                                   'designation_id' => 'required',
 
                                    ]);
+
+            if($validator->fails())
+            {
+                $messages = $validator->getMessageBag();
+
+                return redirect()->back()->withInput()->with('error', $messages->first());
+            }
+
+            $user = User::create(
+                [
+                    'name' => $request['manager_name'],
+                    'email' => $request['email'],
+                    'password' => Hash::make($request['password']),
+                    'type' => 'manager',
+                    'lang' => 'en',
+                    'created_by' => \Auth::user()->creatorId(),
+                ]
+            );
+            $user->save();
+            $user->assignRole('Manager');
+
+            $manager = Manager::create(
+                [
+                    'user_id' => $user->id,
+                    'manager_name' => $request['manager_name']." ".$request['last_name'],
+                    'manager_contact' => $request['manager_contact'],
+                    'date_of_birth' => $request['date_of_birth'],
+                    'manager_email'
+                ]);
+
         }
     }
 }

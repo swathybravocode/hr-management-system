@@ -14,8 +14,8 @@
                 <div class="card-body ">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <?php echo Form::label('name', __('First Name'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                            <?php echo Form::text('name', old('name'), ['class' => 'form-control','required' => 'required']); ?>
+                            <?php echo Form::label('manager_name', __('First Name'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::text('manager_name', old('manager_name'), ['class' => 'form-control','required' => 'required']); ?>
 
                         </div>
 
@@ -25,14 +25,14 @@
 
                         </div>
                         <div class="form-group col-md-6">
-                            <?php echo Form::label('phone', __('Phone'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                            <?php echo Form::number('phone',old('phone'), ['class' => 'form-control']); ?>
+                            <?php echo Form::label('manager_contact', __('Phone'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::number('manager_contact',old('manager_contact'), ['class' => 'form-control']); ?>
 
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <?php echo Form::label('dob', __('Date of Birth'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                                <?php echo Form::text('dob', old('dob'), ['class' => 'form-control datepicker']); ?>
+                                <?php echo Form::label('date_of_birth', __('Date of Birth'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                                <?php echo Form::text('date_of_birth', old('date_of_birth'), ['class' => 'form-control datepicker']); ?>
 
                             </div>
                         </div>
