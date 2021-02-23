@@ -24,13 +24,13 @@
                         <table class="table table-striped mb-0 dataTable">
                             <thead>
                             <tr>
-                                <th>{{__('Sl No')}}</th>
+                                <th>{{__('Manager Id')}}</th>
                                 <th>{{__('Branch') }}</th>
                                 <th>{{__('Name')}}</th>
                                 <th>{{__('Email')}}</th>
-                                <th>{{__('Contact') }}</th>
+                                {{-- <th>{{__('Contact') }}</th> --}}
+                                <th>{{__('Department') }}</th>
                                 <th>{{__('Designation') }}</th>
-                                <th>{{__('Date Of Joining') }}</th>
                                 @if(Gate::check('Edit Employee') || Gate::check('Delete Employee'))
                                     <th width="200px">{{__('Action')}}</th>
                                 @endif
@@ -41,32 +41,31 @@
                                 <tr>
                                     <td class="Id">
                                         @can('Show Employee')
-                                            <a href="{{route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
+                                            <a href="{{route('employee.show',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}">{{ \Auth::user()->managerIdFormat($employee->manager_id) }}</a>
                                         @else
-                                            <a href="#">{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</a>
+                                            <a href="#">{{ \Auth::user()->managerIdFormat($employee->manager_id) }}</a>
                                         @endcan
                                     </td>
-                                    <td class="font-style">{{!empty(\Auth::user()->getBranch($employee->branch_id ))?\Auth::user()->getBranch($employee->branch_id )->name:''}}</td>
+                                    <td class="font-style">{{!empty(\Auth::user()->getBranch($employee->manager_branch_id ))?\Auth::user()->getBranch($employee->manager_branch_id )->name:''}}</td>
 
-                                    <td class="font-style">{{ $employee->name }}</td>
-                                    <td>{{ $employee->email }}</td>
-                                    <td class="font-style">{{!empty(\Auth::user()->getDepartment($employee->department_id ))?\Auth::user()->getDepartment($employee->department_id )->name:''}}</td>
-                                    <td class="font-style">{{!empty(\Auth::user()->getDesignation($employee->designation_id ))?\Auth::user()->getDesignation($employee->designation_id )->name:''}}</td>
-                                    <td class="font-style">{{ \Auth::user()->dateFormat($employee->company_doj )}}</td>
+                                    <td class="font-style">{{ $employee->manager_name}}</td>
+                                    <td>{{ $employee->manager_email}}</td>
+                                    {{-- <td class="font-style">{{ $employee->manager_contact}}</td> --}}
+                                    <td class="font-style">{{!empty(\Auth::user()->getDepartment($employee->manager_department_id ))?\Auth::user()->getDepartment($employee->manager_department_id )->name:''}}</td>
+                                    <td class="font-style">{{!empty(\Auth::user()->getDesignation($employee->manager_type))?\Auth::user()->getDesignation($employee->manager_type )->name:''}}</td>
+
                                     @if(Gate::check('Edit Employee') || Gate::check('Delete Employee'))
                                         <td>
-                                            @if($employee->is_active==1)
+
                                                 @can('Edit Employee')
-                                                    <a href="{{route('employee.edit',\Illuminate\Support\Facades\Crypt::encrypt($employee->id))}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
+                                                    <a href="{{route('manager.edit',\Illuminate\Support\Facades\Crypt::encrypt($employee->manager_id))}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
                                                 @endcan
                                                 @can('Delete Employee')
-                                                    <a href="#" class="delete-icon" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="{{__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="document.getElementById('delete-form-{{$employee->id}}').submit();"><i class="fas fa-trash"></i></a>
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['employee.destroy', $employee->id],'id'=>'delete-form-'.$employee->id]) !!}
+                                                    <a href="#" class="delete-icon" data-toggle="tooltip" data-original-title="{{__('Delete')}}" data-confirm="{{__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="document.getElementById('delete-form-{{$employee->manager_id}}').submit();"><i class="fas fa-trash"></i></a>
+                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['employee.destroy', $employee->manager_id],'id'=>'delete-form-'.$employee->manager_id]) !!}
                                                     {!! Form::close() !!}
                                                 @endcan
-                                            @else
-                                                <i class="fas fa-lock"></i>
-                                            @endif
+
                                         </td>
                                     @endif
                                 </tr>

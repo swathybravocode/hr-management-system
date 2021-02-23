@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Manage Attendance List')); ?>
 
@@ -129,7 +128,8 @@
                             <?php $__currentLoopData = $attendanceEmployee; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <?php if(\Auth::user()->type!='employee'): ?>
-                                        <td><?php echo e(!empty($attendance->employee)?$attendance->employee->name:''); ?></td>
+
+                                        <td><?php echo e($attendance->name); ?></td>
                                     <?php endif; ?>
                                     <td><?php echo e(\Auth::user()->dateFormat($attendance->date)); ?></td>
                                     <td><?php echo e($attendance->status); ?></td>

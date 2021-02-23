@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             {!! Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('middle_name', null, ['class' => 'form-control','required' => 'required']) !!}
+                            {!! Form::text('middle_name', null, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-md-4">
                             {!! Form::label('last_name', __('Last Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
@@ -356,6 +356,27 @@
         $(document).on('change', 'select[name=department_id]', function () {
             var department_id = $(this).val();
             getDesignation(department_id);
+        });
+
+        $(document).on('change', 'select[name=branch_id]', function () {
+            var branch_id = $(this).val();
+            var employee_nuber = "{{$employee_number}}";
+
+
+
+            $.ajax({
+                url: '{{route('branchcode.get')}}',
+                type: 'POST',
+                data: {
+                    "branch_id": branch_id, "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
         });
 
     </script>

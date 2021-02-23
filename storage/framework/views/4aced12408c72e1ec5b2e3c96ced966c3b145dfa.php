@@ -22,6 +22,9 @@
                                 <tr>
                                     <?php if($user->type=='employee'): ?>
                                         <td><?php echo e(\Auth::user()->employeeIdFormat($user->id)); ?></td>
+                                    <?php elseif($user->type=='manager'): ?>
+                                    <td><?php echo e(\Auth::user()->managerIdFormat($user->id)); ?></td>
+
                                     <?php else: ?>
                                         <td>--</td>
                                     <?php endif; ?>

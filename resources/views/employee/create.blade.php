@@ -210,7 +210,10 @@
 
         $(document).ready(function () {
             var d_id = $('#department_id').val();
+            var branch_id = $("#branch_id").val();
+
             getDesignation(d_id);
+            getBranchEmployeeCode(branch_id);
         });
 
         $(document).on('change', 'select[name=department_id]', function () {
@@ -238,6 +241,25 @@
             });
 
         });
+
+        function getBranchEmployeeCode(bid)
+        {
+            var employee_nuber = "{{$employee_number}}";
+
+            $.ajax({
+                url: '{{route('branchcode.get')}}',
+                type: 'POST',
+                data: {
+                    "branch_id": bid, "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
+        }
 
         function getDesignation(did) {
 

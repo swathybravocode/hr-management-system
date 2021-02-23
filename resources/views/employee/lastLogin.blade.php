@@ -22,6 +22,9 @@
                                 <tr>
                                     @if($user->type=='employee')
                                         <td>{{ \Auth::user()->employeeIdFormat($user->id) }}</td>
+                                    @elseif($user->type=='manager')
+                                    <td>{{ \Auth::user()->managerIdFormat($user->id) }}</td>
+
                                     @else
                                         <td>--</td>
                                     @endif

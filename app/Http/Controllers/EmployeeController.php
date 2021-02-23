@@ -230,7 +230,9 @@ class EmployeeController extends Controller
             $employee     = Employee::find($id);
             $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
 
-            return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents'));
+            $employee_number  = $this->employeeNumber();
+
+            return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents', 'employee_number'));
         }
         else
         {

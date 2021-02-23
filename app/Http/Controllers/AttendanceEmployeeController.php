@@ -79,9 +79,11 @@ class AttendanceEmployeeController extends Controller
                     $employee->where('department_id', $request->department);
                 }
 
-                $employee = $employee->get()->pluck('id','name');
+                $employee = $employee->get()->pluck('id');
 
-                $attendanceEmployee = AttendanceEmployee::whereIn('employee_id', $employee);
+                $attendanceEmployee = AttendanceEmployee::select('attendance_employees.*','employees.name')->join('employees', 'employees.id', '=', 'attendance_employees.employee_id')->whereIn('attendance_employees.employee_id', $employee);
+
+
 
                 if($request->type == 'monthly' && !empty($request->month))
                 {

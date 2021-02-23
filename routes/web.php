@@ -821,3 +821,10 @@ Route::resource('manager', 'ManagerController')->middleware(
     ]
 );
 
+Route::post('manager/json', 'ManagerController@json')->name('manager.json')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+

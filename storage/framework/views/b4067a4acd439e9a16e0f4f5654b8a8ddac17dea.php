@@ -256,7 +256,10 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
 
         $(document).ready(function () {
             var d_id = $('#department_id').val();
+            var branch_id = $("#branch_id").val();
+
             getDesignation(d_id);
+            getBranchEmployeeCode(branch_id);
         });
 
         $(document).on('change', 'select[name=department_id]', function () {
@@ -284,6 +287,25 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
             });
 
         });
+
+        function getBranchEmployeeCode(bid)
+        {
+            var employee_nuber = "<?php echo e($employee_number); ?>";
+
+            $.ajax({
+                url: '<?php echo e(route('branchcode.get')); ?>',
+                type: 'POST',
+                data: {
+                    "branch_id": bid, "_token": "<?php echo e(csrf_token()); ?>",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
+        }
 
         function getDesignation(did) {
 

@@ -26,7 +26,7 @@
                         <div class="form-group col-md-4">
                             <?php echo Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('middle_name', null, ['class' => 'form-control','required' => 'required']); ?>
+                            <?php echo Form::text('middle_name', null, ['class' => 'form-control']); ?>
 
                         </div>
                         <div class="form-group col-md-4">
@@ -402,6 +402,27 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1 &
         $(document).on('change', 'select[name=department_id]', function () {
             var department_id = $(this).val();
             getDesignation(department_id);
+        });
+
+        $(document).on('change', 'select[name=branch_id]', function () {
+            var branch_id = $(this).val();
+            var employee_nuber = "<?php echo e($employee_number); ?>";
+
+
+
+            $.ajax({
+                url: '<?php echo e(route('branchcode.get')); ?>',
+                type: 'POST',
+                data: {
+                    "branch_id": branch_id, "_token": "<?php echo e(csrf_token()); ?>",
+                },
+                success: function (data) {
+
+                    $("#employee_code").val(data+"/0"+employee_nuber);
+
+                }
+            });
+
         });
 
     </script>

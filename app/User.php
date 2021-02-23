@@ -79,6 +79,13 @@ class User extends Authenticatable
         return $settings["employee_prefix"] . sprintf("%05d", $number);
     }
 
+    public function managerIdFormat($number)
+    {
+        $settings = Utility::settings();
+
+        return $settings["manager_prefix"] . sprintf("%05d", $number);
+    }
+
     public function getBranch($branch_id)
     {
         $branch = Branch::where('id', '=', $branch_id)->first();

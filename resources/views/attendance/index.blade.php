@@ -118,7 +118,8 @@
                             @foreach ($attendanceEmployee as $attendance)
                                 <tr>
                                     @if(\Auth::user()->type!='employee')
-                                        <td>{{!empty($attendance->employee)?$attendance->employee->name:'' }}</td>
+
+                                        <td>{{$attendance->name }}</td>
                                     @endif
                                     <td>{{ \Auth::user()->dateFormat($attendance->date) }}</td>
                                     <td>{{ $attendance->status }}</td>
