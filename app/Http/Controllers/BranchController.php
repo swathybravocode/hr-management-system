@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Branch;
+use App\Employee;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -182,22 +183,41 @@ class BranchController extends Controller
 
         $branch = Branch::where('id',$branch_id)->first();
 
+        $emp_number  = $this->branchEmployeeNumber($branch_id);
+
         if($branch->name=='KL')
         {
-            $branch_code = "IHC/".$branch->name;
+            $branch_code = "IHC/".$branch->name."/0".$emp_number;
+
         }
 
         elseif($branch->name=='KA')
         {
-            $branch_code = "EY/".$branch->name;
+            $branch_code = "EY/".$branch->name."/0".$emp_number;
         }
 
         elseif($branch->name=='TN')
         {
-            $branch_code = "IHC/".$branch->name;
+            $branch_code = "IHC/".$branch->name."/0".$emp_number;
         }
 
         return response()->json($branch_code);
+
+    }
+
+    public function branchEmployeeNumber($branch_id)
+    {
+        $latest = Employee::where([['created_by', '=', \Auth::user()->creatorId()], ['branch_id','=', $branch_id]])->latest()->first();
+
+        $arr_emp = Employee::where('branch_id','=', $branch_id)->get();
+        $count = count($arr_emp);
+
+        if(!$latest)
+        {
+            return 1;
+        }
+
+        return $count + 1;
 
     }
 }

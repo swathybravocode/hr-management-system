@@ -223,9 +223,6 @@
 
         $(document).on('change', 'select[name=branch_id]', function () {
             var branch_id = $(this).val();
-            var employee_nuber = "{{$employee_number}}";
-
-
 
             $.ajax({
                 url: '{{route('branchcode.get')}}',
@@ -235,7 +232,7 @@
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });
@@ -254,7 +251,7 @@
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });

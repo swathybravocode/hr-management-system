@@ -60,7 +60,9 @@ class EmployeeController extends Controller
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
-            $employee_number  = $this->employeeNumber();
+            $all_branches = Branch::all();
+
+            $employee_number  = $this->branchEmployeeNumber($all_branches[0]->id);
 
             return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings','employee_number'));
         }
@@ -403,6 +405,18 @@ class EmployeeController extends Controller
         }
 
         return $latest->employee_id + 1;
+    }
+
+    public function branchEmployeeNumber($branch_id)
+    {
+        $latest = Employee::where([['created_by', '=', \Auth::user()->creatorId()], ['branch_id','=', $branch_id]])->latest()->first();
+        if(!$latest)
+        {
+            return 1;
+        }
+
+        return $latest->employee_id + 1;
+
     }
 
     public function profile(Request $request)

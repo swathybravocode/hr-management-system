@@ -372,7 +372,7 @@
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });

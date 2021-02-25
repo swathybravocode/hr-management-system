@@ -418,7 +418,7 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1 &
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });

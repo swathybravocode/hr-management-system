@@ -269,9 +269,6 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
 
         $(document).on('change', 'select[name=branch_id]', function () {
             var branch_id = $(this).val();
-            var employee_nuber = "<?php echo e($employee_number); ?>";
-
-
 
             $.ajax({
                 url: '<?php echo e(route('branchcode.get')); ?>',
@@ -281,7 +278,7 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });
@@ -300,7 +297,7 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data+"/0"+employee_nuber);
+                    $("#employee_code").val(data);
 
                 }
             });

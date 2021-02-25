@@ -443,16 +443,15 @@ class AttendanceEmployeeController extends Controller
         {
 
             $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $branch->prepend('Select Branch', '');
+            $branch->prepend('Select', '');
 
             $department = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $department->prepend('Select Department', '');
+            $department->prepend('Select', '');
 
             $employees = [];
             if(!empty($request->branch) && !empty($request->department))
             {
                 $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('branch_id', $request->branch)->where('department_id', $request->department)->get();
-
 
             }
 
