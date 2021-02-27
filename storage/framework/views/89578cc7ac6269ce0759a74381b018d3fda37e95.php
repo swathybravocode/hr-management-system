@@ -115,10 +115,10 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                                                     <tr>
                                                         <td style="font-size:0px;padding:10px 25px;padding-top:0px;padding-right:0px;padding-bottom:40px;padding-left:0px;word-break:break-word;">
-                                                            <p style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:100%;">
+                                                            <p style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:100%;">
                                                             </p>
 
-                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
+                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
                                                                 <tr>
                                                                     <td style="height:0;line-height:0;">
                                                                     </td>
@@ -169,7 +169,7 @@
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style=" line-height:32px"><b style="font-weight:700"><?php echo e(__('Subject : ').'HR department/Company to send payslips by email at time of confirmation of payslip.'); ?></b></p>
+                                                                <p style=" line-height:32px"><b style="font-weight:700"><?php echo e(__('Subject : ').'Eysys HR department/Company to send payslips by email at time of confirmation of payslip.'); ?></b></p>
                                                                 <p style="line-height:32px"><b style="font-weight:700"><?php echo e(__('Hi ').$payslip->name.','); ?></b></p>
                                                             </div>
                                                         </td>
@@ -193,8 +193,8 @@
                                                         <td align="center" vertical-align="middle" style="font-size:0px;padding:10px 25px;padding-top:20px;padding-bottom:20px;word-break:break-word;">
                                                             <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
                                                                 <tr>
-                                                                    <td align="center" bgcolor="#6676EF" role="presentation" style="border:none;border-radius:100px;cursor:auto;padding:15px 25px 15px 25px;background:#6676EF;" valign="middle">
-                                                                        <a href="<?php echo e($payslip->url); ?>" style="background:#6676EF;color:#ffffff;font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;" target="_blank">
+                                                                    <td align="center" bgcolor="#6676EF" role="presentation" style="border:none;border-radius:100px;cursor:auto;padding:15px 25px 15px 25px;background:#006569;" valign="middle">
+                                                                        <a href="<?php echo e($payslip->url); ?>" style="background:#006569;color:#ffffff;font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;" target="_blank">
                                                                             <b style="font-weight:700"><b style="font-weight:700"><?php echo e(__('Payslip')); ?></b></b>
                                                                         </a>
                                                                     </td>
@@ -215,7 +215,9 @@
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
                                                                 <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(__('Regards,')); ?></b></i></p>
                                                                 <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(__('HR Department,')); ?></b></i></p>
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(env('APP_NAME')); ?></b></i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(__('Eysys Pharmaceuticals')); ?></b></i></p>
+
+
                                                             </div>
                                                         </td>
                                                     </tr>

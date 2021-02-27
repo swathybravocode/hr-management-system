@@ -3,6 +3,34 @@
     $company_logo=Utility::getValByName('company_logo');
 ?>
 
+<style>
+    address{text-align: justify;}
+   address span{float: right;}
+
+    #payslip-table{ border-radius: 3px; }
+   table.GeneratedTable {
+ width: 100%;
+ background-color: #ccc;
+ border-collapse: collapse;
+ border-width: 2px;
+ border-color: #ccc;
+ border-style: solid;
+ color: rgb(156, 155, 155);
+ text-align: left;
+
+}
+
+table.GeneratedTable td, table.GeneratedTable th {
+ border-width: 2px;
+ border-color: #ccc;
+ border-style: solid;
+ padding: 10px;
+}
+
+table.GeneratedTable thead {
+ background-color: #ccc;
+}
+</style>
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Payslip')); ?>
 
@@ -18,27 +46,31 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="invoice-title">
-                                <h4><?php echo e(__('Payslip')); ?></h4>
+                                <h6 class="mb-3"><?php echo e(__('Payslip')); ?></h6>
                                 <div class="invoice-number">
-                                    <img src="<?php echo e($logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')); ?>" width="170px;" alt="">
+                                    <img src="<?php echo e($logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')); ?>" width="170px;">
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="row text-sm">
+                                <div class="col-md-7">
                                     <address>
-                                        <strong><?php echo e(__('Name')); ?> :</strong> <?php echo e($employee->name); ?><br>
-                                        <strong><?php echo e(__('Position')); ?> :</strong> <?php echo e(__('Employee')); ?><br>
-                                        <strong><?php echo e(__('Salary Date')); ?> :</strong> <?php echo e(\Auth::user()->dateFormat( $employee->created_at)); ?><br>
+                                        <strong><?php echo e(__('Name')); ?> &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&emsp;&emsp; <?php echo e($employee->name); ?><br>
+                                        <strong><?php echo e(__('Division')); ?>&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e($employee->department->name); ?><br>
+                                        
+                                        <strong><?php echo e(__('Bank Details')); ?>&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e(('A/C # -')); ?> <?php echo e($employee->account_number); ?><br>
+                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&emsp; <?php echo e($employee->bank_name); ?>
+
 
                                     </address>
                                 </div>
-                                <div class="col-md-6 text-md-right">
+                                <div class="col-md-5 text-md-right">
                                     <address>
-                                        <strong><?php echo e(\Utility::getValByName('company_name')); ?> </strong><br>
-                                        <?php echo e(\Utility::getValByName('company_address')); ?> , <?php echo e(\Utility::getValByName('company_city')); ?>,<br>
-                                        <?php echo e(\Utility::getValByName('company_state')); ?>-<?php echo e(\Utility::getValByName('company_zipcode')); ?><br>
-                                        <strong><?php echo e(__('Salary Slip')); ?> :</strong> <?php echo e(\Auth::user()->dateFormat( $payslip->salary_month)); ?><br>
+                                        <strong><?php echo e(__('Pay Slip')); ?> &emsp;&emsp;&emsp;&emsp;&nbsp;:</strong><span> <?php echo e(\Auth::user()->dateFormat( $payslip->salary_month)); ?></span><br>
+                                        <strong><?php echo e(__('Employee Code')); ?>&nbsp; :</strong> <span><?php echo e($employee->employee_code); ?></span><br>
+                                        <strong><?php echo e(__('Region')); ?>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span><?php echo e($employee->branch->name); ?></span><br>
+                                        <strong><?php echo e(__('Currency')); ?>&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> <span><?php echo e(__('INR')); ?></span><br>
+
                                     </address>
                                 </div>
                             </div>
@@ -47,107 +79,64 @@
 
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover table-md">
-                                    <tbody>
+                            <div id="payslip-table" class="table-responsive">
+                                
+
+                                <table class="GeneratedTable">
                                     <tr>
-                                        <th><?php echo e(__('Earning')); ?></th>
-                                        <th><?php echo e(__('Title')); ?></th>
-                                        <th class="text-right"><?php echo e(__('Amount')); ?></th>
+                                      <th scope="col" ><?php echo e(__('Earnings')); ?> <span style="float:right"><?php echo e(__('Amount')); ?></span></th>
+                                      <th scope="col" ><?php echo e(__('Deductions')); ?> <span style="float:right"><?php echo e(__('Amount')); ?></span></th>
                                     </tr>
                                     <tr>
-                                        <td><?php echo e(__('Basic Salary')); ?></td>
-                                        <td>-</td>
-                                        <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $payslip->basic_salary)); ?></td>
+                                      <td>
+                                      <p><?php echo e(__('Basic Salary')); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $payslip->basic_salary)); ?></span></p>
+                                      <?php $__currentLoopData = $payslipDetail['earning']['allowance']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $allowance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($allowance->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $allowance->amount)); ?></span></p>
+                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                       <?php $__currentLoopData = $payslipDetail['earning']['commission']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($commission->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $commission->amount)); ?></span></p>
+                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                       <?php $__currentLoopData = $payslipDetail['earning']['otherPayment']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $otherPayment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($otherPayment->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $otherPayment->amount)); ?></span></p>
+                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $payslipDetail['earning']['overTime']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $overTime): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($overTime->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $overTime->amount)); ?></span></p>
+                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                      <p><b><?php echo e(__('Total Earnings')); ?></b> <span style="float:right"><?php echo e(\Auth::user()->priceFormat($payslipDetail['totalEarning'])); ?></span></p>
+                                      </td>
+                                      <td>
+                                      <?php $__currentLoopData = $payslipDetail['deduction']['loan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($loan->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $loan->amount)); ?></span></p>
+                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                      <?php $__currentLoopData = $payslipDetail['deduction']['deduction']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deduction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <p><?php echo e($deduction->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $deduction->amount)); ?></span></p>
+                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                      <p><span style="float:right"></span></p>
+                                      <p><b>Total Deductions</b> <span style="float:right"><b><?php echo e(\Auth::user()->priceFormat($payslipDetail['totalDeduction'])); ?></b></span></p>
+                                      </td>
                                     </tr>
-                                    <?php $__currentLoopData = $payslipDetail['earning']['allowance']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $allowance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('Allowance')); ?></td>
-                                            <td><?php echo e($allowance->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $allowance->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $__currentLoopData = $payslipDetail['earning']['commission']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('Commission')); ?></td>
-                                            <td><?php echo e($commission->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $commission->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $__currentLoopData = $payslipDetail['earning']['otherPayment']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $otherPayment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('Other Payment')); ?></td>
-                                            <td><?php echo e($otherPayment->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $otherPayment->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $__currentLoopData = $payslipDetail['earning']['overTime']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $overTime): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('OverTime')); ?></td>
-                                            <td><?php echo e($overTime->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $overTime->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover table-md">
-                                    <tbody>
                                     <tr>
-                                        <th><?php echo e(__('Deduction')); ?></th>
-                                        <th><?php echo e(__('Title')); ?></th>
-                                        <th class="text-right"><?php echo e(__('Amount')); ?></th>
+                                      <td><b><?php echo e(__('Net Earnings')); ?></b> <span style="float:right;"><b><?php echo e(\Auth::user()->priceFormat($payslipDetail['netEarning'])); ?></b></span></td>
+                                      <td></td>
                                     </tr>
-
-                                    <?php $__currentLoopData = $payslipDetail['deduction']['loan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('Loan')); ?></td>
-                                            <td><?php echo e($loan->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $loan->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    <?php $__currentLoopData = $payslipDetail['deduction']['deduction']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deduction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <tr>
-                                            <td><?php echo e(__('Saturation Deduction')); ?></td>
-                                            <td><?php echo e($deduction->title); ?></td>
-                                            <td class="text-right"><?php echo e(\Auth::user()->priceFormat( $deduction->amount)); ?></td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row mt-4">
-                                <div class="col-lg-8">
-
-                                </div>
-                                <div class="col-lg-4 text-right">
-                                    <div class="invoice-detail-item">
-                                        <div class="invoice-detail-name"><?php echo e(__('Total Earning')); ?></div>
-                                        <div class="invoice-detail-value"><?php echo e(\Auth::user()->priceFormat($payslipDetail['totalEarning'])); ?></div>
-                                    </div>
-                                    <div class="invoice-detail-item">
-                                        <div class="invoice-detail-name"><?php echo e(__('Total Deduction')); ?></div>
-                                        <div class="invoice-detail-value"><?php echo e(\Auth::user()->priceFormat($payslipDetail['totalDeduction'])); ?></div>
-                                    </div>
-                                    <hr class="mt-2 mb-2">
-                                    <div class="invoice-detail-item">
-                                        <div class="invoice-detail-name"><?php echo e(__('Net Salary')); ?></div>
-                                        <div class="invoice-detail-value invoice-detail-value-lg"><?php echo e(\Auth::user()->priceFormat($payslip->net_payble)); ?></div>
-                                    </div>
-                                </div>
+                                    <tr>
+                                      <td colspan="2"><p>Variable Compensation is paid at the discretion of the management and does not constitute, as part of guaranteed compensation</p>
+                                      <p>This is a computer generated document and does not require a signature. This document may not be used for the purpose of obtaining a credit card.</p></td>
+                                    </tr>
+                                  </table>
                             </div>
                         </div>
+
+                        
+
+
                     </div>
+
+
                 </div>
                 <hr>
-                <div class="text-md-right">
-                    <div class="float-lg-left mb-lg-0 mb-3 ">
-                        <p class="mt-2"><?php echo e(__('Employee Signature')); ?></p>
-                    </div>
-                    <p class="mt-2 "> <?php echo e(__('Paid By')); ?></p>
-                </div>
+                
             </div>
         </div>
         <script type="text/javascript" src="<?php echo e(asset('js/html2pdf.bundle.min.js')); ?>"></script>

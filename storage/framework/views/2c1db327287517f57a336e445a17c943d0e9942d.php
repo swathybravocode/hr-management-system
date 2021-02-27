@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Payslip')); ?>
 
@@ -70,7 +69,7 @@
                             <thead>
                             <tr>
                                 <th><?php echo e(__('Id')); ?></th>
-                                <th><?php echo e(__('Employee Id')); ?></th>
+                                <th><?php echo e(__('Employee Code')); ?></th>
                                 <th><?php echo e(__('Name')); ?></th>
                                 <th><?php echo e(__('Payroll Type')); ?></th>
                                 <th><?php echo e(__('Salary')); ?></th>

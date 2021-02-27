@@ -163,6 +163,7 @@ class PaySlipController extends Controller
                     'employees.id',
                     'employees.employee_id',
                     'employees.name',
+                    'employees.employee_code',
                     'payslip_types.name as payroll_type',
                     'pay_slips.basic_salary',
                     'pay_slips.net_payble',
@@ -209,7 +210,7 @@ class PaySlipController extends Controller
 
                     $tmp   = [];
                     $tmp[] = $employee->id;
-                    $tmp[] = \Auth::user()->employeeIdFormat($employee->employee_id);
+                    $tmp[] = $employee->employee_code;
                     $tmp[] = $employee->name;
                     $tmp[] = $employee->payroll_type;
                     $tmp[] = !empty($employee->basic_salary) ? $employee->basic_salary : '-';
@@ -263,11 +264,31 @@ class PaySlipController extends Controller
 
         foreach($unpaidEmployees as $employee)
         {
+            $payslip  = PaySlip::where('employee_id', $employee->employee_id)->where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->first();
+
+            $employee_info = Employee::find($employee->employee_id);
+
+            $payslip->name  = $employee_info->name;
+            $payslip->email = $employee_info->email;
+
+            $payslipId    = Crypt::encrypt($payslip->id);
+            $payslip->url = route('payslip.payslipPdf', $payslipId);
+
+            try
+            {
+                Mail::to($payslip->email)->send(new PayslipSend($payslip));
+            }
+            catch(\Exception $e)
+            {
+                $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+            }
+
             $employee->status = 1;
             $employee->save();
+
         }
 
-        return redirect()->route('payslip.index')->with('success', __('Payslip Bulk Payment successfully.'));
+        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to employees'));
     }
 
     public function employeepayslip()

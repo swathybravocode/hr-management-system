@@ -62,7 +62,7 @@
                             <thead>
                             <tr>
                                 <th>{{__('Id')}}</th>
-                                <th>{{__('Employee Id')}}</th>
+                                <th>{{__('Employee Code')}}</th>
                                 <th>{{__('Name')}}</th>
                                 <th>{{__('Payroll Type') }}</th>
                                 <th>{{__('Salary') }}</th>

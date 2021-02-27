@@ -141,7 +141,7 @@
         function getDesignation(did) {
 
             $.ajax({
-                url: '<?php echo e(route('employee.json')); ?>',
+                url: '<?php echo e(route('manager.json')); ?>',
                 type: 'POST',
                 data: {
                     "department_id": did, "_token": "<?php echo e(csrf_token()); ?>",

@@ -83,11 +83,11 @@
                                 <i class="fas fa-users"></i>{{ __('Employee') }}
                             </a>
                         </li>
-                        <li class="nav-item {{ (Request::route()->getName() == 'manager.index') ||  (Request::route()->getName() == 'manager.create') ||  (Request::route()->getName() == 'manager.edit') ||  (Request::route()->getName() == 'manager.show') ? 'active' : '' }}">
+                        {{-- <li class="nav-item {{ (Request::route()->getName() == 'manager.index') ||  (Request::route()->getName() == 'manager.create') ||  (Request::route()->getName() == 'manager.edit') ||  (Request::route()->getName() == 'manager.show') ? 'active' : '' }}">
                             <a href="{{route('manager.index')}}" class="nav-link">
                                 <i class="fas fa-users"></i>{{ __('Managers') }}
                             </a>
-                        </li>
+                        </li> --}}
                     @endif
                 @endif
 
@@ -376,50 +376,6 @@
                         </a>
                     </li>
                 @endcan
-                @if(Gate::check('Manage Company Policy'))
-                    <li class="nav-item">
-                        <a href="{{ route('company-policy.index') }}" class="nav-link {{ (Request::segment(1) == 'company-policy')?'active':''}}">
-                            <i class="fas fa-pray"></i>{{ __('Company Policy') }}
-                        </a>
-                    </li>
-                @endcan
-
-                @if(Gate::check('Manage Report'))
-                    <li class="nav-item">
-                        <a class="nav-link {{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'active' : 'collapsed' }}"
-                           href="#navbar-reports" data-toggle="collapse" role="button"
-                           aria-expanded="{{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'true' : 'false' }}"
-                           aria-controls="navbar-reports">
-                            <i class="fas fa-list"></i>{{ __('Report') }}
-                            <i class="fas fa-sort-up"></i>
-                        </a>
-                        <div class="collapse {{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'show' : '' }}"
-                             id="navbar-reports">
-                            <ul class="nav flex-column submenu-ul">
-                                @can('Manage Report')
-                                    <li class="nav-item {{ request()->is('report/income-expense') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.income-expense') }}">{{ __('Income Vs Expense') }}</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->is('report/monthly/attendance') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.monthly.attendance') }}">{{ __('Monthly Attendance') }}</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->is('report/leave') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.leave') }}">{{ __('Leave') }}</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->is('report/account-statement') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.account.statement') }}">{{ __('Account Statement') }}</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->is('report/payroll') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.payroll') }}">{{ __('Payroll') }}</a>
-                                    </li>
-                                    <li class="nav-item {{ request()->is('report/timesheet') ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('report.timesheet') }}">{{ __('Timesheet') }}</a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </div>
-                    </li>
-                @endif
                 @if(Gate::check('Manage Department') || Gate::check('Manage Designation')  || Gate::check('Manage Document Type')  || Gate::check('Manage Branch') || Gate::check('Manage Award Type') || Gate::check('Manage Termination Types')|| Gate::check('Manage Payslip Type') || Gate::check('Manage Allowance Option') || Gate::check('Manage Loan Options')  || Gate::check('Manage Deduction Options') || Gate::check('Manage Expense Type')  || Gate::check('Manage Income Type') || Gate::check('Manage
                              Payment Type')  || Gate::check('Manage Leave Type') || Gate::check('Manage Training Type'))
                     <li class="nav-item">
@@ -527,6 +483,51 @@
                         </div>
                     </li>
                 @endif
+                @if(Gate::check('Manage Company Policy'))
+                    <li class="nav-item">
+                        <a href="{{ route('company-policy.index') }}" class="nav-link {{ (Request::segment(1) == 'company-policy')?'active':''}}">
+                            <i class="fas fa-pray"></i>{{ __('Company Policy') }}
+                        </a>
+                    </li>
+                @endcan
+
+                @if(Gate::check('Manage Report'))
+                    <li class="nav-item">
+                        <a class="nav-link {{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'active' : 'collapsed' }}"
+                           href="#navbar-reports" data-toggle="collapse" role="button"
+                           aria-expanded="{{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'true' : 'false' }}"
+                           aria-controls="navbar-reports">
+                            <i class="fas fa-list"></i>{{ __('Report') }}
+                            <i class="fas fa-sort-up"></i>
+                        </a>
+                        <div class="collapse {{ (Request::route()->getName() == 'report.income-expense' || Request::route()->getName() == 'report.leave' || Request::route()->getName() == 'report.account.statement' || Request::route()->getName() == 'report.payroll' || Request::route()->getName() == 'report.monthly.attendance' || Request::route()->getName() == 'report.timesheet' ) ? 'show' : '' }}"
+                             id="navbar-reports">
+                            <ul class="nav flex-column submenu-ul">
+                                @can('Manage Report')
+                                    <li class="nav-item {{ request()->is('report/income-expense') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.income-expense') }}">{{ __('Income Vs Expense') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('report/monthly/attendance') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.monthly.attendance') }}">{{ __('Monthly Attendance') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('report/leave') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.leave') }}">{{ __('Leave') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('report/account-statement') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.account.statement') }}">{{ __('Account Statement') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('report/payroll') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.payroll') }}">{{ __('Payroll') }}</a>
+                                    </li>
+                                    <li class="nav-item {{ request()->is('report/timesheet') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('report.timesheet') }}">{{ __('Timesheet') }}</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
 
                 @if(Gate::check('Manage Company Settings') || Gate::check('Manage System Settings'))
                     <li class="nav-item">

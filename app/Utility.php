@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\PaySlip;
+
 
 class Utility extends Model
 {
@@ -147,6 +149,7 @@ class Utility extends Model
 
     public static function employeePayslipDetail($employeeId)
     {
+        $empPayslip                   = PaySlip::where('employee_id', $employeeId)->where('created_by', \Auth::user()->creatorId())->first();
         $earning['allowance']         = Allowance::where('employee_id', $employeeId)->get();
         $earning['totalAllowance']    = Allowance::where('employee_id', $employeeId)->get()->sum('amount');
         $earning['commission']        = Commission::where('employee_id', $employeeId)->get();
@@ -162,9 +165,10 @@ class Utility extends Model
         $deduction['totalDeduction'] = SaturationDeduction::where('employee_id', $employeeId)->get()->sum('amount');
 
         $payslip['earning']        = $earning;
-        $payslip['totalEarning']   = $earning['totalAllowance'] + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
+        $payslip['totalEarning']   = $empPayslip->basic_salary + $earning['totalAllowance'] + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
         $payslip['deduction']      = $deduction;
         $payslip['totalDeduction'] = $deduction['totalLoan'] + $deduction['totalDeduction'];
+        $payslip['netEarning']     = $payslip['totalEarning'] - $payslip['totalDeduction'];
 
         return $payslip;
     }

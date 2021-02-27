@@ -29,6 +29,6 @@ class PayslipSend extends Mailable
      */
     public function build()
     {
-        return $this->view('email.payslip_send')->with('payslip', $this->payslip)->subject('Ragarding to payslip generator.');
+        return $this->view('email.payslip_send')->with('payslip', $this->payslip)->subject('Ragarding to Eysys Payslip generator.');
     }
 }
