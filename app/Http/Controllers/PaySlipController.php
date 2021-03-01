@@ -99,8 +99,8 @@ class PaySlipController extends Controller
 
         if(empty($validatePaysilp))
         {
-            $employees       = Employee::where('created_by', \Auth::user()->creatorId())->orWhere('company_doj', '<=', date($month . '-t-' . $year))->get();
-            $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('salary', '<=', 0)->first();
+            $employees       = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active','=','1')->orWhere('company_doj', '<=', date($month . '-t-' . $year))->get();
+            $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active','=','1')->where('salary', '<=', 0)->first();
 
             if(!empty($employeesSalary))
             {
@@ -177,7 +177,7 @@ class PaySlipController extends Controller
                 $join->on('pay_slips.salary_month', '=', \DB::raw("'" . $formate_month_year . "'"));
                 $join->leftjoin('payslip_types', 'payslip_types.id', '=', 'employees.salary_type');
             }
-            )->where('employees.created_by', \Auth::user()->creatorId())->get();
+            )->where('employees.is_active','=','1')->where('employees.created_by', \Auth::user()->creatorId())->get();
 
 
             foreach($paylip_employee as $employee)

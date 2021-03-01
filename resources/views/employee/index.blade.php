@@ -64,7 +64,7 @@
                                                     {!! Form::close() !!}
                                                 @endcan
                                             @else
-                                                <i class="fas fa-lock"></i>
+                                                <i class="fas fa-lock"></i> Inactive
                                             @endif
                                         </td>
                                     @endif

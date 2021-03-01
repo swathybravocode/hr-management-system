@@ -185,20 +185,36 @@ class BranchController extends Controller
 
         $emp_number  = $this->branchEmployeeNumber($branch_id);
 
+        $num_start_final = 0;
+
         if($branch->name=='KL')
         {
             $branch_code = "IHC/".$branch->name."/0".$emp_number;
+        }
+
+        elseif($branch->name=='KR')
+        {
+            $num_start = 102;
+            $num_start_final = $num_start+$emp_number;
+            $branch_code = "IHC/".$branch->name."/".$num_start_final;
 
         }
 
         elseif($branch->name=='KA')
-        {
-            $branch_code = "EY/".$branch->name."/0".$emp_number;
+        {            
+            $num_start = 1;
+            $num_start = str_pad($num_start,3,"0",STR_PAD_LEFT); 
+            $num_start_final = $num_start + $emp_number;
+
+            $branch_code = "EY/".$branch->name."/".$num_start_final;
         }
 
         elseif($branch->name=='TN')
         {
-            $branch_code = "IHC/".$branch->name."/0".$emp_number;
+            $num_start = 100;
+            $num_start_final = $num_start+$emp_number;
+
+            $branch_code = "IHC/".$branch->name."/".$num_start_final;
         }
 
         return response()->json($branch_code);
@@ -217,7 +233,7 @@ class BranchController extends Controller
             return 1;
         }
 
-        return $count + 1;
+        return $count;
 
     }
 }

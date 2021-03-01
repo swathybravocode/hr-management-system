@@ -147,7 +147,7 @@
                         <div class="icon-box yellow-bg"><i class="fas fa-tag"></i></div>
                         <h4>{{__('Total Ticket')}}</h4>
                     </div>
-                    <div class="number-icon">6</div>
+                    <div class="number-icon">&nbsp;</div>
                     <div class="user-text">
                         <h5>{{__('Open ticket')}}: {{$countOpenTicket}}</h5>
                         <h5>{{__('Close ticket')}}: {{$countCloseTicket}}</h5>

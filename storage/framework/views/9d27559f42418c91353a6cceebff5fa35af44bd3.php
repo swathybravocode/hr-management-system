@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Dashboard')); ?>
 
@@ -153,7 +152,7 @@
                         <div class="icon-box yellow-bg"><i class="fas fa-tag"></i></div>
                         <h4><?php echo e(__('Total Ticket')); ?></h4>
                     </div>
-                    <div class="number-icon">6</div>
+                    <div class="number-icon">&nbsp;</div>
                     <div class="user-text">
                         <h5><?php echo e(__('Open ticket')); ?>: <?php echo e($countOpenTicket); ?></h5>
                         <h5><?php echo e(__('Close ticket')); ?>: <?php echo e($countCloseTicket); ?></h5>

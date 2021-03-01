@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 //use Faker\Provider\File;
 
@@ -83,6 +84,7 @@ class EmployeeController extends Controller
                                    'gender' => 'required|string',
                                    'phone' => 'required|numeric',
                                    'aadhaar_card_number' => 'required|string',
+                                   'pan_card_number' => 'required|string',
                                    'last_name' => 'required|string',
                                    'address' => 'required|string',
                                    'email' => 'required|unique:users|string',
@@ -474,6 +476,51 @@ class EmployeeController extends Controller
         {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    public function deactivate_employee($id)
+    {
+        if(\Auth::user()->can('Show Employee Profile'))
+        {
+            $empId  = Crypt::decrypt($id);
+            
+            $data['is_active'] = '0';
+
+            // User::find(request('user_id'))->update($data);
+            DB::table('users')->where('id', $empId)->update($data); 
+            DB::table('employees')->where('user_id', $empId)->update($data); 
+
+
+            return redirect()->route('employee.profile')->with('success', 'Employee successfully deactivated.');
+
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+
+    }
+
+    public function activate_employee($id)
+    {
+        if(\Auth::user()->can('Show Employee Profile'))
+        {
+            $empId  = Crypt::decrypt($id);
+            
+            $data['is_active'] = '1';
+
+            DB::table('users')->where('id', $empId)->update($data); 
+            DB::table('employees')->where('user_id', $empId)->update($data); 
+
+
+            return redirect()->route('employee.profile')->with('success', 'Employee successfully activated.');
+
+        }
+        else
+        {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+
     }
 
     public function lastLogin()

@@ -13,6 +13,7 @@
                             <thead>
                             <tr>
                                 <th><?php echo e(__('Employee Id')); ?></th>
+                                <th><?php echo e(__('Employee Code')); ?></th>
                                 <th><?php echo e(__('Name')); ?></th>
                                 <th><?php echo e(__('Payroll Type')); ?></th>
                                 <th><?php echo e(__('Salary')); ?></th>
@@ -24,14 +25,20 @@
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_id)); ?></td>
+                                    <td><?php echo e($employee->employee_code); ?></td>
+                                    
                                     <td><?php echo e($employee->name); ?></td>
                                     <td><?php echo e($employee->salary_type()); ?></td>
                                     <td><?php echo e(\Auth::user()->priceFormat($employee->salary)); ?></td>
                                     <td><?php echo e(!empty($employee->get_net_salary()) ?\Auth::user()->priceFormat($employee->get_net_salary()):''); ?></td>
                                     <td>
+                                        <?php if($employee->is_active==1): ?>
                                         <a href="<?php echo e(route('setsalary.show',$employee->id)); ?>" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="<?php echo e(__('View')); ?>">
                                             <i class="fas fa-eye"></i>
-                                        </a>
+                                        </a>                                    
+                                        <?php else: ?>
+                                        <i class="fas fa-lock"></i> Inactive
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -12,6 +12,7 @@
                             <thead>
                             <tr>
                                 <th>{{__('Employee Id')}}</th>
+                                <th>{{__('Employee Code')}}</th>
                                 <th>{{__('Name')}}</th>
                                 <th>{{__('Payroll Type') }}</th>
                                 <th>{{__('Salary') }}</th>
@@ -23,14 +24,20 @@
                             @foreach ($employees as $employee)
                                 <tr>
                                     <td>{{ \Auth::user()->employeeIdFormat($employee->employee_id) }}</td>
+                                    <td>{{$employee->employee_code }}</td>
+                                    
                                     <td>{{ $employee->name }}</td>
                                     <td>{{ $employee->salary_type() }}</td>
                                     <td>{{  \Auth::user()->priceFormat($employee->salary) }}</td>
                                     <td>{{  !empty($employee->get_net_salary()) ?\Auth::user()->priceFormat($employee->get_net_salary()):'' }}</td>
                                     <td>
+                                        @if($employee->is_active==1)
                                         <a href="{{route('setsalary.show',$employee->id)}}" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="{{__('View')}}">
                                             <i class="fas fa-eye"></i>
-                                        </a>
+                                        </a>                                    
+                                        @else
+                                        <i class="fas fa-lock"></i> Inactive
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::label('dob', __('Date of Birth'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
-                                {!! Form::text('dob', old('dob'), ['class' => 'form-control datepicker']) !!}
+                                {!! Form::text('dob', old('dob'), ['class' => 'form-control', 'id'=> 'date_picker']) !!}
                             </div>
                         </div>
 
@@ -189,7 +189,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             {!! Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control']) !!}
+                            {!! Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control', 'required' => 'required']) !!}
                         </div>
                     </div>
                 </div>
@@ -207,6 +207,20 @@
 @push('script-page')
 
     <script>
+
+        $(function() {
+  $('input[name="dob"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1940,
+    maxYear: parseInt(moment().format('YYYY'),10),
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end, label) {
+     
+  });
+});
 
         $(document).ready(function () {
             var d_id = $('#department_id').val();

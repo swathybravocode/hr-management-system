@@ -67,7 +67,7 @@
 
                                                 <?php endif; ?>
                                             <?php else: ?>
-                                                <i class="fas fa-lock"></i>
+                                                <i class="fas fa-lock"></i> Inactive
                                             <?php endif; ?>
                                         </td>
                                     <?php endif; ?>

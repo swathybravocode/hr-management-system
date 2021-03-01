@@ -37,7 +37,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <?php echo Form::label('dob', __('Date of Birth'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                                <?php echo Form::text('dob', old('dob'), ['class' => 'form-control datepicker']); ?>
+                                <?php echo Form::text('dob', old('dob'), ['class' => 'form-control', 'id'=> 'date_picker']); ?>
 
                             </div>
                         </div>
@@ -233,7 +233,7 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
                         <div class="form-group col-md-6">
                             <?php echo Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control']); ?>
+                            <?php echo Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control', 'required' => 'required']); ?>
 
                         </div>
                     </div>
@@ -253,6 +253,20 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
 <?php $__env->startPush('script-page'); ?>
 
     <script>
+
+        $(function() {
+  $('input[name="dob"]').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1940,
+    maxYear: parseInt(moment().format('YYYY'),10),
+    locale: {
+      format: 'YYYY-MM-DD'
+    }
+  }, function(start, end, label) {
+     
+  });
+});
 
         $(document).ready(function () {
             var d_id = $('#department_id').val();

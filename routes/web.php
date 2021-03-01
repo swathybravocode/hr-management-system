@@ -828,3 +828,17 @@ Route::post('manager/json', 'ManagerController@json')->name('manager.json')->mid
     ]
 );
 
+Route::get('deactivate-employee/{id}', 'EmployeeController@deactivate_employee')->name('deactivate.employee')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
+Route::get('activate-employee/{id}', 'EmployeeController@activate_employee')->name('activate.employee')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
