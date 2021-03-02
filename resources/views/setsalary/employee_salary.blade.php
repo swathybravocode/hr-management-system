@@ -160,6 +160,7 @@
                                     <th>{{__('Loan Options')}}</th>
                                     <th>{{__('Title')}}</th>
                                     <th>{{__('Loan Amount')}}</th>
+                                    <th>{{__('Loan Deduction')}}</th>
                                     <th>{{__('Start Date')}}</th>
                                     <th>{{__('End Date')}}</th>
                                     <th>{{__('Action')}}</th>
@@ -171,6 +172,7 @@
                                         <td>{{ !empty($loan->employee())?$loan->employee()->name:'' }}</td>
                                         <td>{{!empty( $loan->loan_option())? $loan->loan_option()->name:'' }}</td>
                                         <td>{{ $loan->title }}</td>
+                                        <td>{{  \Auth::user()->priceFormat($loan->loan_amount) }}</td>
                                         <td>{{  \Auth::user()->priceFormat($loan->amount) }}</td>
                                         <td>{{  \Auth::user()->dateFormat($loan->start_date) }}</td>
                                         <td>{{ \Auth::user()->dateFormat( $loan->end_date) }}</td>

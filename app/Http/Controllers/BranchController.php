@@ -201,10 +201,10 @@ class BranchController extends Controller
         }
 
         elseif($branch->name=='KA')
-        {            
-            $num_start = 1;
-            $num_start = str_pad($num_start,3,"0",STR_PAD_LEFT); 
-            $num_start_final = $num_start + $emp_number;
+        {
+            $val = $emp_number;
+            $num_start_a = str_pad($val,3,"0",STR_PAD_LEFT); // 0001
+            $num_start_final = $num_start_a;
 
             $branch_code = "EY/".$branch->name."/".$num_start_final;
         }
@@ -233,7 +233,7 @@ class BranchController extends Controller
             return 1;
         }
 
-        return $count;
+        return $count+1;
 
     }
 }

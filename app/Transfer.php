@@ -13,6 +13,8 @@ class Transfer extends Model
         'transfer_date',
         'description',
         'created_by',
+        'old_employee_code',
+        'old_branch_id', 'old_department_id',
     ];
 
     public function department()

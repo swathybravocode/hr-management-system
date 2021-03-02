@@ -30,6 +30,7 @@ class LoanController extends Controller
                                    'start_date' => 'required',
                                    'end_date' => 'required',
                                    'reason' => 'required',
+                                   'full_loan_amount' => 'required',
                                ]
             );
             if($validator->fails())
@@ -47,6 +48,7 @@ class LoanController extends Controller
             $loan->start_date  = $request->start_date;
             $loan->end_date    = $request->end_date;
             $loan->reason      = $request->reason;
+            $loan->loan_amount = $request->full_loan_amount;
             $loan->created_by  = \Auth::user()->creatorId();
             $loan->save();
 

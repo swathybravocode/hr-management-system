@@ -5,15 +5,19 @@
             {{ Form::label('employee_id', __('Employee'),['class'=>'form-control-label'])}}
             {{ Form::select('employee_id', $employees,null, array('class' => 'form-control select2','required'=>'required')) }}
         </div>
-        <div class="form-group col-lg-6 col-md-6">
+        <div class="form-group col-md-6">
+            {{ Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) }}
+            {{ Form::number('employee_code', null, array('class' => 'form-control ','required'=>'required')) }}
+        </div>
+        <div class="form-group col-lg-4 col-md-4">
             {{Form::label('branch_id',__('Branch'),['class'=>'form-control-label'])}}
             {{Form::select('branch_id',$branches,null,array('class'=>'form-control select2'))}}
         </div>
-        <div class="form-group col-lg-6 col-md-6">
+        <div class="form-group col-lg-4 col-md-4">
             {{Form::label('department_id',__('Department'),['class'=>'form-control-label'])}}
             {{Form::select('department_id',$departments,null,array('class'=>'form-control select2'))}}
         </div>
-        <div class="form-group col-lg-6 col-md-6">
+        <div class="form-group col-lg-4 col-md-4">
             {{Form::label('transfer_date',__('Transfer Date'),['class'=>'form-control-label'])}}
             {{Form::text('transfer_date',null,array('class'=>'form-control datepicker'))}}
         </div>

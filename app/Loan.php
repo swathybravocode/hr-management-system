@@ -15,6 +15,7 @@ class Loan extends Model
         'end_date',
         'reason',
         'created_by',
+        'loan_amount',
     ];
 
     public function employee()

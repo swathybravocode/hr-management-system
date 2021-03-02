@@ -2,7 +2,7 @@
     {{Form::open(array('url'=>'loan','method'=>'post'))}}
     {{ Form::hidden('employee_id',$employee->id, array()) }}
     <div class="row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
             {{ Form::label('title', __('Title'),['class'=>'form-control-label']) }}
             {{ Form::text('title',null, array('class' => 'form-control ','required'=>'required')) }}
         </div>
@@ -12,9 +12,14 @@
         </div>
 
         <div class="form-group col-md-6">
-            {{ Form::label('amount', __('Loan Amount'),['class'=>'form-control-label']) }}
+            {{ Form::label('full_loan_amount', __('Loan Amount'),['class'=>'form-control-label']) }}
+            {{ Form::number('full_loan_amount',null, array('class' => 'form-control ','required'=>'required','step'=>'0.01')) }}
+        </div>
+        <div class="form-group col-md-6">
+            {{ Form::label('amount', __('Loan Deduction Amount'),['class'=>'form-control-label']) }}
             {{ Form::number('amount',null, array('class' => 'form-control ','required'=>'required','step'=>'0.01')) }}
         </div>
+
         <div class="form-group col-md-6">
             {{ Form::label('start_date', __('Start Date'),['class'=>'form-control-label']) }}
             {{ Form::text('start_date',null, array('class' => 'form-control datepicker','required'=>'required')) }}
