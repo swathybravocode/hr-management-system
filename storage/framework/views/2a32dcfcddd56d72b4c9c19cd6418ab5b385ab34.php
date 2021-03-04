@@ -1,9 +1,9 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-@php
+<?php
     $logo=asset(Storage::url('uploads/logo/'));
  $company_logo = Utility::getValByName('company_logo');
-@endphp
+?>
 <head>
     <title>
     </title>
@@ -56,12 +56,12 @@
         }
     </style>
     <style type="text/css">
-        @media only screen and (max-width: 480px) {
+        @media  only screen and (max-width: 480px) {
             @-ms-viewport {
                 width: 320px;
             }
 
-            @viewport {
+            @viewport  {
                 width: 320px;
             }
         }
@@ -73,7 +73,7 @@
     </style>
     <link href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet" type="text/css">
     <style type="text/css">
-        @media only screen and (min-width: 480px) {
+        @media  only screen and (min-width: 480px) {
             .mj-column-per-100 {
                 width: 100% !important;
                 max-width: 100%;
@@ -87,7 +87,7 @@
         }
     </style>
     <style type="text/css">
-        @media only screen and (max-width: 480px) {
+        @media  only screen and (max-width: 480px) {
             table.full-width-mobile {
                 width: 100% !important;
             }
@@ -115,10 +115,10 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                                                     <tr>
                                                         <td style="font-size:0px;padding:10px 25px;padding-top:0px;padding-right:0px;padding-bottom:40px;padding-left:0px;word-break:break-word;">
-                                                            <p style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:100%;">
+                                                            <p style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:100%;">
                                                             </p>
 
-                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
+                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
                                                                 <tr>
                                                                     <td style="height:0;line-height:0;">
                                                                     </td>
@@ -133,7 +133,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td style="width:110px;">
-                                                                        <img alt="" height="auto" src="{{$logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png')}}" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" title="" width="110"/>
+                                                                        <img alt="" height="auto" src="<?php echo e($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo.png')); ?>" style="border:none;display:block;outline:none;text-decoration:none;height:auto;width:100%;" title="" width="110"/>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -169,8 +169,8 @@
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style=" line-height:32px"><b style="font-weight:700">{{__('Subject : ').'HR department/Company to send approval letter to '.$leave->status.' a vacation or leave.'}}</b></p>
-                                                                <p style="line-height:32px"><b style="font-weight:700">{{__('Hi ').$leave->name.','}}</b></p>
+                                                                <p style=" line-height:32px"><b style="font-weight:700"><?php echo e(__('Subject : ').'HR department/Company to send approval letter to '.$leave->status.' a vacation or leave.'); ?></b></p>
+                                                                <p style="line-height:32px"><b style="font-weight:700"><?php echo e(__('Hi ').$leave->name.','); ?></b></p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -178,16 +178,16 @@
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style="margin: 10px 0;">{{__('I have '.$leave->status.' your leave request for '.$leave->leave_reason.'  from '.$leave->start_date.' to '.$leave->end_date)}}</p>
+                                                                <p style="margin: 10px 0;"><?php echo e(__('I have '.$leave->status.' your leave request for '.$leave->leave_reason.'  from '.$leave->start_date.' to '.$leave->end_date)); ?></p>
                                                             </div>
                                                         </td>
                                                     </tr>
 
-                                                    @if($leave->status=='Approve')
+                                                    <?php if($leave->status=='Approve'): ?>
                                                         <tr>
                                                             <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                                 <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                    <p style="margin: 10px 0;">{{__($leave->total_leave_days .' days I have '.$leave->status.' your leave request for '.$leave->leave_reason.')}}</p>
+                                                                    <p style="margin: 10px 0;"><?php echo e(__($leave->total_leave_days .' days I have '.$leave->status.' your leave request for '.$leave->leave_reason.')); ?></p>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -195,26 +195,26 @@
                                                         <tr>
                                                             <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                                 <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                    <p style="margin: 10px 0;">{{__('We request you to complete all your pending work or any other important issue so that the company does not face any loss or problem during your absence. We appreciate your thoughtfulness to inform us well in advance')}}</p>
+                                                                    <p style="margin: 10px 0;"><?php echo e(__('We request you to complete all your pending work or any other important issue so that the company does not face any loss or problem during your absence. We appreciate your thoughtfulness to inform us well in advance')); ?></p>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    @endif
+                                                    <?php endif; ?>
 
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal">{{__('Feel free to reach out if you have any questions.')}}</i></p>
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal">{{__('Thank you')}}</i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><?php echo e(__('Feel free to reach out if you have any questions.')); ?></i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><?php echo e(__('Thank you')); ?></i></p>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700">{{__('Regards,')}}</b></i></p>
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700">{{__('HR Department,')}}</b></i></p>
-                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700">{{env('APP_NAME')}}</b></i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(__('Regards,')); ?></b></i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(__('HR Department,')); ?></b></i></p>
+                                                                <p style="margin: 10px 0;"><i style="font-style:normal"><b style="font-weight:700"><?php echo e(env('APP_NAME')); ?></b></i></p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -234,3 +234,4 @@
 </div>
 </body>
 </html>
+ ?><?php /**PATH C:\xampp\htdocs\EysysHRM_Code\resources\views/email/leave_action_send.blade.php ENDPATH**/ ?>
