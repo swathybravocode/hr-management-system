@@ -189,16 +189,23 @@ class BranchController extends Controller
 
         if($branch->name=='KL')
         {
-            $branch_code = "IHC/".$branch->name."/0".$emp_number;
-        }
-
-        elseif($branch->name=='KR')
-        {
             $num_start = 102;
             $num_start_final = $num_start+$emp_number;
             $branch_code = "IHC/".$branch->name."/".$num_start_final;
 
-        }
+            $new_emp_number = $emp_number;
+            $new_emp_series = str_pad($new_emp_number,3,"0",STR_PAD_LEFT);
+            $new_emp_code   = "EY/".$branch->name."/".$new_emp_series;
+
+         }
+
+        // elseif($branch->name=='KR')
+        // {
+        //     $num_start = 102;
+        //     $num_start_final = $num_start+$emp_number;
+        //     $branch_code = "IHC/".$branch->name."/".$num_start_final;
+
+        // }
 
         elseif($branch->name=='KA')
         {
@@ -207,6 +214,10 @@ class BranchController extends Controller
             $num_start_final = $num_start_a;
 
             $branch_code = "EY/".$branch->name."/".$num_start_final;
+
+            $new_emp_number = $emp_number;
+            $new_emp_series = str_pad($new_emp_number,3,"0",STR_PAD_LEFT);
+            $new_emp_code   = "EY/".$branch->name."/".$new_emp_series;
         }
 
         elseif($branch->name=='TN')
@@ -215,9 +226,17 @@ class BranchController extends Controller
             $num_start_final = $num_start+$emp_number;
 
             $branch_code = "IHC/".$branch->name."/".$num_start_final;
+
+            $new_emp_number = $emp_number;
+            $new_emp_series = str_pad($new_emp_number,3,"0",STR_PAD_LEFT);
+            $new_emp_code   = "EY/".$branch->name."/".$new_emp_series;
         }
 
-        return response()->json($branch_code);
+        return response()->json(collect([
+            'new_code' => $new_emp_code,
+            'old_code' => $branch_code,
+        ])->toJson()
+    );
 
     }
 

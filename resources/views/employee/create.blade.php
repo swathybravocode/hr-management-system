@@ -57,7 +57,11 @@
                             {!! Form::label('blood_group', __('Blood Group'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::text('blood_group',old('blood_group'), ['class' => 'form-control']) !!}
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
+                            {!! Form::label('employee_alternate_contact', __('Alternate Contact Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::number('employee_alternate_contact',old('employee_alternate_contact'), ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-6">
                             {!! Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::number('aadhaar_card_number',old('aadhaar_card_number'), ['class' => 'form-control']) !!}
                         </div>
@@ -74,6 +78,23 @@
                     <div class="form-group">
                         {!! Form::label('address', __('Address'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                         {!! Form::textarea('address',old('address'), ['class' => 'form-control','rows'=>2]) !!}
+                    </div>
+                    <div class="form-group">
+                        <div class="float-left col-4">
+                            <label for="document" class="float-left pt-1 form-control-label">Photo <span class="text-danger">*</span> </label>
+                        </div>
+                        <div class="float-right col-8">
+                            <input type="hidden" name="emp_photo" id="" value="">
+                            <div class="choose-file form-group">
+                                <label for="document">
+                                    <div>{{__('Choose File')}}</div>
+                                    <input class="form-control border-0"  required name="employee_photo" type="file" id="employee_photo" data-filename="{{'_filename'}}">
+                                </label>
+                                <p class="{{'_filename'}}"></p>
+                            </div>
+
+                        </div>
+                         
                     </div>
                 </div>
             </div>
@@ -102,8 +123,12 @@
                         </div>
 
 
-                        <div class="form-group col-md-12">
-                            {!! Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) !!}
+                        <div class="form-group col-md-6">
+                            {!! Form::label('old_employee_code', __('Old Employee Code'),['class'=>'form-control-label']) !!}
+                            {!! Form::text('old_employee_code', "", ['id'=>'old_employee_code', 'class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {!! Form::label('employee_code', __('New Employee Code'),['class'=>'form-control-label']) !!}
                             {!! Form::text('employee_code', "", ['id'=>'employee_code', 'class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-md-12">
@@ -218,7 +243,7 @@
       format: 'YYYY-MM-DD'
     }
   }, function(start, end, label) {
-     
+
   });
 });
 
@@ -245,8 +270,11 @@
                     "branch_id": branch_id, "_token": "{{ csrf_token() }}",
                 },
                 success: function (data) {
+                    var d = JSON.parse(data);
 
-                    $("#employee_code").val(data);
+                    $("#old_employee_code").val(d.old_code);
+                    $("#employee_code").val(d.new_code);
+
 
                 }
             });
@@ -265,7 +293,10 @@
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data);
+                    var d = JSON.parse(data);
+
+                    $("#old_employee_code").val(d.old_code);
+                    $("#employee_code").val(d.new_code);
 
                 }
             });

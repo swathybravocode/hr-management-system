@@ -66,7 +66,12 @@
                             <?php echo Form::text('blood_group', null, ['class' => 'form-control']); ?>
 
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
+                            <?php echo Form::label('employee_alternate_contact', __('Alternate Contact Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
+                            <?php echo Form::number('employee_alternate_contact', null, ['class' => 'form-control']); ?>
+
+                        </div>
+                        <div class="form-group col-md-6">
                             <?php echo Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                             <?php echo Form::number('aadhaar_card_number', null, ['class' => 'form-control']); ?>
 
@@ -75,6 +80,28 @@
                     <div class="form-group">
                         <?php echo Form::label('address', __('Address'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                         <?php echo Form::textarea('address',null, ['class' => 'form-control','rows'=>2]); ?>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="float-left col-4">
+                            <label for="document" class="float-left pt-1 form-control-label">Photo <span class="text-danger">*</span> </label>
+                        </div>
+                        <div class="float-right col-8">
+                            <input type="hidden" name="emp_photo" id="" value="">
+                            <div class="choose-file form-group">
+                                <label for="document">
+                                    <div><?php echo e(__('Choose File')); ?></div>
+                                    <input class="form-control border-0"  name="employee_photo" type="file" id="employee_photo" data-filename="<?php echo e('_filename'); ?>">
+                                </label>
+                                <p class="<?php echo e('_filename'); ?>"></p>
+                            </div>
+                            <?php if(!empty($employee->employee_photo)): ?>
+                            <br>
+                            <span class="text-xs">
+                                <a href="<?php echo e((!empty($employee->employee_photo)?asset(Storage::url('uploads/avatar')).'/'.$employee->employee_photo:'')); ?>" target="_blank"><?php echo e((!empty($employee->employee_photo)?$employee->employee_photo:'')); ?></a>
+                            </span>
+                            <?php endif; ?>
+                        </div>
 
                     </div>
                     <?php if(\Auth::user()->type=='employee'): ?>
@@ -97,6 +124,7 @@
                                 <?php echo Form::text('employee_id',$employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
 
                             </div>
+                            <input type="hidden" name="user_id" value="<?php echo e($employee->user_id); ?>">
                             <div class="form-group col-md-6">
                                 <?php echo e(Form::label('branch_id', __('Branch'),['class'=>'form-control-label'])); ?>
 
@@ -110,12 +138,19 @@
 
                             </div>
 
-                            <div class="form-group col-md-12">
-                                <?php echo Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']); ?>
+                            <div class="form-group col-md-6">
+                                <?php echo Form::label('old_employee_code', __('Old Employee Code'),['class'=>'form-control-label']); ?>
+
+                                <?php echo Form::text('old_employee_code', null, ['id'=>'old_employee_code', 'class' => 'form-control']); ?>
+
+                            </div>
+                            <div class="form-group col-md-6">
+                                <?php echo Form::label('employee_code', __('New Employee Code'),['class'=>'form-control-label']); ?>
 
                                 <?php echo Form::text('employee_code', null, ['id'=>'employee_code', 'class' => 'form-control']); ?>
 
                             </div>
+
                             <div class="form-group col-md-12">
                                 <?php echo Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']); ?>
 
@@ -418,7 +453,10 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1 &
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data);
+                    var d = JSON.parse(data);
+
+                    $("#old_employee_code").val(d.old_code);
+                    $("#employee_code").val(d.new_code);
 
                 }
             });

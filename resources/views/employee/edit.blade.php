@@ -58,7 +58,11 @@
                             {!! Form::label('blood_group', __('Blood Group'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::text('blood_group', null, ['class' => 'form-control']) !!}
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
+                            {!! Form::label('employee_alternate_contact', __('Alternate Contact Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                            {!! Form::number('employee_alternate_contact', null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="form-group col-md-6">
                             {!! Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::number('aadhaar_card_number', null, ['class' => 'form-control']) !!}
                         </div>
@@ -66,6 +70,28 @@
                     <div class="form-group">
                         {!! Form::label('address', __('Address'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                         {!! Form::textarea('address',null, ['class' => 'form-control','rows'=>2]) !!}
+                    </div>
+                    <div class="form-group">
+                        <div class="float-left col-4">
+                            <label for="document" class="float-left pt-1 form-control-label">Photo <span class="text-danger">*</span> </label>
+                        </div>
+                        <div class="float-right col-8">
+                            <input type="hidden" name="emp_photo" id="" value="">
+                            <div class="choose-file form-group">
+                                <label for="document">
+                                    <div>{{__('Choose File')}}</div>
+                                    <input class="form-control border-0"  name="employee_photo" type="file" id="employee_photo" data-filename="{{'_filename'}}">
+                                </label>
+                                <p class="{{'_filename'}}"></p>
+                            </div>
+                            @if(!empty($employee->employee_photo))
+                            <br>
+                            <span class="text-xs">
+                                <a href="{{ (!empty($employee->employee_photo)?asset(Storage::url('uploads/avatar')).'/'.$employee->employee_photo:'') }}" target="_blank">{{ (!empty($employee->employee_photo)?$employee->employee_photo:'') }}</a>
+                            </span>
+                            @endif
+                        </div>
+
                     </div>
                     @if(\Auth::user()->type=='employee')
                         {!! Form::submit('Update', ['class' => 'btn-create btn-xs badge-blue radius-10px float-right']) !!}
@@ -84,6 +110,7 @@
                                 {!! Form::label('employee_id', __('Employee ID'),['class'=>'form-control-label']) !!}
                                 {!! Form::text('employee_id',$employeesId, ['class' => 'form-control','disabled'=>'disabled']) !!}
                             </div>
+                            <input type="hidden" name="user_id" value="{{$employee->user_id}}">
                             <div class="form-group col-md-6">
                                 {{ Form::label('branch_id', __('Branch'),['class'=>'form-control-label']) }}
                                 {{ Form::select('branch_id', $branches,null, array('class' => 'form-control select2','required'=>'required')) }}
@@ -93,10 +120,15 @@
                                 {{ Form::select('department_id', $departments,null, array('class' => 'form-control select2','required'=>'required')) }}
                             </div>
 
-                            <div class="form-group col-md-12">
-                                {!! Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label']) !!}
+                            <div class="form-group col-md-6">
+                                {!! Form::label('old_employee_code', __('Old Employee Code'),['class'=>'form-control-label']) !!}
+                                {!! Form::text('old_employee_code', null, ['id'=>'old_employee_code', 'class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('employee_code', __('New Employee Code'),['class'=>'form-control-label']) !!}
                                 {!! Form::text('employee_code', null, ['id'=>'employee_code', 'class' => 'form-control']) !!}
                             </div>
+
                             <div class="form-group col-md-12">
                                 {!! Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']) !!}
                                 {!! Form::text('head_quarter', null, ['id'=>'head_quarter', 'class' => 'form-control']) !!}
@@ -372,7 +404,10 @@
                 },
                 success: function (data) {
 
-                    $("#employee_code").val(data);
+                    var d = JSON.parse(data);
+
+                    $("#old_employee_code").val(d.old_code);
+                    $("#employee_code").val(d.new_code);
 
                 }
             });

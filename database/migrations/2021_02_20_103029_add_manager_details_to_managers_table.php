@@ -15,7 +15,6 @@ class AddManagerDetailsToManagersTable extends Migration
     {
         Schema::table('managers', function (Blueprint $table) {
             $table->string('manager_last_name');
-            $table->integer('manager_branch_id');
             $table->string('date_of_birth')->nullable();
             $table->string('gender');
             $table->string('address')->nullable();
@@ -33,7 +32,6 @@ class AddManagerDetailsToManagersTable extends Migration
     public function down()
     {
         Schema::table('managers', function (Blueprint $table) {
-            $table->dropColumn('manager_branch_id');
             $table->dropColumn('manager_department_id');
             $table->dropColumn('date_of_birth');
             $table->dropColumn('gender');

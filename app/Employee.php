@@ -18,6 +18,7 @@ class Employee extends Model
         'email',
         'employee_id',
         'employee_code',
+        'old_employee_code',
         'state_id',
         'state_code',
         'blood_group',
@@ -38,6 +39,8 @@ class Employee extends Model
         'transfer_date',
         'pan_card_number',
         'aadhaar_card_number',
+        'employee_alternate_contact',
+        'employee_photo',
         'created_by',
     ];
 

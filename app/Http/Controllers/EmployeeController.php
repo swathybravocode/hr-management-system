@@ -61,9 +61,17 @@ class EmployeeController extends Controller
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
-            $all_branches = Branch::all();
+            $all_branches     = Branch::all();
 
-            $employee_number  = $this->branchEmployeeNumber($all_branches[0]->id);
+
+            if($all_branches==null)
+            {
+                $employee_number  = $this->branchEmployeeNumber($all_branches[0]->id);
+            }
+            else
+            {
+                $employee_number = '0';
+            }
 
             return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings','employee_number'));
         }
@@ -83,7 +91,10 @@ class EmployeeController extends Controller
                                    'dob' => 'required|string',
                                    'gender' => 'required|string',
                                    'phone' => 'required|numeric',
+                                   'employee_code' => 'required|string',
+                                   'old_employee_code' => 'required|string',
                                    'aadhaar_card_number' => 'required|string',
+                                   'employee_alternate_contact'=>'required|numeric',
                                    'pan_card_number' => 'required|string',
                                    'last_name' => 'required|string',
                                    'address' => 'required|string',
@@ -91,6 +102,7 @@ class EmployeeController extends Controller
                                    'password' => 'required|string',
                                    'department_id' => 'required',
                                    'designation_id' => 'required',
+                                   'employee_photo.*' =>'mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:20480',
                                    'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
                                ]
             );
@@ -101,28 +113,56 @@ class EmployeeController extends Controller
                 return redirect()->back()->withInput()->with('error', $messages->first());
             }
 
-            $user = User::create(
-                [
-                    'name' => $request['name'],
-                    'email' => $request['email'],
-                    'password' => Hash::make($request['password']),
-                    'type' => 'employee',
-                    'lang' => 'en',
-                    'created_by' => \Auth::user()->creatorId(),
-                ]
-            );
-            $user->save();
-            $user->assignRole('Employee');
+            if($request->hasFile('employee_photo'))
+            {
+                $file_name_slug = preg_replace('/\W+/', '-', strtolower($request->name));
+                $filenameWithExt = $request->file('employee_photo')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('employee_photo')->getClientOriginalExtension();
+                $photoNameToStore = $file_name_slug . '_' . time() . '.' . $extension;
+                $dir             = storage_path('uploads/avatar/');
+                $image_path      = $dir . $photoNameToStore;
+
+                if(File::exists($image_path))
+                {
+                    File::delete($image_path);
+                }
+                if(!file_exists($dir))
+                {
+                    mkdir($dir, 0777, true);
+                }
+                $path = $request->file('employee_photo')->storeAs('uploads/avatar/', $photoNameToStore);
+
+            }
+
+                // if(!empty($request->profile))
+                // {
+                //     $user['avatar'] = $fileNameToStore;
+                // }
+
+                $user = User::create(
+                    [
+                        'name' => $request['name'],
+                        'email' => $request['email'],
+                        'password' => Hash::make($request['password']),
+                        'avatar' => $photoNameToStore,
+                        'type' => 'employee',
+                        'lang' => 'en',
+                        'created_by' => \Auth::user()->creatorId(),
+                    ]
+                );
+                $user->save();
+                $user->assignRole('Employee');
 
 
-            if(!empty($request->document) && !is_null($request->document))
-            {
-                $document_implode = implode(',', array_keys($request->document));
-            }
-            else
-            {
-                $document_implode = null;
-            }
+                if(!empty($request->document) && !is_null($request->document))
+                {
+                    $document_implode = implode(',', array_keys($request->document));
+                }
+                else
+                {
+                    $document_implode = null;
+                }
 
 
             $employee = Employee::create(
@@ -153,8 +193,11 @@ class EmployeeController extends Controller
                     'middle_name' => $request['middle_name'],
                     'last_name' => $request['last_name'],
                     'employee_code' => $request['employee_code'],
+                    'old_employee_code' => $request['old_employee_code'],
                     'pan_card_number' => $request['pan_card_number'],
                     'aadhaar_card_number' => $request['aadhaar_card_number'],
+                    'employee_alternate_contact' => $request['employee_alternate_contact'],
+                    'employee_photo' => $photoNameToStore,
 
                 ]
             );
@@ -213,9 +256,11 @@ class EmployeeController extends Controller
 
             }
 
+
             return redirect()->route('employee.index')->with('success', __('Employee  successfully created.'));
 
         }
+
         else
         {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -249,8 +294,17 @@ class EmployeeController extends Controller
 
         if(\Auth::user()->can('Edit Employee'))
         {
+            $user       = User::findOrFail($request->user_id);
+
             $validator = \Validator::make(
                 $request->all(), [
+                    'name' => 'required|string',
+                                   'employee_code' => 'required|string',
+                                   'old_employee_code' => 'required|string',
+                                   'employee_alternate_contact'=>'required|numeric',
+                                   'pan_card_number' => 'required|string',
+                                   'department_id' => 'required',
+                                   'designation_id' => 'required',
                                    'name' => 'required',
                                    'dob' => 'required',
                                    'gender' => 'required',
@@ -259,6 +313,7 @@ class EmployeeController extends Controller
                                    'phone' => 'required|numeric',
                                    'address' => 'required',
                                    'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
+                                   'employee_photo.*' =>'mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:20480',
                                ]
             );
             if($validator->fails())
@@ -269,6 +324,30 @@ class EmployeeController extends Controller
             }
 
             $employee = Employee::findOrFail($id);
+            $old_employee_photo = $employee->employee_photo;
+
+            if($request->hasFile('employee_photo'))
+            {
+                $file_name_slug = preg_replace('/\W+/', '-', strtolower($request->name));
+                $filenameWithExt = $request->file('employee_photo')->getClientOriginalName();
+                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension       = $request->file('employee_photo')->getClientOriginalExtension();
+                $photoNameToStore = $file_name_slug . '_' . time() . '.' . $extension;
+                $dir             = storage_path('uploads/avatar/');
+                $image_path      = $dir . $photoNameToStore;
+
+                if(File::exists($dir . $old_employee_photo))
+                {
+                    File::delete($dir . $old_employee_photo);
+                }
+                if(!file_exists($dir))
+                {
+                    mkdir($dir, 0777, true);
+                }
+
+                $path = $request->file('employee_photo')->storeAs('uploads/avatar/', $photoNameToStore);
+
+            }
 
             if($request->document)
             {
@@ -318,7 +397,12 @@ class EmployeeController extends Controller
 
             $employee = Employee::findOrFail($id);
             $input    = $request->all();
+            $input['employee_photo'] = $photoNameToStore;
             $employee->fill($input)->save();
+
+            $user['avatar'] = $photoNameToStore;
+            $user->save();
+
             if($request->salary)
             {
                 return redirect()->route('setsalary.index')->with('success', 'Employee successfully updated.');
@@ -483,12 +567,12 @@ class EmployeeController extends Controller
         if(\Auth::user()->can('Show Employee Profile'))
         {
             $empId  = Crypt::decrypt($id);
-            
+
             $data['is_active'] = '0';
 
             // User::find(request('user_id'))->update($data);
-            DB::table('users')->where('id', $empId)->update($data); 
-            DB::table('employees')->where('user_id', $empId)->update($data); 
+            DB::table('users')->where('id', $empId)->update($data);
+            DB::table('employees')->where('user_id', $empId)->update($data);
 
 
             return redirect()->route('employee.profile')->with('success', 'Employee successfully deactivated.');
@@ -506,11 +590,11 @@ class EmployeeController extends Controller
         if(\Auth::user()->can('Show Employee Profile'))
         {
             $empId  = Crypt::decrypt($id);
-            
+
             $data['is_active'] = '1';
 
-            DB::table('users')->where('id', $empId)->update($data); 
-            DB::table('employees')->where('user_id', $empId)->update($data); 
+            DB::table('users')->where('id', $empId)->update($data);
+            DB::table('employees')->where('user_id', $empId)->update($data);
 
 
             return redirect()->route('employee.profile')->with('success', 'Employee successfully activated.');

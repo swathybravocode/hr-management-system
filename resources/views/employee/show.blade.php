@@ -26,72 +26,53 @@
                     </div>
                     <div class="card-body employee-detail-body">
                         <div class="row">
-                            <div class="col-md-6">
+
+                            <div class="col-md-7">
                                 <div class="info text-sm">
                                     <strong>{{__('EmployeeId')}}</strong>
                                     <span>{{$employeesId}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm">
-                                    <strong>{{__('Employee Code')}}</strong>
-                                    <span>{{$employee->employee_code}}</span>
+                                    <strong>{{__('Old Employee Code')}}</strong>
+                                    <span>{{$employee->old_employee_code}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Full Name')}}</strong>
                                     <span>{{$employee->name." ".$employee->middle_name." ".$employee->last_name}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Email')}}</strong>
                                     <span>{{$employee->email}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Date of Birth')}}</strong>
-                                    <span>{{\Auth::user()->dateFormat($employee->dob)}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Blood Group')}}</strong>
                                     <span>{{$employee->blood_group}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Date of Birth')}}</strong>
+                                    <span>{{\Auth::user()->dateFormat($employee->dob)}}</span>
+                                </div>
                                 <div class="info text-sm">
                                     <strong>{{__('Phone')}}</strong>
                                     <span>{{$employee->phone}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Address')}}</strong>
-                                    <span>{{$employee->address}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm">
                                     <strong>{{__('Aadhaar Number')}}</strong>
                                     <span>{{$employee->aadhaar_card_number}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm">
                                     <strong>{{__('Salary Type')}}</strong>
                                     <span>{{!empty($employee->salaryType)?$employee->salaryType->name:''}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <div class="info text-sm">
                                     <strong>{{__('Basic Salary')}}</strong>
                                     <span>{{$employee->salary}}</span>
                                 </div>
                             </div>
+                            <div class="col-md-5">
+                                <img src="{{asset('storage/uploads/avatar/'.$employee->employee_photo)}}" class="img-fluid">
+                            </div>
+
                         </div>
                     </div>
                 </div>

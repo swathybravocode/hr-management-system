@@ -17,6 +17,7 @@ class AddEmployeeDetailsToEmployeessTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('employee_code');
+            $table->string('old_employee_code');
             $table->string('pan_card_number');
             $table->string('aadhaar_card_number');
 
@@ -34,6 +35,7 @@ class AddEmployeeDetailsToEmployeessTable extends Migration
             $table->dropColumn('middle_name');
             $table->dropColumn('last_name');
             $table->dropColumn('employee_code');
+            $table->dropColumn('old_employee_code');
             $table->dropColumn('pan_card_number');
             $table->dropColumn('aadhaar_card_number');
         });
