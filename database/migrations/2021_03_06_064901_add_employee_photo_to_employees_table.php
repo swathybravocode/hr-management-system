@@ -16,6 +16,7 @@ class AddEmployeePhotoToEmployeesTable extends Migration
         Schema::table('employees', function (Blueprint $table) {
             $table->string('employee_photo')->nullable();
             $table->string('employee_alternate_contact')->nullable();
+            $table->integer('report_to');
 
         });
     }
@@ -30,6 +31,8 @@ class AddEmployeePhotoToEmployeesTable extends Migration
         Schema::table('employees', function (Blueprint $table) {
             $table->dropColumn('employee_photo');
             $table->dropColumn('employee_alternate_contact');
+            $table->dropColumn('report_to');
+
         });
     }
 }

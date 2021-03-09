@@ -106,7 +106,7 @@
                             </div>
 
                         </div>
-                         
+
                     </div>
                 </div>
             </div>
@@ -160,18 +160,25 @@
 
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <?php echo e(Form::label('designation_id', __('Designation'),['class'=>'form-control-label'])); ?>
 
                             <select class="select2 form-control select2-multiple" id="designation_id" name="designation_id" data-toggle="select2" data-placeholder="<?php echo e(__('Select Designation ...')); ?>">
                                 <option value=""><?php echo e(__('Select any Designation')); ?></option>
                             </select>
                         </div>
-                        <div class="form-group col-md-12 ">
+                        <div class="form-group col-md-6 ">
                             <?php echo Form::label('company_doj', __('Company Date Of Joining'),['class'=>'form-control-label']); ?>
 
                             <?php echo Form::text('company_doj', null, ['class' => 'form-control datepicker','required' => 'required']); ?>
 
+                        </div>
+                        <div class="form-group col-md-12">
+                            <?php echo e(Form::label('role_id', __('Report to'),['class'=>'form-control-label'])); ?>
+
+                            <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="<?php echo e(__('Select Manager ...')); ?>">
+                                <option value=""><?php echo e(__('Select Manager')); ?></option>
+                            </select>
                         </div>
                     </div>
                 </div>
