@@ -41,11 +41,13 @@ class TransferController extends Controller
     {
         if(\Auth::user()->can('Create Transfer'))
         {
+            $employee_details = Employee::where('created_by', \Auth::user()->creatorId())->get();
+
             $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $branches    = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $employees   = Employee::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('transfer.create', compact('employees', 'departments', 'branches'));
+            return view('transfer.create', compact('employees', 'departments', 'branches', 'employee_details'));
         }
         else
         {
@@ -80,7 +82,18 @@ class TransferController extends Controller
             $transfer->transfer_date = $request->transfer_date;
             $transfer->description   = $request->description;
             $transfer->created_by    = \Auth::user()->creatorId();
+            $transfer->old_employee_code = $request->old_employee_code;
+            $transfer->old_branch_id = $request->old_branch_id;
+            $transfer->old_department_id = $request->old_department_id;
+
+
             $transfer->save();
+
+            $employee_id  = $request->employee_id;
+            $employee_info['branch_id']     = $request->branch_id;
+            $employee_info['department_id'] = $request->department_id;
+            $employee_info['employee_code'] = $request->employee_code;
+            Employee::where('id', $employee_id)->update($employee_info);
 
             $setings = Utility::settings();
             if($setings['employee_transfer'] == 1)

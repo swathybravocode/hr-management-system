@@ -10,6 +10,7 @@ use App\Employee;
 use App\EmployeeDocument;
 use App\Mail\UserCreate;
 use App\User;
+use Spatie\Permission\Models\Role;
 use App\Utility;
 use File;
 use Illuminate\Http\Request;
@@ -61,6 +62,8 @@ class EmployeeController extends Controller
             $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
+            $roles            = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
+
             $all_branches     = Branch::all();
 
 
@@ -73,7 +76,8 @@ class EmployeeController extends Controller
                 $employee_number = '0';
             }
 
-            return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings','employee_number'));
+            return view('employee.create', compact('employees', 'employeesId',
+            'departments', 'designations', 'documents', 'branches', 'company_settings','employee_number', 'roles'));
         }
         else
         {
@@ -619,5 +623,18 @@ class EmployeeController extends Controller
         $employees = Employee::where('branch_id', $request->branch)->get()->pluck('name', 'id')->toArray();
 
         return response()->json($employees);
+    }
+
+    public function get_employee_info(Request $request)
+    {
+        $emp_id = $request->employee_id;
+
+        $employee     = Employee::where('id', '=', $emp_id)->first();
+
+        return  response()->json(collect([
+            'old_employee_code' => $employee->employee_code,
+            'old_branch_id' => $employee->branch_id,
+            'old_department_id' => $employee->department_id,
+        ])->toJson());
     }
 }

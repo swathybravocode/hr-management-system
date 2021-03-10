@@ -150,6 +150,9 @@
                             {{ Form::label('role_id', __('Report to'),['class'=>'form-control-label']) }}
                             <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="{{ __('Select Manager ...') }}">
                                 <option value="">{{__('Select Manager')}}</option>
+                                @foreach ($roles as $role_item)
+                                <option value="{{$role_item->id}}">{{$role_item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

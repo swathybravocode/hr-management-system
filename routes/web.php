@@ -842,3 +842,9 @@ Route::get('activate-employee/{id}', 'EmployeeController@activate_employee')->na
     ]
 );
 
+Route::post('get-employee-info', 'EmployeeController@get_employee_info')->name('employee.get.details')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);

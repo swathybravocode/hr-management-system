@@ -178,6 +178,9 @@
 
                             <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="<?php echo e(__('Select Manager ...')); ?>">
                                 <option value=""><?php echo e(__('Select Manager')); ?></option>
+                                <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($role_item->id); ?>"><?php echo e($role_item->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
                     </div>

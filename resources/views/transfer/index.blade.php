@@ -4,6 +4,50 @@
     {{__('Manage Transfer')}}
 @endsection
 
+@push('script-page')
+<script>
+     $(document).on('change', 'select[name=branch_id]', function () {
+            var branch_id = $(this).val();
+
+            $.ajax({
+                url: '{{route('branchcode.get')}}',
+                type: 'POST',
+                data: {
+                    "branch_id": branch_id, "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+                    var d = JSON.parse(data);
+
+                    $("#employee_code").val(d.new_code);
+
+
+                }
+            });
+
+        });
+        $(document).on('change', 'select[name=employee_id]', function () {
+            var employee_id = $(this).val();
+
+            $.ajax({
+                url: '{{route('employee.get.details')}}',
+                type: 'POST',
+                data: {
+                    "employee_id": employee_id, "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+                    var det = JSON.parse(data);
+                    $("#old_employee_code").val(det.employee_code);
+                    $('#old_branch_id').val(det.old_branch_id);
+                    $('#old_department_id').val(det.old_department_id);
+                }
+            });
+
+        });
+
+</script>
+
+@endpush
+
 @section('action-button')
     <div class="all-button-box row d-flex justify-content-end">
         @can('Create Transfer')

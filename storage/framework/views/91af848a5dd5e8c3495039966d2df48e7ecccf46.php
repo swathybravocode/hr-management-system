@@ -115,10 +115,10 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                                                     <tr>
                                                         <td style="font-size:0px;padding:10px 25px;padding-top:0px;padding-right:0px;padding-bottom:40px;padding-left:0px;word-break:break-word;">
-                                                            <p style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:100%;">
+                                                            <p style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:100%;">
                                                             </p>
 
-                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #6676EF;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
+                                                            <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 7px #006569;font-size:1;margin:0px auto;width:600px;" role="presentation" width="600px">
                                                                 <tr>
                                                                     <td style="height:0;line-height:0;">
                                                                     </td>
