@@ -23,6 +23,7 @@
                             <?php echo Form::text('name', null, ['class' => 'form-control','required' => 'required']); ?>
 
                         </div>
+                        <input type="hidden" name="user_id" value="<?php echo e($employee->user_id); ?>">
                         <div class="form-group col-md-4">
                             <?php echo Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']); ?>
 
@@ -170,6 +171,16 @@
 
                                 <?php echo Form::text('company_doj', null, ['class' => 'form-control datepicker','required' => 'required']); ?>
 
+                            </div>
+                            <div class="form-group col-md-12">
+                                <?php echo e(Form::label('role_id', __('Report to'),['class'=>'form-control-label'])); ?>
+
+                                <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="<?php echo e(__('Select Manager ...')); ?>">
+                                    <option value=""><?php echo e(__('Select Manager')); ?></option>
+                                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($role_item->id); ?>" <?php if($employee->report_to == $role_item->id): ?> selected <?php endif; ?>><?php echo e($role_item->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
                             </div>
                         </div>
                     </div>

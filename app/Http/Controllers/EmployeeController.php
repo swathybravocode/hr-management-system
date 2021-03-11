@@ -106,6 +106,7 @@ class EmployeeController extends Controller
                                    'password' => 'required|string',
                                    'department_id' => 'required',
                                    'designation_id' => 'required',
+                                   'report_to' => 'required',
                                    'employee_photo.*' =>'mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:20480',
                                    'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
                                ]
@@ -144,13 +145,18 @@ class EmployeeController extends Controller
                 //     $user['avatar'] = $fileNameToStore;
                 // }
 
+                $designation = Designation::where('id', '=', $request['designation_id'])->first();
+                $role = Role::where('name', '=', $designation->name)->first();
+
+                $employee_type = preg_replace('/\W+/', ' ', strtolower($role->name));
+
                 $user = User::create(
                     [
                         'name' => $request['name'],
                         'email' => $request['email'],
                         'password' => Hash::make($request['password']),
                         'avatar' => $photoNameToStore,
-                        'type' => 'employee',
+                        'type' => $employee_type,
                         'lang' => 'en',
                         'created_by' => \Auth::user()->creatorId(),
                     ]
@@ -202,6 +208,7 @@ class EmployeeController extends Controller
                     'aadhaar_card_number' => $request['aadhaar_card_number'],
                     'employee_alternate_contact' => $request['employee_alternate_contact'],
                     'employee_photo' => $photoNameToStore,
+                    'report_to' => $request['report_to'],
 
                 ]
             );
@@ -283,9 +290,12 @@ class EmployeeController extends Controller
             $employee     = Employee::find($id);
             $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
 
+            $roles            = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
+
             $employee_number  = $this->employeeNumber();
 
-            return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents', 'employee_number'));
+            return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments',
+            'designations', 'documents', 'employee_number', 'roles'));
         }
         else
         {
@@ -351,6 +361,10 @@ class EmployeeController extends Controller
 
                 $path = $request->file('employee_photo')->storeAs('uploads/avatar/', $photoNameToStore);
 
+            }
+            else
+            {
+                $photoNameToStore = "";
             }
 
             if($request->document)

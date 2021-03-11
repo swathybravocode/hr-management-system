@@ -11,12 +11,23 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 {{Form::label('leave_type_id',__('Leave Type'))}}
                 <select name="leave_type_id" id="leave_type_id" class="form-control select2">
                     @foreach($leavetypes as $leave)
                         <option value="{{ $leave->id }}">{{ $leave->title }} (<p class="float-right pr-5">{{ $leave->days }}</p>)</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('report_to',__('Report To'))}}
+                <select name="report_to" id="report_to" class="form-control select2">
+                    @foreach($employee_info as $report)
+                        <option value="{{ $report->id }}">{{ $report->role }}</option>
                     @endforeach
                 </select>
             </div>

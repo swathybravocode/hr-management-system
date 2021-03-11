@@ -71,6 +71,15 @@
                                                     <a href="#" data-url="{{ URL::to('leave/'.$leave->id.'/edit') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Edit Leave')}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
                                                 @endcan
                                             @endif
+
+                                        @elseif(\Auth::user()->type == 'business officer')
+
+                                        @if($leave->status == "Pending")
+                                                @can('Edit Leave')
+                                                    <a href="#" data-url="{{ URL::to('leave/'.$leave->id.'/edit') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Edit Leave')}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
+                                                @endcan
+                                         @endif
+
                                         @else
                                             <a href="#" data-url="{{ URL::to('leave/'.$leave->id.'/action') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Leave Action')}}" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="{{__('Leave Action')}}"><i class="fas fa-caret-right"></i> </a>
                                             @can('Edit Leave')

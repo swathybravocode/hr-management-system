@@ -41,6 +41,7 @@ class Employee extends Model
         'aadhaar_card_number',
         'employee_alternate_contact',
         'employee_photo',
+        'report_to',
         'created_by',
     ];
 

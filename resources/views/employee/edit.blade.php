@@ -21,6 +21,7 @@
                             {!! Form::label('name', __('Name'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                             {!! Form::text('name', null, ['class' => 'form-control','required' => 'required']) !!}
                         </div>
+                        <input type="hidden" name="user_id" value="{{$employee->user_id}}">
                         <div class="form-group col-md-4">
                             {!! Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']) !!}
                             {!! Form::text('middle_name', null, ['class' => 'form-control']) !!}
@@ -143,6 +144,15 @@
                             <div class="form-group col-md-6">
                                 {!! Form::label('company_doj', 'Company Date Of Joining',['class'=>'form-control-label']) !!}
                                 {!! Form::text('company_doj', null, ['class' => 'form-control datepicker','required' => 'required']) !!}
+                            </div>
+                            <div class="form-group col-md-12">
+                                {{ Form::label('role_id', __('Report to'),['class'=>'form-control-label']) }}
+                                <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="{{ __('Select Manager ...') }}">
+                                    <option value="">{{__('Select Manager')}}</option>
+                                    @foreach ($roles as $role_item)
+                                    <option value="{{$role_item->id}}" @if($employee->report_to == $role_item->id) selected @endif>{{$role_item->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

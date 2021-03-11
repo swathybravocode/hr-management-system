@@ -4,10 +4,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
+                <?php if(\Auth::user()->type == 'employee'): ?>
+                <?php echo e(Form::label('employee_id',__('Employee'))); ?>
+
+                <?php echo e(Form::select('employee_id', $employee_info, null, array('class'=>'form-control select2','placeholder'=>__('Select Employee')))); ?>
+
+                <?php else: ?>
                 <?php echo e(Form::label('employee_id',__('Employee'))); ?>
 
                 <?php echo e(Form::select('employee_id',$employees,null,array('class'=>'form-control select2','placeholder'=>__('Select Employee')))); ?>
 
+                <?php endif; ?>
             </div>
         </div>
     </div>

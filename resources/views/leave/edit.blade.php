@@ -3,8 +3,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
+                @if(\Auth::user()->type == 'employee')
+                {{Form::label('employee_id',__('Employee'))}}
+                {{Form::select('employee_id', $employee_info, null, array('class'=>'form-control select2','placeholder'=>__('Select Employee')))}}
+                @else
                 {{Form::label('employee_id',__('Employee'))}}
                 {{Form::select('employee_id',$employees,null,array('class'=>'form-control select2','placeholder'=>__('Select Employee')))}}
+                @endif
             </div>
         </div>
     </div>

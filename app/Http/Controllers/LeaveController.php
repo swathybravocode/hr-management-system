@@ -45,16 +45,30 @@ class LeaveController extends Controller
             if(Auth::user()->type == 'employee')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
+                $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
+                ->select('roles.id','roles.name as role')
+                ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
             }
+
+            if(Auth::user()->type == 'business officer')
+            {
+                $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
+                $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
+                ->select('roles.id','roles.name as role')
+                ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
+            }
+
             else
             {
                 $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
             }
+
             $leavetypes      = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
             $leavetypes_days = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
 
 //            dd(Employee::employeeTotalLeave(1));
-            return view('leave.create', compact('employees', 'leavetypes', 'leavetypes_days'));
+            return view('leave.create', compact('employees', 'leavetypes', 'leavetypes_days','employee_info'));
         }
         else
         {
@@ -123,12 +137,16 @@ class LeaveController extends Controller
     {
         if(\Auth::user()->can('Edit Leave'))
         {
+            $user = Auth::user();
+
             if($leave->created_by == \Auth::user()->creatorId())
             {
                 $employees  = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $leavetypes = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
 
-                return view('leave.edit', compact('leave', 'employees', 'leavetypes'));
+                $employee_info  = Employee::where('user_id', '=', $user->id)->get()->pluck('name','id');
+
+                return view('leave.edit', compact('leave', 'employees', 'leavetypes','employee_info'));
             }
             else
             {
