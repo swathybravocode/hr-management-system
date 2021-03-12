@@ -32,6 +32,10 @@
                     <th><?php echo e(__('Status')); ?></th>
                     <td><?php echo e(!empty($leave->status)?$leave->status:''); ?></td>
                 </tr>
+                <tr>
+                    <th><?php echo e(__('Loss of pay')); ?></th>
+                    <td><input name="loss_of_pay" type="checkbox" value="1"></td>
+                </tr>
                 <input type="hidden" value="<?php echo e($leave->id); ?>" name="leave_id">
             </table>
         </div>

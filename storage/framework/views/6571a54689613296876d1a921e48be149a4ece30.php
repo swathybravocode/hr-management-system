@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <?php echo e(Form::label('leave_type_id',__('Leave Type'))); ?>
 
@@ -27,6 +27,19 @@
 
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <?php echo e(Form::label('report_to',__('Report To'))); ?>
+
+                <select name="report_to" id="report_to" class="form-control select2">
+                    <?php $__currentLoopData = $report_info; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($report->id); ?>"><?php echo e($report->role); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+        </div>
+
     </div>
     <div class="row">
         <div class="col-md-6">

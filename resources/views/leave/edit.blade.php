@@ -14,12 +14,24 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 {{Form::label('leave_type_id',__('Leave Type'))}}
                 {{Form::select('leave_type_id',$leavetypes,null,array('class'=>'form-control select2','placeholder'=>__('Select Leave Type')))}}
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('report_to',__('Report To'))}}
+                <select name="report_to" id="report_to" class="form-control select2">
+                    @foreach($report_info as $report)
+                        <option value="{{ $report->id }}">{{ $report->role }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
     </div>
     <div class="row">
         <div class="col-md-6">

@@ -31,6 +31,10 @@
                     <th>{{__('Status')}}</th>
                     <td>{{ !empty($leave->status)?$leave->status:'' }}</td>
                 </tr>
+                <tr>
+                    <th>{{__('Loss of pay')}}</th>
+                    <td><input name="loss_of_pay" type="checkbox" value="1"></td>
+                </tr>
                 <input type="hidden" value="{{ $leave->id }}" name="leave_id">
             </table>
         </div>

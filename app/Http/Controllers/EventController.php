@@ -18,8 +18,13 @@ class EventController extends Controller
     {
         if(\Auth::user()->can('Manage Event'))
         {
+            $user = Auth::user()->id;
+
+            $employee_info = Employee::where('user_id', '=', $user)->first();
+
             $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $events    = Event::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $events    = Event::where([['created_by', '=', \Auth::user()->creatorId()], 
+            ['branch_id','=', $employee_info->branch_id]])->get();
 
             $arrEvents = [];
             foreach($events as $event)

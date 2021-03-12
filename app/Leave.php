@@ -18,6 +18,8 @@ class Leave extends Model
         'status',
         'created_by',
         'user_id',
+        'report_to',
+        'loss_of_pay',
     ];
 
     public function leaveType()

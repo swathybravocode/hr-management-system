@@ -81,7 +81,9 @@
                                          @endif
 
                                         @else
+                                        @if(Auth::user()->id != $leave->user_id)
                                             <a href="#" data-url="{{ URL::to('leave/'.$leave->id.'/action') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Leave Action')}}" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="{{__('Leave Action')}}"><i class="fas fa-caret-right"></i> </a>
+                                        @endif
                                             @can('Edit Leave')
                                                 <a href="#" data-url="{{ URL::to('leave/'.$leave->id.'/edit') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Edit Leave')}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
                                             @endcan

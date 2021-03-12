@@ -81,7 +81,9 @@
                                          <?php endif; ?>
 
                                         <?php else: ?>
+                                        <?php if(Auth::user()->id != $leave->user_id): ?>
                                             <a href="#" data-url="<?php echo e(URL::to('leave/'.$leave->id.'/action')); ?>" data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Leave Action')); ?>" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="<?php echo e(__('Leave Action')); ?>"><i class="fas fa-caret-right"></i> </a>
+                                        <?php endif; ?>
                                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Edit Leave')): ?>
                                                 <a href="#" data-url="<?php echo e(URL::to('leave/'.$leave->id.'/edit')); ?>" data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Edit Leave')); ?>" class="edit-icon" data-toggle="tooltip" data-original-title="<?php echo e(__('Edit')); ?>"><i class="fas fa-pencil-alt"></i></a>
                                             <?php endif; ?>
