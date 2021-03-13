@@ -7,6 +7,7 @@ use App\Branch;
 use App\Department;
 use App\Employee;
 use App\User;
+use App\Leave;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -543,10 +544,17 @@ class AttendanceEmployeeController extends Controller
                         $employeeAttendance->total_rest    = '00:00:00';
                         $employeeAttendance->save();
 
+                        Leave::where([['applied_on', '=', $request->date], ['employee_id', '=', $employee],
+                         ['leave_type_id','=','0']])->delete();
+
                     }
                     else
                     {
                         $attendance = AttendanceEmployee::where('employee_id', '=', $employee)->where('date', '=', $request->date)->first();
+
+                        $employee_info  = Employee::where([['employees.id','=', $employee]])
+                        ->select('user_id','roles.id as role_id','roles.name as role')
+                        ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
 
                         if(!empty($attendance))
                         {
@@ -568,6 +576,24 @@ class AttendanceEmployeeController extends Controller
                         $employeeAttendance->overtime      = '00:00:00';
                         $employeeAttendance->total_rest    = '00:00:00';
                         $employeeAttendance->save();
+
+                        $employee_leave                   = new Leave();
+                        $employee_leave->employee_id      = $employee;
+                        $employee_leave->leave_type_id    = '0';
+                        $employee_leave->applied_on       = $request->date;
+                        $employee_leave->start_date       = $request->date;
+                        $employee_leave->end_date         = $request->date;
+                        $employee_leave->total_leave_days = 1;
+                        $employee_leave->leave_reason     = 'Absent';
+                        $employee_leave->remark           = 'Absent';
+                        $employee_leave->status           = 'Approve';
+                        $employee_leave->user_id          = $employee_info[0]->user_id;
+                        $employee_leave->report_to        = $employee_info[0]->role_id;
+                        $employee_leave->created_by       = \Auth::user()->creatorId();
+                        $employee_leave->loss_of_pay      = '1';
+
+                        $employee_leave->save();
+
                     }
                 }
 

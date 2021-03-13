@@ -11,6 +11,7 @@ use App\Mail\PayslipSend;
 use App\OtherPayment;
 use App\Overtime;
 use App\PaySlip;
+use App\Leave;
 use App\SaturationDeduction;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -95,6 +96,8 @@ class PaySlipController extends Controller
 
 
         $formate_month_year = $year . '-' . $month;
+
+
         $validatePaysilp    = PaySlip::where('salary_month', '=', $formate_month_year)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
 
         if(empty($validatePaysilp))
@@ -109,14 +112,23 @@ class PaySlipController extends Controller
 
             foreach($employees as $employee)
             {
+                $leaves = Leave::where([['employee_id','=', $employee->id], ['status', '=', 'Approve']
+                , ['loss_of_pay','=', '1'], ['applied_on','like', '%'.$formate_month_year.'%']])->sum('total_leave_days');
+
+                $total_leaves = ((int)$leaves);
+                $worked_days  = 30 - $total_leaves;
+                $total_basic  = ($employee->salary/30) * ((int)$worked_days);
 
                 $payslipEmployee                       = new PaySlip();
                 $payslipEmployee->employee_id          = $employee->id;
                 $payslipEmployee->net_payble           = $employee->get_net_salary();
                 $payslipEmployee->salary_month         = $formate_month_year;
                 $payslipEmployee->status               = 0;
-                $payslipEmployee->basic_salary         = !empty($employee->salary) ? $employee->salary : 0;
+                // $payslipEmployee->basic_salary         = !empty($employee->salary) ? $employee->salary : 0;
+                $payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
                 $payslipEmployee->allowance            = Employee::allowance($employee->id);
+
+
                 $payslipEmployee->commission           = Employee::commission($employee->id);
                 $payslipEmployee->loan                 = Employee::loan($employee->id);
                 $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
