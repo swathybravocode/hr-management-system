@@ -58,7 +58,7 @@ table.GeneratedTable thead {
                                         <strong>{{__('Division')}}&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; {{$employee->department->name}}<br>
                                         {{-- <strong>{{__('Salary Date')}} :</strong> {{\Auth::user()->dateFormat( $employee->created_at)}}<br> --}}
                                         <strong>{{__('Bank Details')}}&nbsp;&nbsp; :</strong>&emsp;&emsp; {{('A/C # -')}} {{$employee->account_number}}<br>
-                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&emsp; {{$employee->bank_name}}
+                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&nbsp;&nbsp;&nbsp; {{$employee->bank_name}}
 
                                     </address>
                                 </div>
@@ -137,7 +137,10 @@ table.GeneratedTable thead {
                                       <td>
                                       <p>{{__('Basic Salary')}} <span style="float:right">{{  \Auth::user()->priceFormat( $payslip->basic_salary)}}</span></p>
                                       @foreach($payslipDetail['earning']['allowance'] as $allowance)
-                                      <p>{{$allowance->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $allowance->amount)}}</span></p>
+                                      @php
+                                      $allowance_amount = ($allowance->amount/30) * ((int)$worked_days);
+                                      @endphp
+                                      <p>{{$allowance->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $allowance_amount)}}</span></p>
                                       @endforeach
                                        @foreach($payslipDetail['earning']['commission'] as $commission)
                                       <p>{{$commission->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $commission->amount)}}</span></p>
@@ -157,6 +160,8 @@ table.GeneratedTable thead {
                                       @foreach($payslipDetail['deduction']['deduction'] as $deduction)
                                       <p>{{$deduction->title}} <span style="float:right">{{  \Auth::user()->priceFormat( $deduction->amount)}}</span></p>
                                       @endforeach
+                                      <p><span style="float:right"></span></p>
+                                      <p><b>Unpaid Leave</b> <span style="float:right"><b>{{ \Auth::user()->priceFormat($unpaid_deductions)}}</b></span></p>
                                       <p><span style="float:right"></span></p>
                                       <p><b>Total Deductions</b> <span style="float:right"><b>{{ \Auth::user()->priceFormat($payslipDetail['totalDeduction'])}}</b></span></p>
                                       </td>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2021 at 02:17 PM
+-- Generation Time: Mar 15, 2021 at 01:48 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.3.16
 
@@ -168,13 +168,6 @@ CREATE TABLE `attendance_employees` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `attendance_employees`
---
-
-INSERT INTO `attendance_employees` (`id`, `employee_id`, `date`, `status`, `clock_in`, `clock_out`, `late`, `early_leaving`, `overtime`, `total_rest`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 1, '2021-03-06', 'Leave', '00:00:00', '00:00:00', '00:00:00', '00:00:00', '00:00:00', '00:00:00', 1, '2021-03-06 01:08:48', '2021-03-06 01:08:48');
-
 -- --------------------------------------------------------
 
 --
@@ -221,15 +214,6 @@ CREATE TABLE `branches` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `branch_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `branches`
---
-
-INSERT INTO `branches` (`id`, `name`, `created_by`, `created_at`, `updated_at`, `branch_name`) VALUES
-(1, 'KL', 1, '2021-03-06 00:04:51', '2021-03-06 00:04:51', 'Kerala'),
-(2, 'KA', 1, '2021-03-06 00:05:52', '2021-03-06 00:05:52', 'Karnataka'),
-(3, 'TN', 1, '2021-03-06 00:05:59', '2021-03-06 00:05:59', 'Tamilnadu');
 
 -- --------------------------------------------------------
 
@@ -311,13 +295,6 @@ CREATE TABLE `departments` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `departments`
---
-
-INSERT INTO `departments` (`id`, `branch_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Medical', 1, '2021-03-06 00:05:21', '2021-03-06 00:05:21');
-
 -- --------------------------------------------------------
 
 --
@@ -354,14 +331,6 @@ CREATE TABLE `designations` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `designations`
---
-
-INSERT INTO `designations` (`id`, `department_id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Employee', 1, '2021-03-06 00:40:18', '2021-03-06 00:40:18'),
-(2, 1, 'Dept Manager', 1, '2021-03-06 00:46:14', '2021-03-06 00:47:48');
-
 -- --------------------------------------------------------
 
 --
@@ -376,13 +345,6 @@ CREATE TABLE `documents` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `documents`
---
-
-INSERT INTO `documents` (`id`, `name`, `is_required`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'PAN Card', '1', 1, '2021-03-06 01:31:12', '2021-03-06 01:31:12');
 
 -- --------------------------------------------------------
 
@@ -446,17 +408,9 @@ CREATE TABLE `employees` (
   `pan_card_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `aadhaar_card_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `employee_photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `employee_alternate_contact` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `employee_alternate_contact` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `report_to` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `employees`
---
-
-INSERT INTO `employees` (`id`, `user_id`, `name`, `dob`, `gender`, `phone`, `address`, `state_id`, `state_code`, `email`, `blood_group`, `head_quarter`, `employee_id`, `branch_id`, `department_id`, `designation_id`, `company_doj`, `documents`, `account_holder_name`, `account_number`, `bank_name`, `bank_identifier_code`, `branch_location`, `tax_payer_id`, `salary_type`, `salary`, `transfer_date`, `is_active`, `created_by`, `created_at`, `updated_at`, `middle_name`, `last_name`, `employee_code`, `old_employee_code`, `pan_card_number`, `aadhaar_card_number`, `employee_photo`, `employee_alternate_contact`) VALUES
-(1, 3, 'Reshmin', '1992-01-17', 'Male', '9047874411', 'test address', '', '', 'reshmin.futura@gmail.com', 'B+', 'Calicut', '1', 1, 1, 2, '2021-03-06', NULL, 'Reshmin', '234234234', 'SBI', 'IDPDSD1245464', 'Calicut', '254488', 1, 25000, NULL, 1, 1, '2021-03-06 00:50:58', '2021-03-08 07:43:49', '', 'DP', 'EY/KL/001', 'IHC/KL/103', 'SDA221342', '325665', 'reshmin_1615209229.jpg', '9632012442'),
-(2, 4, 'Test', '1988-02-17', 'Male', '9876887777', 'test new address', '', '', 'reshminsouparnam@gmail.com', 'B+', 'Calicut', '2', 1, 1, 1, '2021-03-06', '1', 'Test', '456456345', 'SBI', 'IDPDSD1245464', 'Calicut', '433435', NULL, 0, NULL, 1, 1, '2021-03-06 02:21:38', '2021-03-08 05:03:12', '', 'RT', 'EY/KL/002', 'IHC/KL/106', 'SDA2213425', '4535345', 'test_1615199592.png', '9654147777'),
-(3, 5, 'Vishnu', '1985-01-23', 'Male', '9654145411', 'tasd test', '', '', 'reshmin@mmail.com', 'B+', 'Calicut', '3', 1, 1, 1, '2021-03-08', '1', 'Reshmin', '23423424', 'SBI', 'ifcv668999', 'Calicut', '433435', NULL, 0, NULL, 1, 1, '2021-03-08 00:15:31', '2021-03-08 07:44:42', '', 'VK', 'EY/KL/003', 'IHC/KL/105', 'SDA221342', '565456454', 'vishnu_1615209282.jpg', '9632145444');
 
 -- --------------------------------------------------------
 
@@ -473,15 +427,6 @@ CREATE TABLE `employee_documents` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `employee_documents`
---
-
-INSERT INTO `employee_documents` (`id`, `employee_id`, `document_id`, `document_value`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, '22009180-abstract-green-background_1615017099.jpg', 1, '2021-03-06 02:21:39', '2021-03-06 02:21:39'),
-(2, 3, 1, '1b55e4bdb4fc6051382e370bf26d5a59_1615182331.jpg', 1, '2021-03-08 00:15:31', '2021-03-08 00:15:31'),
-(3, 1, 1, '005_1615209229.jpg', 0, '2021-03-08 07:43:49', '2021-03-08 07:43:49');
 
 -- --------------------------------------------------------
 
@@ -703,7 +648,9 @@ CREATE TABLE `leaves` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `report_to` int(11) DEFAULT NULL,
+  `loss_of_pay` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -931,7 +878,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (79, '2021_03_02_054707_add_leave_applyings_to_leavess_table', 1),
 (80, '2021_03_02_071647_add_old_employee_info_to_transfers_table', 1),
 (81, '2021_03_02_082623_add_loan_info_to_loans_table', 1),
-(82, '2021_03_06_064901_add_employee_photo_to_employees_table', 2);
+(82, '2021_03_06_064901_add_employee_photo_to_employees_table', 1),
+(83, '2021_03_12_054245_add_report_to_leaves_table', 1),
+(84, '2021_03_13_084144_add_leave_deduction_to_pay_slips_table', 1);
 
 -- --------------------------------------------------------
 
@@ -963,10 +912,7 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 1),
-(2, 'App\\User', 2),
-(3, 'App\\User', 3),
-(3, 'App\\User', 4),
-(3, 'App\\User', 5);
+(2, 'App\\User', 2);
 
 -- --------------------------------------------------------
 
@@ -1072,13 +1018,6 @@ CREATE TABLE `payslip_types` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `payslip_types`
---
-
-INSERT INTO `payslip_types` (`id`, `name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'Eysys', 1, '2021-03-06 01:10:54', '2021-03-06 01:10:54');
-
 -- --------------------------------------------------------
 
 --
@@ -1100,15 +1039,9 @@ CREATE TABLE `pay_slips` (
   `overtime` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `leave_deduction` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `pay_slips`
---
-
-INSERT INTO `pay_slips` (`id`, `employee_id`, `net_payble`, `salary_month`, `status`, `basic_salary`, `allowance`, `commission`, `loan`, `saturation_deduction`, `other_payment`, `overtime`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 25000, '2021-03', 0, 25000, '[]', '[]', '[]', '[]', '[]', '[]', 1, '2021-03-06 01:11:48', '2021-03-06 01:11:48');
 
 -- --------------------------------------------------------
 
@@ -1129,242 +1062,242 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'Manage User', 'web', '2021-03-05 23:44:46', '2021-03-05 23:44:46'),
-(2, 'Create User', 'web', '2021-03-05 23:44:47', '2021-03-05 23:44:47'),
-(3, 'Edit User', 'web', '2021-03-05 23:44:47', '2021-03-05 23:44:47'),
-(4, 'Delete User', 'web', '2021-03-05 23:44:49', '2021-03-05 23:44:49'),
-(5, 'Manage Role', 'web', '2021-03-05 23:44:50', '2021-03-05 23:44:50'),
-(6, 'Create Role', 'web', '2021-03-05 23:44:52', '2021-03-05 23:44:52'),
-(7, 'Delete Role', 'web', '2021-03-05 23:44:53', '2021-03-05 23:44:53'),
-(8, 'Edit Role', 'web', '2021-03-05 23:44:54', '2021-03-05 23:44:54'),
-(9, 'Manage Award', 'web', '2021-03-05 23:44:55', '2021-03-05 23:44:55'),
-(10, 'Create Award', 'web', '2021-03-05 23:44:56', '2021-03-05 23:44:56'),
-(11, 'Delete Award', 'web', '2021-03-05 23:44:57', '2021-03-05 23:44:57'),
-(12, 'Edit Award', 'web', '2021-03-05 23:44:58', '2021-03-05 23:44:58'),
-(13, 'Manage Transfer', 'web', '2021-03-05 23:45:00', '2021-03-05 23:45:00'),
-(14, 'Create Transfer', 'web', '2021-03-05 23:45:02', '2021-03-05 23:45:02'),
-(15, 'Delete Transfer', 'web', '2021-03-05 23:45:03', '2021-03-05 23:45:03'),
-(16, 'Edit Transfer', 'web', '2021-03-05 23:45:05', '2021-03-05 23:45:05'),
-(17, 'Manage Resignation', 'web', '2021-03-05 23:45:05', '2021-03-05 23:45:05'),
-(18, 'Create Resignation', 'web', '2021-03-05 23:45:07', '2021-03-05 23:45:07'),
-(19, 'Edit Resignation', 'web', '2021-03-05 23:45:08', '2021-03-05 23:45:08'),
-(20, 'Delete Resignation', 'web', '2021-03-05 23:45:09', '2021-03-05 23:45:09'),
-(21, 'Manage Travel', 'web', '2021-03-05 23:45:10', '2021-03-05 23:45:10'),
-(22, 'Create Travel', 'web', '2021-03-05 23:45:12', '2021-03-05 23:45:12'),
-(23, 'Edit Travel', 'web', '2021-03-05 23:45:13', '2021-03-05 23:45:13'),
-(24, 'Delete Travel', 'web', '2021-03-05 23:45:14', '2021-03-05 23:45:14'),
-(25, 'Manage Promotion', 'web', '2021-03-05 23:45:15', '2021-03-05 23:45:15'),
-(26, 'Create Promotion', 'web', '2021-03-05 23:45:16', '2021-03-05 23:45:16'),
-(27, 'Edit Promotion', 'web', '2021-03-05 23:45:17', '2021-03-05 23:45:17'),
-(28, 'Delete Promotion', 'web', '2021-03-05 23:45:18', '2021-03-05 23:45:18'),
-(29, 'Manage Complaint', 'web', '2021-03-05 23:45:19', '2021-03-05 23:45:19'),
-(30, 'Create Complaint', 'web', '2021-03-05 23:45:20', '2021-03-05 23:45:20'),
-(31, 'Edit Complaint', 'web', '2021-03-05 23:45:20', '2021-03-05 23:45:20'),
-(32, 'Delete Complaint', 'web', '2021-03-05 23:45:21', '2021-03-05 23:45:21'),
-(33, 'Manage Warning', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(34, 'Create Warning', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(35, 'Edit Warning', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(36, 'Delete Warning', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(37, 'Manage Termination', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(38, 'Create Termination', 'web', '2021-03-05 23:45:22', '2021-03-05 23:45:22'),
-(39, 'Edit Termination', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(40, 'Delete Termination', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(41, 'Manage Department', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(42, 'Create Department', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(43, 'Edit Department', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(44, 'Delete Department', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(45, 'Manage Designation', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(46, 'Create Designation', 'web', '2021-03-05 23:45:23', '2021-03-05 23:45:23'),
-(47, 'Edit Designation', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(48, 'Delete Designation', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(49, 'Manage Document Type', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(50, 'Create Document Type', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(51, 'Edit Document Type', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(52, 'Delete Document Type', 'web', '2021-03-05 23:45:24', '2021-03-05 23:45:24'),
-(53, 'Manage Branch', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(54, 'Create Branch', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(55, 'Edit Branch', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(56, 'Delete Branch', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(57, 'Manage Award Type', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(58, 'Create Award Type', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(59, 'Edit Award Type', 'web', '2021-03-05 23:45:25', '2021-03-05 23:45:25'),
-(60, 'Delete Award Type', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(61, 'Manage Termination Type', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(62, 'Create Termination Type', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(63, 'Edit Termination Type', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(64, 'Delete Termination Type', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(65, 'Manage Employee', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(66, 'Create Employee', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(67, 'Edit Employee', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(68, 'Delete Employee', 'web', '2021-03-05 23:45:26', '2021-03-05 23:45:26'),
-(69, 'Show Employee', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(70, 'Manage Payslip Type', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(71, 'Create Payslip Type', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(72, 'Edit Payslip Type', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(73, 'Delete Payslip Type', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(74, 'Manage Allowance Option', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(75, 'Create Allowance Option', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(76, 'Edit Allowance Option', 'web', '2021-03-05 23:45:27', '2021-03-05 23:45:27'),
-(77, 'Delete Allowance Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(78, 'Manage Loan Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(79, 'Create Loan Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(80, 'Edit Loan Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(81, 'Delete Loan Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(82, 'Manage Deduction Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(83, 'Create Deduction Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(84, 'Edit Deduction Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(85, 'Delete Deduction Option', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(86, 'Manage Set Salary', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(87, 'Create Set Salary', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(88, 'Edit Set Salary', 'web', '2021-03-05 23:45:28', '2021-03-05 23:45:28'),
-(89, 'Delete Set Salary', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(90, 'Manage Allowance', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(91, 'Create Allowance', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(92, 'Edit Allowance', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(93, 'Delete Allowance', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(94, 'Create Commission', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(95, 'Create Loan', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(96, 'Create Saturation Deduction', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(97, 'Create Other Payment', 'web', '2021-03-05 23:45:29', '2021-03-05 23:45:29'),
-(98, 'Create Overtime', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(99, 'Edit Commission', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(100, 'Delete Commission', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(101, 'Edit Loan', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(102, 'Delete Loan', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(103, 'Edit Saturation Deduction', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(104, 'Delete Saturation Deduction', 'web', '2021-03-05 23:45:30', '2021-03-05 23:45:30'),
-(105, 'Edit Other Payment', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(106, 'Delete Other Payment', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(107, 'Edit Overtime', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(108, 'Delete Overtime', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(109, 'Manage Pay Slip', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(110, 'Create Pay Slip', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(111, 'Edit Pay Slip', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(112, 'Delete Pay Slip', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(113, 'Manage Account List', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(114, 'Create Account List', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(115, 'Edit Account List', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(116, 'Delete Account List', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(117, 'View Balance Account List', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(118, 'Manage Payee', 'web', '2021-03-05 23:45:31', '2021-03-05 23:45:31'),
-(119, 'Create Payee', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(120, 'Edit Payee', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(121, 'Delete Payee', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(122, 'Manage Payer', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(123, 'Create Payer', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(124, 'Edit Payer', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(125, 'Delete Payer', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(126, 'Manage Expense Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(127, 'Create Expense Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(128, 'Edit Expense Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(129, 'Delete Expense Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(130, 'Manage Income Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(131, 'Edit Income Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(132, 'Delete Income Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(133, 'Create Income Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(134, 'Manage Payment Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(135, 'Create Payment Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(136, 'Edit Payment Type', 'web', '2021-03-05 23:45:32', '2021-03-05 23:45:32'),
-(137, 'Delete Payment Type', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(138, 'Manage Deposit', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(139, 'Create Deposit', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(140, 'Edit Deposit', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(141, 'Delete Deposit', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(142, 'Manage Expense', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(143, 'Create Expense', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(144, 'Edit Expense', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(145, 'Delete Expense', 'web', '2021-03-05 23:45:33', '2021-03-05 23:45:33'),
-(146, 'Manage Transfer Balance', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(147, 'Create Transfer Balance', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(148, 'Edit Transfer Balance', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(149, 'Delete Transfer Balance', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(150, 'Manage Event', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(151, 'Create Event', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(152, 'Edit Event', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(153, 'Delete Event', 'web', '2021-03-05 23:45:34', '2021-03-05 23:45:34'),
-(154, 'Manage Announcement', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(155, 'Create Announcement', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(156, 'Edit Announcement', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(157, 'Delete Announcement', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(158, 'Manage Leave Type', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(159, 'Create Leave Type', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(160, 'Edit Leave Type', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(161, 'Delete Leave Type', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(162, 'Manage Leave', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(163, 'Create Leave', 'web', '2021-03-05 23:45:35', '2021-03-05 23:45:35'),
-(164, 'Edit Leave', 'web', '2021-03-05 23:45:36', '2021-03-05 23:45:36'),
-(165, 'Delete Leave', 'web', '2021-03-05 23:45:36', '2021-03-05 23:45:36'),
-(166, 'Manage Meeting', 'web', '2021-03-05 23:45:36', '2021-03-05 23:45:36'),
-(167, 'Create Meeting', 'web', '2021-03-05 23:45:36', '2021-03-05 23:45:36'),
-(168, 'Edit Meeting', 'web', '2021-03-05 23:45:36', '2021-03-05 23:45:36'),
-(169, 'Delete Meeting', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(170, 'Manage Ticket', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(171, 'Create Ticket', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(172, 'Edit Ticket', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(173, 'Delete Ticket', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(174, 'Manage Attendance', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(175, 'Create Attendance', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(176, 'Edit Attendance', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(177, 'Delete Attendance', 'web', '2021-03-05 23:45:37', '2021-03-05 23:45:37'),
-(178, 'Manage Language', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(179, 'Create Language', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(180, 'Manage Company Settings', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(181, 'Manage TimeSheet', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(182, 'Create TimeSheet', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(183, 'Edit TimeSheet', 'web', '2021-03-05 23:45:38', '2021-03-05 23:45:38'),
-(184, 'Delete TimeSheet', 'web', '2021-03-05 23:45:40', '2021-03-05 23:45:40'),
-(185, 'Manage Assets', 'web', '2021-03-05 23:45:40', '2021-03-05 23:45:40'),
-(186, 'Create Assets', 'web', '2021-03-05 23:45:40', '2021-03-05 23:45:40'),
-(187, 'Edit Assets', 'web', '2021-03-05 23:45:40', '2021-03-05 23:45:40'),
-(188, 'Delete Assets', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(189, 'Manage Document', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(190, 'Create Document', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(191, 'Edit Document', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(192, 'Delete Document', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(193, 'Manage Employee Profile', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(194, 'Show Employee Profile', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(195, 'Manage Employee Last Login', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(196, 'Manage Indicator', 'web', '2021-03-05 23:45:41', '2021-03-05 23:45:41'),
-(197, 'Create Indicator', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(198, 'Edit Indicator', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(199, 'Delete Indicator', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(200, 'Show Indicator', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(201, 'Manage Appraisal', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(202, 'Create Appraisal', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(203, 'Edit Appraisal', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(204, 'Delete Appraisal', 'web', '2021-03-05 23:45:42', '2021-03-05 23:45:42'),
-(205, 'Show Appraisal', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(206, 'Manage Goal Type', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(207, 'Create Goal Type', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(208, 'Edit Goal Type', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(209, 'Delete Goal Type', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(210, 'Manage Goal Tracking', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(211, 'Create Goal Tracking', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(212, 'Edit Goal Tracking', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(213, 'Delete Goal Tracking', 'web', '2021-03-05 23:45:43', '2021-03-05 23:45:43'),
-(214, 'Manage Company Policy', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(215, 'Create Company Policy', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(216, 'Edit Company Policy', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(217, 'Delete Company Policy', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(218, 'Manage Trainer', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(219, 'Create Trainer', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(220, 'Edit Trainer', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(221, 'Delete Trainer', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(222, 'Show Trainer', 'web', '2021-03-05 23:45:44', '2021-03-05 23:45:44'),
-(223, 'Manage Training', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(224, 'Create Training', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(225, 'Edit Training', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(226, 'Delete Training', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(227, 'Show Training', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(228, 'Manage Training Type', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(229, 'Create Training Type', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(230, 'Edit Training Type', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(231, 'Delete Training Type', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(232, 'Manage Report', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(233, 'Manage Holiday', 'web', '2021-03-05 23:45:45', '2021-03-05 23:45:45'),
-(234, 'Create Holiday', 'web', '2021-03-05 23:45:46', '2021-03-05 23:45:46'),
-(235, 'Edit Holiday', 'web', '2021-03-05 23:45:46', '2021-03-05 23:45:46'),
-(236, 'Delete Holiday', 'web', '2021-03-05 23:45:46', '2021-03-05 23:45:46');
+(1, 'Manage User', 'web', '2021-03-15 07:07:48', '2021-03-15 07:07:48'),
+(2, 'Create User', 'web', '2021-03-15 07:07:49', '2021-03-15 07:07:49'),
+(3, 'Edit User', 'web', '2021-03-15 07:07:49', '2021-03-15 07:07:49'),
+(4, 'Delete User', 'web', '2021-03-15 07:07:51', '2021-03-15 07:07:51'),
+(5, 'Manage Role', 'web', '2021-03-15 07:07:51', '2021-03-15 07:07:51'),
+(6, 'Create Role', 'web', '2021-03-15 07:07:51', '2021-03-15 07:07:51'),
+(7, 'Delete Role', 'web', '2021-03-15 07:07:53', '2021-03-15 07:07:53'),
+(8, 'Edit Role', 'web', '2021-03-15 07:07:53', '2021-03-15 07:07:53'),
+(9, 'Manage Award', 'web', '2021-03-15 07:07:54', '2021-03-15 07:07:54'),
+(10, 'Create Award', 'web', '2021-03-15 07:07:54', '2021-03-15 07:07:54'),
+(11, 'Delete Award', 'web', '2021-03-15 07:07:55', '2021-03-15 07:07:55'),
+(12, 'Edit Award', 'web', '2021-03-15 07:07:56', '2021-03-15 07:07:56'),
+(13, 'Manage Transfer', 'web', '2021-03-15 07:07:56', '2021-03-15 07:07:56'),
+(14, 'Create Transfer', 'web', '2021-03-15 07:07:56', '2021-03-15 07:07:56'),
+(15, 'Delete Transfer', 'web', '2021-03-15 07:07:56', '2021-03-15 07:07:56'),
+(16, 'Edit Transfer', 'web', '2021-03-15 07:07:57', '2021-03-15 07:07:57'),
+(17, 'Manage Resignation', 'web', '2021-03-15 07:07:59', '2021-03-15 07:07:59'),
+(18, 'Create Resignation', 'web', '2021-03-15 07:07:59', '2021-03-15 07:07:59'),
+(19, 'Edit Resignation', 'web', '2021-03-15 07:07:59', '2021-03-15 07:07:59'),
+(20, 'Delete Resignation', 'web', '2021-03-15 07:07:59', '2021-03-15 07:07:59'),
+(21, 'Manage Travel', 'web', '2021-03-15 07:08:00', '2021-03-15 07:08:00'),
+(22, 'Create Travel', 'web', '2021-03-15 07:08:01', '2021-03-15 07:08:01'),
+(23, 'Edit Travel', 'web', '2021-03-15 07:08:02', '2021-03-15 07:08:02'),
+(24, 'Delete Travel', 'web', '2021-03-15 07:08:03', '2021-03-15 07:08:03'),
+(25, 'Manage Promotion', 'web', '2021-03-15 07:08:04', '2021-03-15 07:08:04'),
+(26, 'Create Promotion', 'web', '2021-03-15 07:08:04', '2021-03-15 07:08:04'),
+(27, 'Edit Promotion', 'web', '2021-03-15 07:08:05', '2021-03-15 07:08:05'),
+(28, 'Delete Promotion', 'web', '2021-03-15 07:08:05', '2021-03-15 07:08:05'),
+(29, 'Manage Complaint', 'web', '2021-03-15 07:08:06', '2021-03-15 07:08:06'),
+(30, 'Create Complaint', 'web', '2021-03-15 07:08:07', '2021-03-15 07:08:07'),
+(31, 'Edit Complaint', 'web', '2021-03-15 07:08:08', '2021-03-15 07:08:08'),
+(32, 'Delete Complaint', 'web', '2021-03-15 07:08:09', '2021-03-15 07:08:09'),
+(33, 'Manage Warning', 'web', '2021-03-15 07:08:09', '2021-03-15 07:08:09'),
+(34, 'Create Warning', 'web', '2021-03-15 07:08:10', '2021-03-15 07:08:10'),
+(35, 'Edit Warning', 'web', '2021-03-15 07:08:10', '2021-03-15 07:08:10'),
+(36, 'Delete Warning', 'web', '2021-03-15 07:08:11', '2021-03-15 07:08:11'),
+(37, 'Manage Termination', 'web', '2021-03-15 07:08:11', '2021-03-15 07:08:11'),
+(38, 'Create Termination', 'web', '2021-03-15 07:08:11', '2021-03-15 07:08:11'),
+(39, 'Edit Termination', 'web', '2021-03-15 07:08:12', '2021-03-15 07:08:12'),
+(40, 'Delete Termination', 'web', '2021-03-15 07:08:13', '2021-03-15 07:08:13'),
+(41, 'Manage Department', 'web', '2021-03-15 07:08:13', '2021-03-15 07:08:13'),
+(42, 'Create Department', 'web', '2021-03-15 07:08:15', '2021-03-15 07:08:15'),
+(43, 'Edit Department', 'web', '2021-03-15 07:08:15', '2021-03-15 07:08:15'),
+(44, 'Delete Department', 'web', '2021-03-15 07:08:16', '2021-03-15 07:08:16'),
+(45, 'Manage Designation', 'web', '2021-03-15 07:08:16', '2021-03-15 07:08:16'),
+(46, 'Create Designation', 'web', '2021-03-15 07:08:17', '2021-03-15 07:08:17'),
+(47, 'Edit Designation', 'web', '2021-03-15 07:08:17', '2021-03-15 07:08:17'),
+(48, 'Delete Designation', 'web', '2021-03-15 07:08:17', '2021-03-15 07:08:17'),
+(49, 'Manage Document Type', 'web', '2021-03-15 07:08:19', '2021-03-15 07:08:19'),
+(50, 'Create Document Type', 'web', '2021-03-15 07:08:19', '2021-03-15 07:08:19'),
+(51, 'Edit Document Type', 'web', '2021-03-15 07:08:20', '2021-03-15 07:08:20'),
+(52, 'Delete Document Type', 'web', '2021-03-15 07:08:21', '2021-03-15 07:08:21'),
+(53, 'Manage Branch', 'web', '2021-03-15 07:08:21', '2021-03-15 07:08:21'),
+(54, 'Create Branch', 'web', '2021-03-15 07:08:22', '2021-03-15 07:08:22'),
+(55, 'Edit Branch', 'web', '2021-03-15 07:08:23', '2021-03-15 07:08:23'),
+(56, 'Delete Branch', 'web', '2021-03-15 07:08:24', '2021-03-15 07:08:24'),
+(57, 'Manage Award Type', 'web', '2021-03-15 07:08:24', '2021-03-15 07:08:24'),
+(58, 'Create Award Type', 'web', '2021-03-15 07:08:24', '2021-03-15 07:08:24'),
+(59, 'Edit Award Type', 'web', '2021-03-15 07:08:25', '2021-03-15 07:08:25'),
+(60, 'Delete Award Type', 'web', '2021-03-15 07:08:26', '2021-03-15 07:08:26'),
+(61, 'Manage Termination Type', 'web', '2021-03-15 07:08:27', '2021-03-15 07:08:27'),
+(62, 'Create Termination Type', 'web', '2021-03-15 07:08:27', '2021-03-15 07:08:27'),
+(63, 'Edit Termination Type', 'web', '2021-03-15 07:08:28', '2021-03-15 07:08:28'),
+(64, 'Delete Termination Type', 'web', '2021-03-15 07:08:29', '2021-03-15 07:08:29'),
+(65, 'Manage Employee', 'web', '2021-03-15 07:08:29', '2021-03-15 07:08:29'),
+(66, 'Create Employee', 'web', '2021-03-15 07:08:30', '2021-03-15 07:08:30'),
+(67, 'Edit Employee', 'web', '2021-03-15 07:08:30', '2021-03-15 07:08:30'),
+(68, 'Delete Employee', 'web', '2021-03-15 07:08:31', '2021-03-15 07:08:31'),
+(69, 'Show Employee', 'web', '2021-03-15 07:08:32', '2021-03-15 07:08:32'),
+(70, 'Manage Payslip Type', 'web', '2021-03-15 07:08:33', '2021-03-15 07:08:33'),
+(71, 'Create Payslip Type', 'web', '2021-03-15 07:08:33', '2021-03-15 07:08:33'),
+(72, 'Edit Payslip Type', 'web', '2021-03-15 07:08:34', '2021-03-15 07:08:34'),
+(73, 'Delete Payslip Type', 'web', '2021-03-15 07:08:34', '2021-03-15 07:08:34'),
+(74, 'Manage Allowance Option', 'web', '2021-03-15 07:08:35', '2021-03-15 07:08:35'),
+(75, 'Create Allowance Option', 'web', '2021-03-15 07:08:36', '2021-03-15 07:08:36'),
+(76, 'Edit Allowance Option', 'web', '2021-03-15 07:08:36', '2021-03-15 07:08:36'),
+(77, 'Delete Allowance Option', 'web', '2021-03-15 07:08:36', '2021-03-15 07:08:36'),
+(78, 'Manage Loan Option', 'web', '2021-03-15 07:08:37', '2021-03-15 07:08:37'),
+(79, 'Create Loan Option', 'web', '2021-03-15 07:08:38', '2021-03-15 07:08:38'),
+(80, 'Edit Loan Option', 'web', '2021-03-15 07:08:39', '2021-03-15 07:08:39'),
+(81, 'Delete Loan Option', 'web', '2021-03-15 07:08:40', '2021-03-15 07:08:40'),
+(82, 'Manage Deduction Option', 'web', '2021-03-15 07:08:41', '2021-03-15 07:08:41'),
+(83, 'Create Deduction Option', 'web', '2021-03-15 07:08:41', '2021-03-15 07:08:41'),
+(84, 'Edit Deduction Option', 'web', '2021-03-15 07:08:42', '2021-03-15 07:08:42'),
+(85, 'Delete Deduction Option', 'web', '2021-03-15 07:08:42', '2021-03-15 07:08:42'),
+(86, 'Manage Set Salary', 'web', '2021-03-15 07:08:43', '2021-03-15 07:08:43'),
+(87, 'Create Set Salary', 'web', '2021-03-15 07:08:44', '2021-03-15 07:08:44'),
+(88, 'Edit Set Salary', 'web', '2021-03-15 07:08:45', '2021-03-15 07:08:45'),
+(89, 'Delete Set Salary', 'web', '2021-03-15 07:08:46', '2021-03-15 07:08:46'),
+(90, 'Manage Allowance', 'web', '2021-03-15 07:08:46', '2021-03-15 07:08:46'),
+(91, 'Create Allowance', 'web', '2021-03-15 07:08:47', '2021-03-15 07:08:47'),
+(92, 'Edit Allowance', 'web', '2021-03-15 07:08:47', '2021-03-15 07:08:47'),
+(93, 'Delete Allowance', 'web', '2021-03-15 07:08:48', '2021-03-15 07:08:48'),
+(94, 'Create Commission', 'web', '2021-03-15 07:08:48', '2021-03-15 07:08:48'),
+(95, 'Create Loan', 'web', '2021-03-15 07:08:48', '2021-03-15 07:08:48'),
+(96, 'Create Saturation Deduction', 'web', '2021-03-15 07:08:49', '2021-03-15 07:08:49'),
+(97, 'Create Other Payment', 'web', '2021-03-15 07:08:49', '2021-03-15 07:08:49'),
+(98, 'Create Overtime', 'web', '2021-03-15 07:08:50', '2021-03-15 07:08:50'),
+(99, 'Edit Commission', 'web', '2021-03-15 07:08:51', '2021-03-15 07:08:51'),
+(100, 'Delete Commission', 'web', '2021-03-15 07:08:52', '2021-03-15 07:08:52'),
+(101, 'Edit Loan', 'web', '2021-03-15 07:08:53', '2021-03-15 07:08:53'),
+(102, 'Delete Loan', 'web', '2021-03-15 07:08:53', '2021-03-15 07:08:53'),
+(103, 'Edit Saturation Deduction', 'web', '2021-03-15 07:08:54', '2021-03-15 07:08:54'),
+(104, 'Delete Saturation Deduction', 'web', '2021-03-15 07:08:54', '2021-03-15 07:08:54'),
+(105, 'Edit Other Payment', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(106, 'Delete Other Payment', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(107, 'Edit Overtime', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(108, 'Delete Overtime', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(109, 'Manage Pay Slip', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(110, 'Create Pay Slip', 'web', '2021-03-15 07:08:55', '2021-03-15 07:08:55'),
+(111, 'Edit Pay Slip', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(112, 'Delete Pay Slip', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(113, 'Manage Account List', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(114, 'Create Account List', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(115, 'Edit Account List', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(116, 'Delete Account List', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(117, 'View Balance Account List', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(118, 'Manage Payee', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(119, 'Create Payee', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(120, 'Edit Payee', 'web', '2021-03-15 07:08:56', '2021-03-15 07:08:56'),
+(121, 'Delete Payee', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(122, 'Manage Payer', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(123, 'Create Payer', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(124, 'Edit Payer', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(125, 'Delete Payer', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(126, 'Manage Expense Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(127, 'Create Expense Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(128, 'Edit Expense Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(129, 'Delete Expense Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(130, 'Manage Income Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(131, 'Edit Income Type', 'web', '2021-03-15 07:08:57', '2021-03-15 07:08:57'),
+(132, 'Delete Income Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(133, 'Create Income Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(134, 'Manage Payment Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(135, 'Create Payment Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(136, 'Edit Payment Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(137, 'Delete Payment Type', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(138, 'Manage Deposit', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(139, 'Create Deposit', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(140, 'Edit Deposit', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(141, 'Delete Deposit', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(142, 'Manage Expense', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(143, 'Create Expense', 'web', '2021-03-15 07:08:58', '2021-03-15 07:08:58'),
+(144, 'Edit Expense', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(145, 'Delete Expense', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(146, 'Manage Transfer Balance', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(147, 'Create Transfer Balance', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(148, 'Edit Transfer Balance', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(149, 'Delete Transfer Balance', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(150, 'Manage Event', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(151, 'Create Event', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(152, 'Edit Event', 'web', '2021-03-15 07:08:59', '2021-03-15 07:08:59'),
+(153, 'Delete Event', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(154, 'Manage Announcement', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(155, 'Create Announcement', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(156, 'Edit Announcement', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(157, 'Delete Announcement', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(158, 'Manage Leave Type', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(159, 'Create Leave Type', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(160, 'Edit Leave Type', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(161, 'Delete Leave Type', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(162, 'Manage Leave', 'web', '2021-03-15 07:09:00', '2021-03-15 07:09:00'),
+(163, 'Create Leave', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(164, 'Edit Leave', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(165, 'Delete Leave', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(166, 'Manage Meeting', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(167, 'Create Meeting', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(168, 'Edit Meeting', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(169, 'Delete Meeting', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(170, 'Manage Ticket', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(171, 'Create Ticket', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(172, 'Edit Ticket', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(173, 'Delete Ticket', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(174, 'Manage Attendance', 'web', '2021-03-15 07:09:01', '2021-03-15 07:09:01'),
+(175, 'Create Attendance', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(176, 'Edit Attendance', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(177, 'Delete Attendance', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(178, 'Manage Language', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(179, 'Create Language', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(180, 'Manage Company Settings', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(181, 'Manage TimeSheet', 'web', '2021-03-15 07:09:02', '2021-03-15 07:09:02'),
+(182, 'Create TimeSheet', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(183, 'Edit TimeSheet', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(184, 'Delete TimeSheet', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(185, 'Manage Assets', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(186, 'Create Assets', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(187, 'Edit Assets', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(188, 'Delete Assets', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(189, 'Manage Document', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(190, 'Create Document', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(191, 'Edit Document', 'web', '2021-03-15 07:09:03', '2021-03-15 07:09:03'),
+(192, 'Delete Document', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(193, 'Manage Employee Profile', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(194, 'Show Employee Profile', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(195, 'Manage Employee Last Login', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(196, 'Manage Indicator', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(197, 'Create Indicator', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(198, 'Edit Indicator', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(199, 'Delete Indicator', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(200, 'Show Indicator', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(201, 'Manage Appraisal', 'web', '2021-03-15 07:09:04', '2021-03-15 07:09:04'),
+(202, 'Create Appraisal', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(203, 'Edit Appraisal', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(204, 'Delete Appraisal', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(205, 'Show Appraisal', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(206, 'Manage Goal Type', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(207, 'Create Goal Type', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(208, 'Edit Goal Type', 'web', '2021-03-15 07:09:05', '2021-03-15 07:09:05'),
+(209, 'Delete Goal Type', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(210, 'Manage Goal Tracking', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(211, 'Create Goal Tracking', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(212, 'Edit Goal Tracking', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(213, 'Delete Goal Tracking', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(214, 'Manage Company Policy', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(215, 'Create Company Policy', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(216, 'Edit Company Policy', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(217, 'Delete Company Policy', 'web', '2021-03-15 07:09:06', '2021-03-15 07:09:06'),
+(218, 'Manage Trainer', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(219, 'Create Trainer', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(220, 'Edit Trainer', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(221, 'Delete Trainer', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(222, 'Show Trainer', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(223, 'Manage Training', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(224, 'Create Training', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(225, 'Edit Training', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(226, 'Delete Training', 'web', '2021-03-15 07:09:07', '2021-03-15 07:09:07'),
+(227, 'Show Training', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(228, 'Manage Training Type', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(229, 'Create Training Type', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(230, 'Edit Training Type', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(231, 'Delete Training Type', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(232, 'Manage Report', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(233, 'Manage Holiday', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(234, 'Create Holiday', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(235, 'Edit Holiday', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08'),
+(236, 'Delete Holiday', 'web', '2021-03-15 07:09:08', '2021-03-15 07:09:08');
 
 -- --------------------------------------------------------
 
@@ -1421,10 +1354,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'company', 'web', 0, '2021-03-05 23:45:46', '2021-03-05 23:45:46'),
-(2, 'hr', 'web', 1, '2021-03-05 23:46:41', '2021-03-05 23:46:41'),
-(3, 'employee', 'web', 1, '2021-03-05 23:48:02', '2021-03-05 23:48:02'),
-(4, 'manager', 'web', 1, '2021-03-05 23:53:38', '2021-03-05 23:53:38');
+(1, 'company', 'web', 0, '2021-03-15 07:09:09', '2021-03-15 07:09:09'),
+(2, 'hr', 'web', 1, '2021-03-15 07:09:50', '2021-03-15 07:09:50'),
+(3, 'employee', 'web', 1, '2021-03-15 07:10:29', '2021-03-15 07:10:29');
 
 -- --------------------------------------------------------
 
@@ -1444,7 +1376,6 @@ CREATE TABLE `role_has_permissions` (
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (1, 1),
 (1, 2),
-(1, 4),
 (2, 1),
 (3, 1),
 (4, 1),
@@ -1464,7 +1395,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (13, 1),
 (13, 2),
 (13, 3),
-(13, 4),
 (14, 1),
 (14, 2),
 (15, 1),
@@ -1474,7 +1404,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (17, 1),
 (17, 2),
 (17, 3),
-(17, 4),
 (18, 1),
 (18, 2),
 (18, 3),
@@ -1586,7 +1515,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (65, 1),
 (65, 2),
 (65, 3),
-(65, 4),
 (66, 1),
 (66, 2),
 (67, 1),
@@ -1597,7 +1525,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (69, 1),
 (69, 2),
 (69, 3),
-(69, 4),
 (70, 1),
 (70, 2),
 (71, 1),
@@ -1679,7 +1606,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (108, 2),
 (109, 1),
 (109, 2),
-(109, 4),
 (110, 1),
 (110, 2),
 (111, 1),
@@ -1752,19 +1678,15 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (162, 1),
 (162, 2),
 (162, 3),
-(162, 4),
 (163, 1),
 (163, 2),
 (163, 3),
-(163, 4),
 (164, 1),
 (164, 2),
 (164, 3),
-(164, 4),
 (165, 1),
 (165, 2),
 (165, 3),
-(165, 4),
 (166, 1),
 (166, 2),
 (166, 3),
@@ -1789,7 +1711,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (174, 1),
 (174, 2),
 (174, 3),
-(174, 4),
 (175, 1),
 (175, 2),
 (176, 1),
@@ -1828,7 +1749,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (192, 1),
 (193, 1),
 (193, 2),
-(193, 4),
 (194, 1),
 (194, 2),
 (195, 1),
@@ -1906,7 +1826,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (231, 1),
 (231, 2),
 (232, 1),
-(232, 4),
 (233, 1),
 (233, 2),
 (233, 3),
@@ -2197,11 +2116,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `active_status`, `dark_mode`, `messenger_color`, `email_verified_at`, `password`, `type`, `avatar`, `lang`, `last_login`, `is_active`, `created_by`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'company', 'company@example.com', 0, 0, '#2180f3', NULL, '$2y$10$GEOb6U82j9SW34E3GE2YMO5kLC03PR7iitx6lhyALvuoG5uaYVfwy', 'company', '', 'en', '2021-03-05 23:50:08', 1, '0', NULL, '2021-03-05 23:46:38', '2021-03-05 23:50:08'),
-(2, 'hr', 'hr@example.com', 0, 0, '#2180f3', NULL, '$2y$10$10wRQcUSvBone21s8ht9eur2i93MFigb0ox.E3N9urDm9g.Ogzgnm', 'hr', 'air-pollution-icon_1615016377.jpg', 'en', '2021-03-07 22:53:12', 1, '1', NULL, '2021-03-05 23:48:02', '2021-03-07 22:53:12'),
-(3, 'Reshmin', 'reshmin.futura@gmail.com', 0, 0, '#2180f3', NULL, '$2y$10$7JpFZ2Na057Af02g/GTD.uUbHq6zoCSQG/5YMykFCKm65qLBAOrRO', 'employee', 'reshmin_1615209229.jpg', 'en', NULL, 1, '1', NULL, '2021-03-06 00:50:58', '2021-03-08 07:43:50'),
-(4, 'Test', 'reshminsouparnam@gmail.com', 0, 0, '#2180f3', NULL, '$2y$10$zccIHjcq48loTEEBsYUWReQRI9P1rJ6st63LJjbxYnle2whEI039O', 'employee', 'men-express-their-facial-expressions-seriously_42416-238_1615017097.jpg', 'en', NULL, 1, '1', NULL, '2021-03-06 02:21:37', '2021-03-06 02:21:37'),
-(5, 'Vishnu', 'reshmin@mmail.com', 0, 0, '#2180f3', NULL, '$2y$10$ojEd0VHVlpdF.eJYi.QJlecC2vMRUTubcBGFezwWEpNj.y3lpmTDm', 'employee', 'vishnu_1615209282.jpg', 'en', NULL, 1, '1', NULL, '2021-03-08 00:15:28', '2021-03-08 07:44:42');
+(1, 'company', 'company@example.com', 0, 0, '#2180f3', NULL, '$2y$10$e.PPSd0gmPEAIb3/FfRZnOf4I2Y4PdrXs0gDR1BmDF3sprWp1r6PK', 'company', '', 'en', NULL, 1, '0', NULL, '2021-03-15 07:09:49', '2021-03-15 07:09:49'),
+(2, 'hr', 'hr@example.com', 0, 0, '#2180f3', NULL, '$2y$10$7r.jEeUoWqpdDXQiVsjWi.ngnazEZwA4uwIrVCcJkElvHIZ/yxEt2', 'hr', '', 'en', NULL, 1, '1', NULL, '2021-03-15 07:10:29', '2021-03-15 07:10:29');
 
 -- --------------------------------------------------------
 
@@ -2724,7 +2640,7 @@ ALTER TABLE `assets`
 -- AUTO_INCREMENT for table `attendance_employees`
 --
 ALTER TABLE `attendance_employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `awards`
@@ -2742,7 +2658,7 @@ ALTER TABLE `award_types`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `commissions`
@@ -2772,7 +2688,7 @@ ALTER TABLE `deduction_options`
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `deposits`
@@ -2784,13 +2700,13 @@ ALTER TABLE `deposits`
 -- AUTO_INCREMENT for table `designations`
 --
 ALTER TABLE `designations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ducument_uploads`
@@ -2802,13 +2718,13 @@ ALTER TABLE `ducument_uploads`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employee_documents`
 --
 ALTER TABLE `employee_documents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -2922,7 +2838,7 @@ ALTER TABLE `meeting_employees`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `other_payments`
@@ -2958,13 +2874,13 @@ ALTER TABLE `payment_types`
 -- AUTO_INCREMENT for table `payslip_types`
 --
 ALTER TABLE `payslip_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pay_slips`
 --
 ALTER TABLE `pay_slips`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -2988,7 +2904,7 @@ ALTER TABLE `resignations`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `saturation_deductions`
@@ -3078,7 +2994,7 @@ ALTER TABLE `travels`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `warnings`

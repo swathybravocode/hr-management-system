@@ -59,7 +59,7 @@ table.GeneratedTable thead {
                                         <strong><?php echo e(__('Division')); ?>&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e($employee->department->name); ?><br>
                                         
                                         <strong><?php echo e(__('Bank Details')); ?>&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e(('A/C # -')); ?> <?php echo e($employee->account_number); ?><br>
-                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&emsp; <?php echo e($employee->bank_name); ?>
+                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&nbsp;&nbsp;&nbsp; <?php echo e($employee->bank_name); ?>
 
 
                                     </address>
@@ -91,7 +91,10 @@ table.GeneratedTable thead {
                                       <td>
                                       <p><?php echo e(__('Basic Salary')); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $payslip->basic_salary)); ?></span></p>
                                       <?php $__currentLoopData = $payslipDetail['earning']['allowance']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $allowance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                      <p><?php echo e($allowance->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $allowance->amount)); ?></span></p>
+                                      <?php
+                                      $allowance_amount = ($allowance->amount/30) * ((int)$worked_days);
+                                      ?>
+                                      <p><?php echo e($allowance->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $allowance_amount)); ?></span></p>
                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                        <?php $__currentLoopData = $payslipDetail['earning']['commission']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                       <p><?php echo e($commission->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $commission->amount)); ?></span></p>
@@ -111,6 +114,8 @@ table.GeneratedTable thead {
                                       <?php $__currentLoopData = $payslipDetail['deduction']['deduction']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deduction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                       <p><?php echo e($deduction->title); ?> <span style="float:right"><?php echo e(\Auth::user()->priceFormat( $deduction->amount)); ?></span></p>
                                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                      <p><span style="float:right"></span></p>
+                                      <p><b>Unpaid Leave</b> <span style="float:right"><b><?php echo e(\Auth::user()->priceFormat($unpaid_deductions)); ?></b></span></p>
                                       <p><span style="float:right"></span></p>
                                       <p><b>Total Deductions</b> <span style="float:right"><b><?php echo e(\Auth::user()->priceFormat($payslipDetail['totalDeduction'])); ?></b></span></p>
                                       </td>

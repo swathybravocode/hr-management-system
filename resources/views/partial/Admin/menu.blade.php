@@ -324,11 +324,11 @@
                                         <a href="{{ route('announcement.index') }}" class="nav-link">{{ __('Announcement') }}</a>
                                     </li>
                                 @endcan
-                                @can('Manage Holiday')
+                                {{-- @can('Manage Holiday')
                                     <li class="nav-item {{ request()->is('holiday*') ? 'active' : '' }}">
                                         <a href="{{ route('holiday.index') }}" class="nav-link">{{ __('Holidays') }}</a>
                                     </li>
-                                @endcan
+                                @endcan --}}
                             </ul>
                         </div>
                     </li>
@@ -351,7 +351,7 @@
                 @can('Manage Event')
                     <li class="nav-item">
                         <a href="{{ route('event.index') }}" class="nav-link {{ request()->is('event*') ? 'active' : '' }}">
-                            <i class="fas fa-calendar-alt"></i>{{ __('Event') }}
+                            <i class="fas fa-calendar-alt"></i>{{ __('Calendar') }}
                         </a>
                     </li>
                 @endcan

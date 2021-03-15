@@ -332,11 +332,7 @@
                                         <a href="<?php echo e(route('announcement.index')); ?>" class="nav-link"><?php echo e(__('Announcement')); ?></a>
                                     </li>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Holiday')): ?>
-                                    <li class="nav-item <?php echo e(request()->is('holiday*') ? 'active' : ''); ?>">
-                                        <a href="<?php echo e(route('holiday.index')); ?>" class="nav-link"><?php echo e(__('Holidays')); ?></a>
-                                    </li>
-                                <?php endif; ?>
+                                
                             </ul>
                         </div>
                     </li>
@@ -361,7 +357,7 @@
                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Manage Event')): ?>
                     <li class="nav-item">
                         <a href="<?php echo e(route('event.index')); ?>" class="nav-link <?php echo e(request()->is('event*') ? 'active' : ''); ?>">
-                            <i class="fas fa-calendar-alt"></i><?php echo e(__('Event')); ?>
+                            <i class="fas fa-calendar-alt"></i><?php echo e(__('Calendar')); ?>
 
                         </a>
                     </li>

@@ -147,7 +147,7 @@ class Utility extends Model
         'leave_status' => 'Leave Status',
     ];
 
-    public static function employeePayslipDetail($employeeId)
+    public static function employeePayslipDetail($employeeId, $worked_days)
     {
         $empPayslip                   = PaySlip::where('employee_id', $employeeId)->where('created_by', \Auth::user()->creatorId())->first();
         $earning['allowance']         = Allowance::where('employee_id', $employeeId)->get();
@@ -165,7 +165,8 @@ class Utility extends Model
         $deduction['totalDeduction'] = SaturationDeduction::where('employee_id', $employeeId)->get()->sum('amount');
 
         $payslip['earning']        = $earning;
-        $payslip['totalEarning']   = $empPayslip->basic_salary + $earning['totalAllowance'] + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
+        $payslip['totalEarning']   = $empPayslip->basic_salary + ($earning['totalAllowance']/30 * $worked_days) + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
+
         $payslip['deduction']      = $deduction;
         $payslip['totalDeduction'] = $deduction['totalLoan'] + $deduction['totalDeduction'];
         $payslip['netEarning']     = $payslip['totalEarning'] - $payslip['totalDeduction'];

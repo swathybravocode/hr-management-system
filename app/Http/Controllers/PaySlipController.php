@@ -124,11 +124,9 @@ class PaySlipController extends Controller
                 $payslipEmployee->net_payble           = $employee->get_net_salary();
                 $payslipEmployee->salary_month         = $formate_month_year;
                 $payslipEmployee->status               = 0;
-                // $payslipEmployee->basic_salary         = !empty($employee->salary) ? $employee->salary : 0;
+                // $payslipEmployee->basic_salary      = !empty($employee->salary) ? $employee->salary : 0;
                 $payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
-                $payslipEmployee->allowance            = Employee::allowance($employee->id);
-
-
+                $payslipEmployee->allowance            = Employee::allowance($employee->id, $worked_days);
                 $payslipEmployee->commission           = Employee::commission($employee->id);
                 $payslipEmployee->loan                 = Employee::loan($employee->id);
                 $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
@@ -319,13 +317,30 @@ class PaySlipController extends Controller
 
     public function pdf($id, $month)
     {
+        $leaves = Leave::where([['employee_id','=', $id], ['status', '=', 'Approve']
+                , ['loss_of_pay','=', '1'], ['applied_on','like', '%'.$month.'%']])->sum('total_leave_days');
+
+        $total_leaves = ((int)$leaves);
+        $worked_days  = 30 - $total_leaves;
 
         $payslip  = PaySlip::where('employee_id', $id)->where('salary_month', $month)->where('created_by', \Auth::user()->creatorId())->first();
         $employee = Employee::find($payslip->employee_id);
 
-        $payslipDetail = Utility::employeePayslipDetail($id);
+        $payslipDetail = Utility::employeePayslipDetail($id, $worked_days);
 
-        return view('payslip.pdf', compact('payslip', 'employee', 'payslipDetail'));
+
+        if($worked_days < 30)
+        {
+            $deductions = $payslip->net_payble - $payslipDetail['netEarning'];
+
+            $unpaid_deductions = (int)$deductions;
+        }
+        else
+        {
+            $unpaid_deductions = "0.0";
+        }
+
+        return view('payslip.pdf', compact('payslip', 'employee', 'payslipDetail','worked_days', 'unpaid_deductions'));
     }
 
     public function send($id, $month)
@@ -365,9 +380,26 @@ class PaySlipController extends Controller
         $payslip  = PaySlip::where('id', $payslipId)->where('created_by', \Auth::user()->creatorId())->first();
         $employee = Employee::find($payslip->employee_id);
 
-        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id);
+        $leaves = Leave::where([['employee_id','=', $payslip->employee_id], ['status', '=', 'Approve']
+                , ['loss_of_pay','=', '1'], ['applied_on','like', '%'.$payslip->salary_month.'%']])->sum('total_leave_days');
 
-        return view('payslip.payslipPdf', compact('payslip', 'employee', 'payslipDetail'));
+        $total_leaves = ((int)$leaves);
+        $worked_days  = 30 - $total_leaves;
+
+        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id, $worked_days);
+
+        if($worked_days < 30)
+        {
+            $deductions = $payslip->net_payble - $payslipDetail['netEarning'];
+
+            $unpaid_deductions = (int)$deductions;
+        }
+        else
+        {
+            $unpaid_deductions = "0.0";
+        }
+
+        return view('payslip.payslipPdf', compact('payslip', 'employee', 'payslipDetail','worked_days', 'unpaid_deductions'));
     }
 
     public function editEmployee($paySlip)

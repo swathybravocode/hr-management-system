@@ -118,7 +118,7 @@
                             var edit = '';
 
                             if (data[7] != 0) {
-                                var payslip = '<a data-url="{{ url('payslip/pdf/') }}/' + id + '/' + datePicker + '" data-size="md-pdf"  data-ajax-popup="true" class="view-btn yellow-bg" data-title="{{__('Employee Payslip')}}">' + '{{__('Payslip')}}' + '</a> ';
+                                var payslip = '<a href="javascript:void(0);" data-url="{{ url('payslip/pdf/') }}/' + id + '/' + datePicker + '" data-size="md-pdf"  data-ajax-popup="true" class="view-btn yellow-bg" data-title="{{__('Employee Payslip')}}">' + '{{__('Payslip')}}' + '</a> ';
                             }
 
                             if (data[6] == "UnPaid" && data[7] != 0) {
@@ -126,11 +126,11 @@
                             }
 
                             if (data[7] != 0) {
-                                view = '<a data-url="{{ url('payslip/showemployee/') }}/' + payslip_id + '"  data-ajax-popup="true" class="view-btn gray-bg" data-title="{{__('View Employee Detail')}}">' + '{{__('View')}}' + '</a>';
+                                view = '<a href="javascript:void(0);" data-url="{{ url('payslip/showemployee/') }}/' + payslip_id + '"  data-ajax-popup="true" class="view-btn gray-bg" data-title="{{__('View Employee Detail')}}">' + '{{__('View')}}' + '</a>';
                             }
 
                             if (data[7] != 0 && data[6] == "UnPaid") {
-                                edit = '<a data-url="{{ url('payslip/editemployee/') }}/' + payslip_id + '"  data-ajax-popup="true" class="view-btn blue-bg" data-title="{{__('Edit Employee salary')}}">' + '{{__('Edit')}}' + '</a>';
+                                edit = '<a href="javascript:void(0);" data-url="{{ url('payslip/editemployee/') }}/' + payslip_id + '"  data-ajax-popup="true" class="view-btn blue-bg" data-title="{{__('Edit Employee salary')}}">' + '{{__('Edit')}}' + '</a>';
                             }
 
                             return view + payslip + clickToPaid + edit;

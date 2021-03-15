@@ -120,16 +120,24 @@ class Employee extends Model
 
     }
 
-    public static function allowance($id)
+    public static function allowance($id, $worked_days)
     {
 
         //allowance
         $allowances      = Allowance::where('employee_id', '=', $id)->get();
+
+
         $total_allowance = 0;
-        foreach($allowances as $allowance)
+
+        foreach($allowances as $allowance => $key)
         {
-            $total_allowance = $allowance->amount + $total_allowance;
+            $total_allowance = $key->amount + $total_allowance;
+
+            $allowance_deduct = ($key->amount/30) * ((int)$worked_days);
+
+            $allowances[$allowance]['amount'] = (int)$allowance_deduct;
         }
+
 
         $allowance_json = json_encode($allowances);
 
