@@ -20,11 +20,24 @@ class EventController extends Controller
         {
             $user = Auth::user()->id;
 
-            $employee_info = Employee::where('user_id', '=', $user)->first();
+            if(Auth::user()->type == 'hr')
+            {
 
-            $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $events    = Event::where([['created_by', '=', \Auth::user()->creatorId()], 
-            ['branch_id','=', $employee_info->branch_id]])->get();
+                $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $events    = Event::where([['created_by', '=', \Auth::user()->creatorId()]])->get();
+
+
+            }
+            else
+            {
+                $employee_info = Employee::where('user_id', '=', $user)->first();
+
+                $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $events    = Event::where([['created_by', '=', \Auth::user()->creatorId()],
+                ['branch_id','=', $employee_info->branch_id]])->get();
+
+            }
+
 
             $arrEvents = [];
             foreach($events as $event)

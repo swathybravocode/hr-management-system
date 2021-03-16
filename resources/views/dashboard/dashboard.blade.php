@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    @if(\Auth::user()->type == 'employee')
+    @if(\Auth::user()->type != 'hr')
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">

@@ -36,7 +36,7 @@ class HomeController extends Controller
         if(Auth::check())
         {
             $user = Auth::user();
-            if($user->type == 'employee')
+            if($user->type != 'hr')
             {
                 $emp = Employee::where('user_id', '=', $user->id)->first();
 
@@ -80,6 +80,61 @@ class HomeController extends Controller
 
                 return view('dashboard.dashboard', compact('arrEvents', 'announcements', 'employees', 'meetings', 'employeeAttendance', 'officeTime'));
             }
+
+            else if($user->type == 'hr')
+            {
+                $events    = Event::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $arrEvents = [];
+
+                foreach($events as $event)
+                {
+                    $arr['id']    = $event['id'];
+                    $arr['title'] = $event['title'];
+                    $arr['start'] = $event['start_date'];
+                    $arr['end']   = $event['end_date'];
+                    //                    $arr['allDay']    = !0;
+                    //                    $arr['className'] = 'bg-danger';
+                    $arr['backgroundColor'] = $event['color'];
+                    $arr['borderColor']     = "#fff";
+                    $arr['textColor']       = "white";
+                    $arr['url']             = route('event.edit', $event['id']);
+
+                    $arrEvents[] = $arr;
+                }
+
+
+                // $arrEvents = str_replace('"[', '[', str_replace(']"', ']', json_encode($arrEvents)));
+
+                $announcements = Announcement::orderBy('announcements.id', 'desc')->take(5)->where('created_by', '=', \Auth::user()->creatorId())->get();
+
+
+                $emp           = User::where('type', '=', 'employee')->where('created_by', '=', \Auth::user()->creatorId())->get();
+                $countEmployee = count($emp);
+
+                $user      = User::where('type', '!=', 'employee')->where('created_by', '=', \Auth::user()->creatorId())->get();
+                $countUser = count($user);
+
+                $countTicket      = Ticket::where('created_by', '=', \Auth::user()->creatorId())->count();
+                $countOpenTicket  = Ticket::where('status', '=', 'open')->where('created_by', '=', \Auth::user()->creatorId())->count();
+                $countCloseTicket = Ticket::where('status', '=', 'close')->where('created_by', '=', \Auth::user()->creatorId())->count();
+
+                $currentDate = date('Y-m-d');
+
+                $employees     = User::where('type', '=', 'employee')->where('created_by', '=', \Auth::user()->creatorId())->get();
+                $countEmployee = count($employees);
+                $notClockIn    = AttendanceEmployee::where('date', '=', $currentDate)->get()->pluck('employee_id');
+
+                $notClockIns = Employee::where('created_by', '=', \Auth::user()->creatorId())->whereNotIn('id', $notClockIn)->get();
+                $accountBalance = AccountList::where('created_by', '=', \Auth::user()->creatorId())->sum('initial_balance');
+
+                $totalPayee = Payees::where('created_by', '=', \Auth::user()->creatorId())->count();
+                $totalPayer = Payer::where('created_by', '=', \Auth::user()->creatorId())->count();
+
+                $meetings = Meeting::where('created_by', '=', \Auth::user()->creatorId())->limit(5)->get();
+
+                return view('dashboard.dashboard', compact('arrEvents', 'announcements', 'employees', 'meetings', 'countEmployee', 'countUser', 'countTicket', 'countOpenTicket', 'countCloseTicket', 'notClockIns', 'countEmployee', 'accountBalance', 'totalPayee', 'totalPayer'));
+            }
+
             else
             {
                 $events    = Event::where('created_by', '=', \Auth::user()->creatorId())->get();

@@ -34,7 +34,7 @@ class LeaveController extends Controller
             else if(\Auth::user()->type == 'hr')
             {
                 $employee = Employee::where('user_id', '=', $user->id)->first();
-                $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                // $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
             }
 
             else if(\Auth::user()->type == 'business manager')
@@ -88,7 +88,7 @@ class LeaveController extends Controller
                 ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
             }
 
-            if(Auth::user()->type == 'business officer')
+            else if(Auth::user()->type == 'business officer')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
                 $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
@@ -96,7 +96,15 @@ class LeaveController extends Controller
                 ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
             }
 
-            if(Auth::user()->type == 'business manager')
+            else if(Auth::user()->type == 'business manager')
+            {
+                $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
+                $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
+                ->select('roles.id','roles.name as role')
+                ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
+            }
+
+            else if(Auth::user()->type == 'regional manager')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
                 $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
@@ -105,7 +113,7 @@ class LeaveController extends Controller
             }
 
 
-            if(Auth::user()->type == 'zonal manager')
+           else if(Auth::user()->type == 'zonal manager')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
                 $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
@@ -114,7 +122,7 @@ class LeaveController extends Controller
             }
 
 
-            if(Auth::user()->type == 'depot manager')
+            else if(Auth::user()->type == 'depot manager')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
                 $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
@@ -122,7 +130,7 @@ class LeaveController extends Controller
                 ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
             }
 
-            if(Auth::user()->type == 'hr')
+            else if(Auth::user()->type == 'hr')
             {
                 $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
                 $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
