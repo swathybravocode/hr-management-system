@@ -362,13 +362,13 @@
                         </a>
                     </li>
                 @endcan
-                @if(Gate::check('Manage Assets'))
+                {{-- @if(Gate::check('Manage Assets'))
                     <li class="nav-item">
                         <a href="{{ route('account-assets.index') }}" class="nav-link {{ (Request::segment(1) == 'account-assets')?'active':''}}">
                             <i class="fas fa-calculator"></i>{{ __('Assets') }}
                         </a>
                     </li>
-                @endcan
+                @endcan --}}
                 @if(Gate::check('Manage Document'))
                     <li class="nav-item">
                         <a href="{{ route('document-upload.index') }}" class="nav-link {{ (Request::segment(1) == 'document-upload')?'active':''}}">

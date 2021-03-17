@@ -370,14 +370,7 @@
                         </a>
                     </li>
                 <?php endif; ?>
-                <?php if(Gate::check('Manage Assets')): ?>
-                    <li class="nav-item">
-                        <a href="<?php echo e(route('account-assets.index')); ?>" class="nav-link <?php echo e((Request::segment(1) == 'account-assets')?'active':''); ?>">
-                            <i class="fas fa-calculator"></i><?php echo e(__('Assets')); ?>
-
-                        </a>
-                    </li>
-                <?php endif; ?>
+                
                 <?php if(Gate::check('Manage Document')): ?>
                     <li class="nav-item">
                         <a href="<?php echo e(route('document-upload.index')); ?>" class="nav-link <?php echo e((Request::segment(1) == 'document-upload')?'active':''); ?>">
