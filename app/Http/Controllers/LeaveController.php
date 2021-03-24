@@ -138,16 +138,26 @@ class LeaveController extends Controller
                 ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
             }
 
-            else
+            else if(Auth::user()->type == 'company')
             {
                 $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+            }
+
+            else
+            {
+
+                $employees = Employee::where('user_id', '=', \Auth::user()->id)->get()->pluck('name', 'id');
+                $employee_info  = Employee::where([['user_id','=', Auth::user()->id]])
+                ->select('roles.id','roles.name as role')
+                ->join('roles', 'roles.id', '=', 'employees.report_to')->get();
 
             }
 
             $leavetypes      = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
             $leavetypes_days = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get();
 
-//            dd(Employee::employeeTotalLeave(1));
+
             return view('leave.create', compact('employees', 'leavetypes', 'leavetypes_days','employee_info'));
         }
         else

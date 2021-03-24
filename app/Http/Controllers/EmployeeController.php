@@ -148,7 +148,14 @@ class EmployeeController extends Controller
                 $designation = Designation::where('id', '=', $request['designation_id'])->first();
                 $role = Role::where('name', '=', $designation->name)->first();
 
-                $employee_type = preg_replace('/\W+/', ' ', strtolower($role->name));
+                if($role)
+                {
+                    $employee_type = preg_replace('/\W+/', ' ', strtolower($role->name));
+                }
+                else
+                {
+                    $employee_type = preg_replace('/\W+/', ' ', strtolower($designation->name));
+                }
 
                 $user = User::create(
                     [
