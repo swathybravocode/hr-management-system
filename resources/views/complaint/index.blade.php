@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{__('Manage Complain')}}
+    {{__('Manage Complaint')}}
 @endsection
 
 @section('action-button')

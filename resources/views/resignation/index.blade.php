@@ -25,7 +25,7 @@
                         <table class="table table-striped mb-0 dataTable" >
                             <thead>
                             <tr>
-                                @role('company')
+                                @role('hr')
                                 <th>{{__('Employee Name')}}</th>
                                 @endrole
                                 <th>{{__('Notice Date')}}</th>
@@ -39,7 +39,7 @@
                             <tbody class="font-style">
                             @foreach ($resignations as $resignation)
                                 <tr>
-                                    @role('company')
+                                    @role('hr')
                                     <td>{{ !empty($resignation->employee())?$resignation->employee()->name:'' }}</td>
                                     @endrole
                                     <td>{{  \Auth::user()->dateFormat($resignation->notice_date) }}</td>

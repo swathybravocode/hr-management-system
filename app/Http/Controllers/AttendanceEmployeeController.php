@@ -24,15 +24,26 @@ class AttendanceEmployeeController extends Controller
             $department = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $department->prepend('All', '');
 
-            if(\Auth::user()->type == 'employee')
+            if(\Auth::user()->type == 'employee' || \Auth::user()->type == 'business officer'
+            || \Auth::user()->type == 'business manager' || \Auth::user()->type == 'regional manager'
+            || \Auth::user()->type == 'zonal manager' || \Auth::user()->type == 'depot manager')
             {
+                $user = Auth::user();
 
                 $emp = !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0;
 
-                $attendanceEmployee = AttendanceEmployee::where('employee_id', $emp);
+                $loggedin_info = Employee::select('user_id','branches.name as branch_code',
+            'branches.id as branch_id')->join('branches', 'branches.id', '=', 'employees.branch_id')
+            ->where([['user_id', '=', $user->id], ['is_active','=','1']])->first();
+
+                $attendanceEmployee = AttendanceEmployee::select('attendance_employees.*','employees.id as emp_id',
+                'employees.name','employees.branch_id')->join('employees','employees.id','=','attendance_employees.employee_id')
+                ->where('employees.branch_id', $loggedin_info->branch_id);
 
                 if($request->type == 'monthly' && !empty($request->month))
                 {
+                    $attendanceEmployee = AttendanceEmployee::where('employee_id', $emp);
+
                     $month = date('m', strtotime($request->month));
                     $year  = date('Y', strtotime($request->month));
 
@@ -83,7 +94,6 @@ class AttendanceEmployeeController extends Controller
                 $employee = $employee->get()->pluck('id');
 
                 $attendanceEmployee = AttendanceEmployee::select('attendance_employees.*','employees.name')->join('employees', 'employees.id', '=', 'attendance_employees.employee_id')->whereIn('attendance_employees.employee_id', $employee);
-
 
 
                 if($request->type == 'monthly' && !empty($request->month))

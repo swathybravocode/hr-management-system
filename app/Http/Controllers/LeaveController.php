@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Employee;
 use App\Leave;
 use App\LeaveType;
+use App\Role;
 use App\Mail\LeaveActionSend;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class LeaveController extends Controller
 {
@@ -24,6 +26,9 @@ class LeaveController extends Controller
             $loggedin_info = Employee::select('user_id','branches.name as branch_code',
             'branches.id as branch_id')->join('branches', 'branches.id', '=', 'employees.branch_id')
             ->where([['user_id', '=', $user->id], ['is_active','=','1']])->first();
+
+            $role_details = DB::table('roles')->where('name','like','%'.$user->type.'%')->first();
+
 
             if(\Auth::user()->type == 'employee')
             {
@@ -40,27 +45,41 @@ class LeaveController extends Controller
             else if(\Auth::user()->type == 'business manager')
             {
                 $employee = Employee::where([['branch_id', '=', $loggedin_info->branch_id]])->first();
-                $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                // $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                $leaves   = Leave::select('leaves.*','employees.id as emp_id','employees.name','employees.branch_id','employees.report_to')
+                ->join('employees','employees.user_id','=','leaves.user_id')->where('leaves.employee_id', '=', $employee->id)->orWhere('employees.report_to','=',$role_details->id)->get();
 
             }
 
             else if(\Auth::user()->type == 'regional manager')
             {
-                $employee = Employee::where('user_id', '=', $user->id)->first();
-                $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                $employee = Employee::where([['branch_id', '=', $loggedin_info->branch_id]])->first();
+
+                $leaves   = Leave::select('leaves.*','employees.id as emp_id','employees.name','employees.branch_id','employees.report_to')
+                ->join('employees','employees.user_id','=','leaves.user_id')->where('leaves.employee_id', '=', $employee->id)->orWhere('employees.report_to','=',$role_details->id)->get();
             }
 
             else if(\Auth::user()->type == 'zonal manager')
             {
-                $employee = Employee::where('user_id', '=', $user->id)->first();
-                $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                // $employee = Employee::where('user_id', '=', $user->id)->first();
+                // $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+
+                $employee = Employee::where([['branch_id', '=', $loggedin_info->branch_id]])->first();
+
+                $leaves   = Leave::select('leaves.*','employees.id as emp_id','employees.name','employees.branch_id','employees.report_to')
+                ->join('employees','employees.user_id','=','leaves.user_id')->where('leaves.employee_id', '=', $employee->id)->orWhere('employees.report_to','=',$role_details->id)->get();
             }
 
             else if(\Auth::user()->type == 'depot manager')
             {
 
-                $employee = Employee::where('user_id', '=', $user->id)->first();
-                $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+                // $employee = Employee::where('user_id', '=', $user->id)->first();
+                // $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+
+                $employee = Employee::where([['branch_id', '=', $loggedin_info->branch_id]])->first();
+
+                $leaves   = Leave::select('leaves.*','employees.id as emp_id','employees.name','employees.branch_id','employees.report_to')
+                ->join('employees','employees.user_id','=','leaves.user_id')->where('leaves.employee_id', '=', $employee->id)->orWhere('employees.report_to','=',$role_details->id)->get();
             }
 
             else
@@ -229,11 +248,12 @@ class LeaveController extends Controller
     {
         if(\Auth::user()->can('Edit Leave'))
         {
+
             $user = Auth::user();
 
             if($leave->created_by == \Auth::user()->creatorId())
             {
-                $employees  = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $employees  = Employee::where('user_id', '=', $leave->user_id)->get()->pluck('name', 'id');
                 $leavetypes = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
 
                 $employee_info  = Employee::where('user_id', '=', $user->id)->get()->pluck('name','id');
@@ -348,7 +368,7 @@ class LeaveController extends Controller
         {
             $startDate               = new \DateTime($leave->start_date);
             $endDate                 = new \DateTime($leave->end_date);
-            $total_leave_days        = $startDate->diff($endDate)->days;
+            $total_leave_days        = $startDate->diff($endDate)->days+1;
             $leave->total_leave_days = $total_leave_days;
             $leave->status           = 'Approve';
             $leave->loss_of_pay      = $request->loss_of_pay;
