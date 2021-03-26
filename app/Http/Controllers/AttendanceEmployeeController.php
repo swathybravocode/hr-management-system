@@ -16,6 +16,7 @@ class AttendanceEmployeeController extends Controller
 {
     public function index(Request $request)
     {
+
         if(\Auth::user()->can('Manage Attendance'))
         {
             $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -450,7 +451,8 @@ class AttendanceEmployeeController extends Controller
 
     public function bulkAttendance(Request $request)
     {
-        if(\Auth::user()->can('Create Attendance'))
+
+        if(\Auth::user()->can('Manage Attendance'))
         {
 
             $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -478,7 +480,7 @@ class AttendanceEmployeeController extends Controller
     public function bulkAttendanceData(Request $request)
     {
 
-        if(\Auth::user()->can('Create Attendance'))
+        if(\Auth::user()->can('Manage Attendance'))
         {
             if(!empty($request->branch) && !empty($request->department))
             {

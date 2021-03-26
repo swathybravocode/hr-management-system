@@ -214,4 +214,25 @@ class ResignationController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+    public function action($id)
+    {
+        $resignation = Resignation::find($id);
+        $employee  = Employee::find($resignation->employee_id);
+
+
+        return view('resignation.action', compact('employee', 'resignation'));
+    }
+
+    public function changeaction(Request $request)
+    {
+        $resignation = Resignation::find($request->resign_id);
+
+        $request->status  = $request->status;
+
+        $resignation->status = 'Approved';
+
+        $resignation->save();
+
+        return redirect()->route('resignation.index')->with('success', __('Resignation status successfully updated.'));
+    }
 }

@@ -12,6 +12,7 @@ class Resignation extends Model
         'resignation_date',
         'description',
         'created_by',
+        'status',
     ];
 
     public function employee()

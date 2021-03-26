@@ -848,3 +848,17 @@ Route::post('get-employee-info', 'EmployeeController@get_employee_info')->name('
         'XSS',
     ]
 );
+
+Route::get('resignation/{id}/action', 'ResignationController@action')->name('leave.action')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
+Route::post('resignation/changeaction', 'ResignationController@changeaction')->name('resignation.changeaction')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);

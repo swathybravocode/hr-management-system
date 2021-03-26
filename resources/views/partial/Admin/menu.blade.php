@@ -68,7 +68,7 @@
                     @endif
                 @endif
                 @if(Gate::check('Manage Employee'))
-                    @if(\Auth::user()->type =='employee')
+                    @if(Auth::user()->type !='hr' && Auth::user()->type !='company')
                         @php
                             $employee=App\Employee::where('user_id',\Auth::user()->id)->first();
                         @endphp
@@ -142,11 +142,13 @@
                                                 <li class="nav-item {{ (Request::route()->getName() == 'attendanceemployee.index') ? 'active' : '' }}">
                                                     <a href="{{ route('attendanceemployee.index') }}" class="nav-link">{{__('Marked Attendance')}}</a>
                                                 </li>
-                                                @can('Create Attendance')
-                                                    <li class="nav-item {{ (Request::route()->getName() == 'attendanceemployee.bulkattendance') ? 'active' : '' }}">
-                                                        <a href="{{ route('attendanceemployee.bulkattendance') }}" class="nav-link">{{__('Bulk Attendance')}}</a>
-                                                    </li>
-                                                @endcan
+                                                @if(Auth::user()->type =='zonal manager')
+                                                    {{-- @can('Create Attendance') --}}
+                                                        <li class="nav-item {{ (Request::route()->getName() == 'attendanceemployee.bulkattendance') ? 'active' : '' }}">
+                                                            <a href="{{ route('attendanceemployee.bulkattendance') }}" class="nav-link">{{__('Bulk Attendance')}}</a>
+                                                        </li>
+                                                    {{-- @endcan --}}
+                                                @endif
                                             </ul>
                                         </div>
                                     </li>

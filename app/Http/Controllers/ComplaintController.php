@@ -16,14 +16,14 @@ class ComplaintController extends Controller
     {
         if(\Auth::user()->can('Manage Complaint'))
         {
-            if(Auth::user()->type == 'employee')
+            if(Auth::user()->type == 'hr' || Auth::user()->type == 'company')
             {
-                $emp        = Employee::where('user_id', '=', \Auth::user()->id)->first();
-                $complaints = Complaint::where('complaint_from', '=', $emp->id)->get();
+                $complaints = Complaint::where('created_by', '=', \Auth::user()->creatorId())->get();
             }
             else
             {
-                $complaints = Complaint::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $emp        = Employee::where('user_id', '=', \Auth::user()->id)->first();
+                $complaints = Complaint::where('complaint_from', '=', $emp->id)->get();
             }
 
             return view('complaint.index', compact('complaints'));
@@ -38,11 +38,12 @@ class ComplaintController extends Controller
     {
         if(\Auth::user()->can('Create Complaint'))
         {
-            if(Auth::user()->type == 'employee')
+            if(Auth::user()->type != 'hr' || Auth::user()->type != 'company')
             {
                 $user             = \Auth::user();
+                $employee_info    = Employee::where('user_id', '=', $user->id)->first();
                 $current_employee = Employee::where('user_id', $user->id)->get()->pluck('name', 'id');
-                $employees        = Employee::where('user_id', '!=', $user->id)->get()->pluck('name', 'id');
+                $employees        = Employee::where([['user_id', '!=', $user->id],['branch_id','=', $employee_info->branch_id]])->get()->pluck('name', 'id');
 
             }
             else

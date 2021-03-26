@@ -1,10 +1,10 @@
 <div class="card bg-none card-box">
     {{Form::open(array('url'=>'complaint','method'=>'post'))}}
     <div class="row">
-        @if(\Auth::user()->type !='employee')
+        @if(\Auth::user()->type !='company')
             <div class="form-group col-md-6 col-lg-6 ">
                 {{ Form::label('complaint_from', __('Complaint From'),['class'=>'form-control-label'])}}
-                {{ Form::select('complaint_from', $employees,null, array('class' => 'form-control  select2','required'=>'required')) }}
+                {{ Form::select('complaint_from', $current_employee,null, array('class' => 'form-control  select2','required'=>'required')) }}
             </div>
         @endif
         <div class="form-group col-md-6 col-lg-6">

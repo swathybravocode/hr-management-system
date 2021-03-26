@@ -10,6 +10,8 @@ use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+
 
 class PromotionController extends Controller
 {
@@ -17,14 +19,15 @@ class PromotionController extends Controller
     {
         if(\Auth::user()->can('Manage Promotion'))
         {
-            if(Auth::user()->type == 'employee')
+            if(Auth::user()->type == 'hr' || Auth::user()->type == 'company')
             {
-                $emp        = Employee::where('user_id', '=', \Auth::user()->id)->first();
-                $promotions = Promotion::where('created_by', '=', \Auth::user()->creatorId())->where('employee_id', '=', $emp->id)->get();
+                $promotions = Promotion::where('created_by', '=', \Auth::user()->creatorId())->get();
+
             }
             else
             {
-                $promotions = Promotion::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $emp        = Employee::where('user_id', '=', \Auth::user()->id)->first();
+                $promotions = Promotion::where('created_by', '=', \Auth::user()->creatorId())->where('employee_id', '=', $emp->id)->get();
             }
 
             return view('promotion.index', compact('promotions'));
@@ -70,6 +73,8 @@ class PromotionController extends Controller
                 return redirect()->back()->with('error', $messages->first());
             }
 
+            $employee_info    = Employee::where('employee_id', '=', $request->employee_id)->first();
+
             $promotion                  = new Promotion();
             $promotion->employee_id     = $request->employee_id;
             $promotion->designation_id  = $request->designation_id;
@@ -87,6 +92,10 @@ class PromotionController extends Controller
                 $promotion->name        = $employee->name;
                 $promotion->email       = $employee->email;
                 $promotion->designation = $designation->name;
+
+                $promotion_type = preg_replace('/\W+/', ' ', strtolower($promotion->designation));
+
+                DB::table('users')->where('id', $employee_info->user_id)->update(array('type' => $promotion_type));
 
                 try
                 {

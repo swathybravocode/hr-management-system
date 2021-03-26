@@ -26,51 +26,68 @@
                     </div>
                     <div class="card-body employee-detail-body">
                         <div class="row">
+                            <div class="col-3 mx-auto">
+                                <img src="{{asset('storage/uploads/avatar/'.$employee->employee_photo)}}" class="img-fluid">
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
 
                             <div class="col-md-7">
                                 <div class="info text-sm">
                                     <strong>{{__('EmployeeId')}}</strong>
                                     <span>{{$employeesId}}</span>
                                 </div>
-                                <div class="info text-sm">
-                                    <strong>{{__('Old Employee Code')}}</strong>
-                                    <span>{{$employee->old_employee_code}}</span>
-                                </div>
+
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Full Name')}}</strong>
                                     <span>{{$employee->name." ".$employee->middle_name." ".$employee->last_name}}</span>
                                 </div>
+
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Email')}}</strong>
                                     <span>{{$employee->email}}</span>
                                 </div>
+
                                 <div class="info text-sm font-style">
                                     <strong>{{__('Blood Group')}}</strong>
                                     <span>{{$employee->blood_group}}</span>
                                 </div>
+
+                                <div class="info text-sm">
+                                    <strong>{{__('Salary Type')}}</strong>
+                                    <span>{{!empty($employee->salaryType)?$employee->salaryType->name:''}}</span>
+                                </div>
+                                <div class="info text-sm">
+                                    <strong>{{__('Aadhaar Number')}}</strong>
+                                    <span>{{$employee->aadhaar_card_number}}</span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-5">
+                                <div class="info text-sm">
+                                    <strong>{{__('Old Employee Code')}}</strong>
+                                    <span>{{$employee->old_employee_code}}</span>
+                                </div>
+
                                 <div class="info text-sm">
                                     <strong>{{__('Date of Birth')}}</strong>
                                     <span>{{\Auth::user()->dateFormat($employee->dob)}}</span>
+                                </div>
+
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Gender')}}</strong>
+                                    <span>{{$employee->gender}}</span>
                                 </div>
                                 <div class="info text-sm">
                                     <strong>{{__('Phone')}}</strong>
                                     <span>{{$employee->phone}}</span>
                                 </div>
                                 <div class="info text-sm">
-                                    <strong>{{__('Aadhaar Number')}}</strong>
-                                    <span>{{$employee->aadhaar_card_number}}</span>
-                                </div>
-                                <div class="info text-sm">
-                                    <strong>{{__('Salary Type')}}</strong>
-                                    <span>{{!empty($employee->salaryType)?$employee->salaryType->name:''}}</span>
-                                </div>
-                                <div class="info text-sm">
                                     <strong>{{__('Basic Salary')}}</strong>
                                     <span>{{$employee->salary}}</span>
                                 </div>
-                            </div>
-                            <div class="col-md-5">
-                                <img src="{{asset('storage/uploads/avatar/'.$employee->employee_photo)}}" class="img-fluid">
                             </div>
 
                         </div>
@@ -131,6 +148,62 @@
                     </div>
                 </div>
             </div>
+
+            <div class="employee-detail-wrap">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">{{__('Bank Account Detail')}}</h6>
+                    </div>
+                    <div class="card-body employee-detail-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Account Holder Name')}}</strong>
+                                    <span>{{$employee->account_holder_name}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Account Number')}}</strong>
+                                    <span>{{$employee->account_number}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm font-style">
+                                    <strong>{{__('Bank Name')}}</strong>
+                                    <span>{{$employee->bank_name}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Bank IFSC')}}</strong>
+                                    <span>{{$employee->bank_identifier_code}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Branch Location')}}</strong>
+                                    <span>{{$employee->branch_location}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('Tax Payer Id')}}</strong>
+                                    <span>{{$employee->tax_payer_id}}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info text-sm">
+                                    <strong>{{__('PAN Card Number')}}</strong>
+                                    <span>{{$employee->pan_card_number}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -159,61 +232,7 @@
             </div>
         </div>
         <div class="col-md-6 ">
-            <div class="employee-detail-wrap">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="mb-0">{{__('Bank Account Detail')}}</h6>
-                    </div>
-                    <div class="card-body employee-detail-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Account Holder Name')}}</strong>
-                                    <span>{{$employee->account_holder_name}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm font-style">
-                                    <strong>{{__('Account Number')}}</strong>
-                                    <span>{{$employee->account_number}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm font-style">
-                                    <strong>{{__('Bank Name')}}</strong>
-                                    <span>{{$employee->bank_name}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Bank Identifier Code')}}</strong>
-                                    <span>{{$employee->bank_identifier_code}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Branch Location')}}</strong>
-                                    <span>{{$employee->branch_location}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('Tax Payer Id')}}</strong>
-                                    <span>{{$employee->tax_payer_id}}</span>
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="info text-sm">
-                                    <strong>{{__('PAN Card Number')}}</strong>
-                                    <span>{{$employee->pan_card_number}}</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

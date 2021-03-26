@@ -210,7 +210,7 @@
 
                         </div>
                         <div class="form-group col-md-6">
-                            {!! Form::label('bank_identifier_code', __('Bank Identifier Code'),['class'=>'form-control-label']) !!}
+                            {!! Form::label('bank_identifier_code', __('Bank IFSC'),['class'=>'form-control-label']) !!}
                             {!! Form::text('bank_identifier_code',old('bank_identifier_code'), ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-md-6">

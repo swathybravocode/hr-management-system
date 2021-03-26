@@ -20,7 +20,7 @@ class EventController extends Controller
         {
             $user = Auth::user()->id;
 
-            if(Auth::user()->type == 'hr')
+            if(Auth::user()->type == 'hr' || Auth::user()->type == 'company')
             {
 
                 $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get();

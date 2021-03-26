@@ -31,6 +31,7 @@
                                 <th>{{__('Notice Date')}}</th>
                                 <th>{{__('Resignation Date')}}</th>
                                 <th>{{__('Description')}}</th>
+                                <th>{{__('Status')}}</th>
                                 @if(Gate::check('Edit Resignation') || Gate::check('Delete Resignation'))
                                     <th width="200px">{{__('Action')}}</th>
                                 @endif
@@ -45,8 +46,21 @@
                                     <td>{{  \Auth::user()->dateFormat($resignation->notice_date) }}</td>
                                     <td>{{  \Auth::user()->dateFormat($resignation->resignation_date) }}</td>
                                     <td>{{ $resignation->description }}</td>
+                                    <td>
+                                    @if($resignation->status=="Pending")
+                                    <div class="badge badge-pill badge-warning">{{ $resignation->status }}</div>
+                                    @elseif($resignation->status=="Approved")
+                                    <div class="badge badge-pill badge-success">{{ $resignation->status }}</div>
+                                    @else($leave->status=="Reject")
+                                    <div class="badge badge-pill badge-danger">{{ $resignation->status }}</div>
+                                    @endif
+                                    </td>
+
                                     @if(Gate::check('Edit Resignation') || Gate::check('Delete Resignation'))
                                         <td>
+                                            @role('hr')
+                                            <a href="#" data-url="{{ URL::to('resignation/'.$resignation->id.'/action') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Resign Action')}}" class="edit-icon bg-success" data-toggle="tooltip" data-original-title="{{__('Resign Action')}}"><i class="fas fa-caret-right"></i> </a>
+                                            @endrole
                                             @can('Edit Resignation')
                                                 <a href="#" data-url="{{ URL::to('resignation/'.$resignation->id.'/edit') }}" data-size="lg" data-ajax-popup="true" data-title="{{__('Edit Resignation')}}" class="edit-icon" data-toggle="tooltip" data-original-title="{{__('Edit')}}"><i class="fas fa-pencil-alt"></i></a>
                                             @endcan
@@ -55,6 +69,7 @@
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['resignation.destroy', $resignation->id],'id'=>'delete-form-'.$resignation->id]) !!}
                                                 {!! Form::close() !!}
                                             @endcan
+
                                         </td>
                                     @endif
                                 </tr>
