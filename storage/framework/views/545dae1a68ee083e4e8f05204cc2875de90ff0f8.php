@@ -71,7 +71,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
                 <?php if(Gate::check('Manage Employee')): ?>
-                    <?php if(\Auth::user()->type =='employee'): ?>
+                    <?php if(Auth::user()->type !='hr' && Auth::user()->type !='company'): ?>
                         <?php
                             $employee=App\Employee::where('user_id',\Auth::user()->id)->first();
                         ?>
@@ -146,10 +146,12 @@
                                                 <li class="nav-item <?php echo e((Request::route()->getName() == 'attendanceemployee.index') ? 'active' : ''); ?>">
                                                     <a href="<?php echo e(route('attendanceemployee.index')); ?>" class="nav-link"><?php echo e(__('Marked Attendance')); ?></a>
                                                 </li>
-                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Attendance')): ?>
-                                                    <li class="nav-item <?php echo e((Request::route()->getName() == 'attendanceemployee.bulkattendance') ? 'active' : ''); ?>">
-                                                        <a href="<?php echo e(route('attendanceemployee.bulkattendance')); ?>" class="nav-link"><?php echo e(__('Bulk Attendance')); ?></a>
-                                                    </li>
+                                                <?php if(Auth::user()->type =='zonal manager'): ?>
+                                                    
+                                                        <li class="nav-item <?php echo e((Request::route()->getName() == 'attendanceemployee.bulkattendance') ? 'active' : ''); ?>">
+                                                            <a href="<?php echo e(route('attendanceemployee.bulkattendance')); ?>" class="nav-link"><?php echo e(__('Bulk Attendance')); ?></a>
+                                                        </li>
+                                                    
                                                 <?php endif; ?>
                                             </ul>
                                         </div>
