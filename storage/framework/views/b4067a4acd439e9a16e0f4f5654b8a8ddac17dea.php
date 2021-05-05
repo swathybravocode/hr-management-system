@@ -251,7 +251,7 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1):
 
                         </div>
                         <div class="form-group col-md-6">
-                            <?php echo Form::label('bank_identifier_code', __('Bank Identifier Code'),['class'=>'form-control-label']); ?>
+                            <?php echo Form::label('bank_identifier_code', __('Bank IFSC'),['class'=>'form-control-label']); ?>
 
                             <?php echo Form::text('bank_identifier_code',old('bank_identifier_code'), ['class' => 'form-control']); ?>
 

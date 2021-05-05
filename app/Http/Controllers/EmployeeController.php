@@ -658,4 +658,9 @@ class EmployeeController extends Controller
             'old_department_id' => $employee->department_id,
         ])->toJson());
     }
+
+    public function upload_employee_data()
+    {
+        return view('employee.upload-page');
+    }
 }

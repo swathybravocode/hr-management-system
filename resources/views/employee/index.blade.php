@@ -6,7 +6,12 @@
 @section('action-button')
     <div class="all-button-box row d-flex justify-content-end">
         @can('Create Employee')
+        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
+            <a href="{{ route('employee.upload.page') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
+                <i class="fa fa-upload"></i> {{ __('Upload') }}
+            </a></div>
             <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6">
+
                 <a href="{{ route('employee.create') }}" class="btn btn-xs btn-white btn-icon-only width-auto">
                     <i class="fa fa-plus"></i> {{ __('Create') }}
                 </a>
