@@ -3,50 +3,6 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startPush('script-page'); ?>
-<script>
-     $(document).on('change', 'select[name=branch_id]', function () {
-            var branch_id = $(this).val();
-
-            $.ajax({
-                url: '<?php echo e(route('branchcode.get')); ?>',
-                type: 'POST',
-                data: {
-                    "branch_id": branch_id, "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function (data) {
-                    var d = JSON.parse(data);
-
-                    $("#employee_code").val(d.new_code);
-
-
-                }
-            });
-
-        });
-        $(document).on('change', 'select[name=employee_id]', function () {
-            var employee_id = $(this).val();
-
-            $.ajax({
-                url: '<?php echo e(route('employee.get.details')); ?>',
-                type: 'POST',
-                data: {
-                    "employee_id": employee_id, "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function (data) {
-                    var det = JSON.parse(data);
-                    $("#old_employee_code").val(det.employee_code);
-                    $('#old_branch_id').val(det.old_branch_id);
-                    $('#old_department_id').val(det.old_department_id);
-                }
-            });
-
-        });
-
-</script>
-
-<?php $__env->stopPush(); ?>
-
 <?php $__env->startSection('action-button'); ?>
     <div class="all-button-box row d-flex justify-content-end">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Create Transfer')): ?>

@@ -66,18 +66,11 @@
                         <span class="badge badge-pill badge-blue"><?php echo e(!empty($employee->designation)?$employee->designation->name:''); ?></span>
                         <div class="Id">
                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('Show Employee Profile')): ?>
-                                <a href="<?php echo e(route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->employee_id))); ?>"><?php echo e($employee->employee_code); ?></a>
+                                <a href="<?php echo e(route('show.employee.profile',\Illuminate\Support\Facades\Crypt::encrypt($employee->employee_id))); ?>"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_code)); ?></a>
                             <?php else: ?>
                                 <a href="#"><?php echo e(\Auth::user()->employeeIdFormat($employee->employee_code)); ?></a>
                             <?php endif; ?>
                         </div>
-                    </div>
-                    <div class="sal-right-card">
-                        <?php if($employee->is_active == 0): ?>
-                        <span class="badge badge-pill badge-activate mt-4"><a href="<?php echo e(route('activate.employee',\Illuminate\Support\Facades\Crypt::encrypt($employee->user_id))); ?>">Activate</a></span>
-                        <?php else: ?>
-                        <span class="badge badge-pill badge-deactivate mt-4"><a href="<?php echo e(route('deactivate.employee',\Illuminate\Support\Facades\Crypt::encrypt($employee->user_id))); ?>">Deactivate</a> </span>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>

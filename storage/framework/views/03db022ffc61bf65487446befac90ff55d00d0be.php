@@ -14,22 +14,10 @@
             <?php echo e(Form::select('branch_id',$branches,null,array('class'=>'form-control select2'))); ?>
 
         </div>
-        <div class="form-group col-md-6">
-            <?php echo e(Form::label('old_employee_code', __('Recent Employee Code'),['class'=>'form-control-label'])); ?>
-
-            <?php echo e(Form::text('old_employee_code', $employee_details[0]->employee_code, array('class' => 'form-control', 'id'=> 'old_employee_code','required'=>'required'))); ?>
-
-        </div>
-        <div class="form-group col-md-6">
-            <?php echo e(Form::label('employee_code', __('Employee Code'),['class'=>'form-control-label'])); ?>
-
-            <?php echo e(Form::text('employee_code', $employee_details[0]->employee_code, array('class' => 'form-control', 'id'=> 'employee_code','required'=>'required'))); ?>
-
-        </div>
         <div class="form-group col-lg-6 col-md-6">
             <?php echo e(Form::label('department_id',__('Department'),['class'=>'form-control-label'])); ?>
 
-            <?php echo e(Form::select('department_id', $departments,null,array('class'=>'form-control select2'))); ?>
+            <?php echo e(Form::select('department_id',$departments,null,array('class'=>'form-control select2'))); ?>
 
         </div>
         <div class="form-group col-lg-6 col-md-6">
@@ -44,9 +32,6 @@
             <?php echo e(Form::textarea('description',null,array('class'=>'form-control','placeholder'=>__('Enter Description')))); ?>
 
         </div>
-        <input type="text" value="<?php echo e($employee_details[0]->branch_id); ?>" id="old_branch_id" name="old_branch_id" >
-        <input type="text" value="<?php echo e($employee_details[0]->department_id); ?>" id="old_department_id" name="old_department_id" >
-
         <div class="col-12">
             <input type="submit" value="<?php echo e(__('Create')); ?>" class="btn-create badge-blue">
             <input type="button" value="<?php echo e(__('Cancel')); ?>" class="btn-create bg-gray" data-dismiss="modal">

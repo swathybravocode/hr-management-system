@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EmployeeImport;
 
 //use Faker\Provider\File;
 
@@ -315,7 +317,7 @@ class EmployeeController extends Controller
 
         if(\Auth::user()->can('Edit Employee'))
         {
-            $user       = User::findOrFail($request->user_id);
+            $user   = User::findOrFail($request->user_id);
 
             $validator = \Validator::make(
                 $request->all(), [
@@ -659,8 +661,18 @@ class EmployeeController extends Controller
         ])->toJson());
     }
 
+    public function upload_employee_page()
+    {
+        $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $departments      = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+
+        return view('employee.upload-page', compact('branches', 'departments'));
+    }
+
     public function upload_employee_data()
     {
-        return view('employee.upload-page');
+        Excel::import(new EmployeeImport, request()->file('employee_photo'));
+
+        return back();
     }
 }

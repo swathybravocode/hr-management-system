@@ -4,23 +4,31 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <div class="row">
-        <form method="post" action="<?php echo e(route('employee.store')); ?>" enctype="multipart/form-data">
+        <form method="post" action="<?php echo e(route('employee.upload.data')); ?>" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
     </div>
     <div class="row">
         <div class="col-md-6 ">
             <div class="card ">
-                <div class="card-header"><h6 class="mb-0"><?php echo e(__('Personal Detail')); ?></h6></div>
+                <div class="card-header"><h6 class="mb-0"><?php echo e(__('Choose Details')); ?></h6></div>
                 <div class="card-body ">
+                    <div class="row">
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('branch_id', __('Branch'),['class'=>'form-control-label'])); ?> <span class="text-danger">*</span>
+                        <?php echo e(Form::select('branch_id', $branches, null, array('class' => 'form-control  select2','required'=>'required'))); ?>
 
-                    <div class="form-group">
-                        <?php echo Form::label('address', __('Address'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                        <?php echo Form::textarea('address',old('address'), ['class' => 'form-control','rows'=>2]); ?>
 
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <?php echo e(Form::label('department_id', __('Department'),['class'=>'form-control-label'])); ?> <span class="text-danger">*</span>
+                        <?php echo e(Form::select('department_id', $departments,null, array('class' => 'form-control  select2','id'=>'department_id','required'=>'required'))); ?>
+
+                    </div>
                     </div>
                     <div class="form-group">
                         <div class="float-left col-4">
-                            <label for="document" class="float-left pt-1 form-control-label">Photo <span class="text-danger">*</span> </label>
+                            <label for="document" class="float-left pt-1 form-control-label">File (CSV) <span class="text-danger">*</span> </label>
                         </div>
                         <div class="float-right col-8">
                             <input type="hidden" name="emp_photo" id="" value="">

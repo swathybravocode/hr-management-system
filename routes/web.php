@@ -865,7 +865,14 @@ Route::post('resignation/changeaction', 'ResignationController@changeaction')->n
 
 // 05/05/2021
 
-Route::get('upload-employee-data', 'EmployeeController@upload_employee_data')->name('employee.upload.page')->middleware(
+Route::get('upload-employee-page', 'EmployeeController@upload_employee_page')->name('employee.upload.page')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
+Route::post('upload-employee-data', 'EmployeeController@upload_employee_data')->name('employee.upload.data')->middleware(
     [
         'auth',
         'XSS',

@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Employee Set Salary')); ?>
 
@@ -164,7 +165,6 @@
                                     <th><?php echo e(__('Loan Options')); ?></th>
                                     <th><?php echo e(__('Title')); ?></th>
                                     <th><?php echo e(__('Loan Amount')); ?></th>
-                                    <th><?php echo e(__('Loan Deduction')); ?></th>
                                     <th><?php echo e(__('Start Date')); ?></th>
                                     <th><?php echo e(__('End Date')); ?></th>
                                     <th><?php echo e(__('Action')); ?></th>
@@ -176,7 +176,6 @@
                                         <td><?php echo e(!empty($loan->employee())?$loan->employee()->name:''); ?></td>
                                         <td><?php echo e(!empty( $loan->loan_option())? $loan->loan_option()->name:''); ?></td>
                                         <td><?php echo e($loan->title); ?></td>
-                                        <td><?php echo e(\Auth::user()->priceFormat($loan->loan_amount)); ?></td>
                                         <td><?php echo e(\Auth::user()->priceFormat($loan->amount)); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat($loan->start_date)); ?></td>
                                         <td><?php echo e(\Auth::user()->dateFormat( $loan->end_date)); ?></td>

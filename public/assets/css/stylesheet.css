@@ -830,18 +830,6 @@ select:focus, input:focus {
     color: #fff;
 }
 
-.badge-activate {
-    background: #f76464;
-    color: #fff;
-}
-
-.badge-deactivate {
-    background: #3dffa5;
-    color: #fff;
-}
-
-
-
 .sal-right-card .Id {
     clear: both;
     float: left;

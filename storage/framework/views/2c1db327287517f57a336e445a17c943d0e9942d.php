@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Payslip')); ?>
 
@@ -69,7 +70,7 @@
                             <thead>
                             <tr>
                                 <th><?php echo e(__('Id')); ?></th>
-                                <th><?php echo e(__('Employee Code')); ?></th>
+                                <th><?php echo e(__('Employee Id')); ?></th>
                                 <th><?php echo e(__('Name')); ?></th>
                                 <th><?php echo e(__('Payroll Type')); ?></th>
                                 <th><?php echo e(__('Salary')); ?></th>
@@ -125,7 +126,7 @@
                             var edit = '';
 
                             if (data[7] != 0) {
-                                var payslip = '<a href="javascript:void(0);" data-url="<?php echo e(url('payslip/pdf/')); ?>/' + id + '/' + datePicker + '" data-size="md-pdf"  data-ajax-popup="true" class="view-btn yellow-bg" data-title="<?php echo e(__('Employee Payslip')); ?>">' + '<?php echo e(__('Payslip')); ?>' + '</a> ';
+                                var payslip = '<a data-url="<?php echo e(url('payslip/pdf/')); ?>/' + id + '/' + datePicker + '" data-size="md-pdf"  data-ajax-popup="true" class="view-btn yellow-bg" data-title="<?php echo e(__('Employee Payslip')); ?>">' + '<?php echo e(__('Payslip')); ?>' + '</a> ';
                             }
 
                             if (data[6] == "UnPaid" && data[7] != 0) {
@@ -133,11 +134,11 @@
                             }
 
                             if (data[7] != 0) {
-                                view = '<a href="javascript:void(0);" data-url="<?php echo e(url('payslip/showemployee/')); ?>/' + payslip_id + '"  data-ajax-popup="true" class="view-btn gray-bg" data-title="<?php echo e(__('View Employee Detail')); ?>">' + '<?php echo e(__('View')); ?>' + '</a>';
+                                view = '<a data-url="<?php echo e(url('payslip/showemployee/')); ?>/' + payslip_id + '"  data-ajax-popup="true" class="view-btn gray-bg" data-title="<?php echo e(__('View Employee Detail')); ?>">' + '<?php echo e(__('View')); ?>' + '</a>';
                             }
 
                             if (data[7] != 0 && data[6] == "UnPaid") {
-                                edit = '<a href="javascript:void(0);" data-url="<?php echo e(url('payslip/editemployee/')); ?>/' + payslip_id + '"  data-ajax-popup="true" class="view-btn blue-bg" data-title="<?php echo e(__('Edit Employee salary')); ?>">' + '<?php echo e(__('Edit')); ?>' + '</a>';
+                                edit = '<a data-url="<?php echo e(url('payslip/editemployee/')); ?>/' + payslip_id + '"  data-ajax-popup="true" class="view-btn blue-bg" data-title="<?php echo e(__('Edit Employee salary')); ?>">' + '<?php echo e(__('Edit')); ?>' + '</a>';
                             }
 
                             return view + payslip + clickToPaid + edit;

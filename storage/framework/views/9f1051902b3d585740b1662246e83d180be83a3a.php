@@ -23,11 +23,10 @@
                             <?php echo Form::text('name', null, ['class' => 'form-control','required' => 'required']); ?>
 
                         </div>
-                        <input type="hidden" name="user_id" value="<?php echo e($employee->user_id); ?>">
                         <div class="form-group col-md-4">
                             <?php echo Form::label('middle_name', __('Middle Name'),['class'=>'form-control-label']); ?>
 
-                            <?php echo Form::text('middle_name', null, ['class' => 'form-control']); ?>
+                            <?php echo Form::text('middle_name', null, ['class' => 'form-control','required' => 'required']); ?>
 
                         </div>
                         <div class="form-group col-md-4">
@@ -67,12 +66,7 @@
                             <?php echo Form::text('blood_group', null, ['class' => 'form-control']); ?>
 
                         </div>
-                        <div class="form-group col-md-6">
-                            <?php echo Form::label('employee_alternate_contact', __('Alternate Contact Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
-                            <?php echo Form::number('employee_alternate_contact', null, ['class' => 'form-control']); ?>
-
-                        </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <?php echo Form::label('aadhaar_card_number', __('Aadhar Number'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                             <?php echo Form::number('aadhaar_card_number', null, ['class' => 'form-control']); ?>
 
@@ -81,28 +75,6 @@
                     <div class="form-group">
                         <?php echo Form::label('address', __('Address'),['class'=>'form-control-label']); ?><span class="text-danger pl-1">*</span>
                         <?php echo Form::textarea('address',null, ['class' => 'form-control','rows'=>2]); ?>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="float-left col-4">
-                            <label for="document" class="float-left pt-1 form-control-label">Photo <span class="text-danger">*</span> </label>
-                        </div>
-                        <div class="float-right col-8">
-                            <input type="hidden" name="emp_photo" id="" value="">
-                            <div class="choose-file form-group">
-                                <label for="document">
-                                    <div><?php echo e(__('Choose File')); ?></div>
-                                    <input class="form-control border-0"  name="employee_photo" type="file" id="employee_photo" data-filename="<?php echo e('_filename'); ?>">
-                                </label>
-                                <p class="<?php echo e('_filename'); ?>"></p>
-                            </div>
-                            <?php if(!empty($employee->employee_photo)): ?>
-                            <br>
-                            <span class="text-xs">
-                                <a href="<?php echo e((!empty($employee->employee_photo)?asset(Storage::url('uploads/avatar')).'/'.$employee->employee_photo:'')); ?>" target="_blank"><?php echo e((!empty($employee->employee_photo)?$employee->employee_photo:'')); ?></a>
-                            </span>
-                            <?php endif; ?>
-                        </div>
 
                     </div>
                     <?php if(\Auth::user()->type=='employee'): ?>
@@ -125,7 +97,6 @@
                                 <?php echo Form::text('employee_id',$employeesId, ['class' => 'form-control','disabled'=>'disabled']); ?>
 
                             </div>
-                            <input type="hidden" name="user_id" value="<?php echo e($employee->user_id); ?>">
                             <div class="form-group col-md-6">
                                 <?php echo e(Form::label('branch_id', __('Branch'),['class'=>'form-control-label'])); ?>
 
@@ -138,27 +109,6 @@
                                 <?php echo e(Form::select('department_id', $departments,null, array('class' => 'form-control select2','required'=>'required'))); ?>
 
                             </div>
-
-                            <div class="form-group col-md-6">
-                                <?php echo Form::label('old_employee_code', __('Old Employee Code'),['class'=>'form-control-label']); ?>
-
-                                <?php echo Form::text('old_employee_code', null, ['id'=>'old_employee_code', 'class' => 'form-control']); ?>
-
-                            </div>
-                            <div class="form-group col-md-6">
-                                <?php echo Form::label('employee_code', __('New Employee Code'),['class'=>'form-control-label']); ?>
-
-                                <?php echo Form::text('employee_code', null, ['id'=>'employee_code', 'class' => 'form-control']); ?>
-
-                            </div>
-
-                            <div class="form-group col-md-12">
-                                <?php echo Form::label('head_quarter', __('Head Quarter'), ['class'=>'form-control-label']); ?>
-
-                                <?php echo Form::text('head_quarter', null, ['id'=>'head_quarter', 'class' => 'form-control']); ?>
-
-                            </div>
-
                             <div class="form-group col-md-6">
                                 <?php echo e(Form::label('designation_id', __('Designation'),['class'=>'form-control-label'])); ?>
 
@@ -171,16 +121,6 @@
 
                                 <?php echo Form::text('company_doj', null, ['class' => 'form-control datepicker','required' => 'required']); ?>
 
-                            </div>
-                            <div class="form-group col-md-12">
-                                <?php echo e(Form::label('role_id', __('Report to'),['class'=>'form-control-label'])); ?>
-
-                                <select class="select2 form-control select2-multiple" id="report_to" name="report_to" data-toggle="select2" data-placeholder="<?php echo e(__('Select Manager ...')); ?>">
-                                    <option value=""><?php echo e(__('Select Manager')); ?></option>
-                                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role_item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($role_item->id); ?>" <?php if($employee->report_to == $role_item->id): ?> selected <?php endif; ?>><?php echo e($role_item->name); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -313,12 +253,6 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1 &
                             <?php echo Form::text('tax_payer_id',null, ['class' => 'form-control']); ?>
 
                         </div>
-                        <div class="form-group col-md-6">
-                            <?php echo Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']); ?>
-
-                            <?php echo Form::text('pan_card_number', null, ['class' => 'form-control']); ?>
-
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -448,30 +382,6 @@ unset($__errorArgs, $__bag); ?> border-0" <?php if($document->is_required == 1 &
         $(document).on('change', 'select[name=department_id]', function () {
             var department_id = $(this).val();
             getDesignation(department_id);
-        });
-
-        $(document).on('change', 'select[name=branch_id]', function () {
-            var branch_id = $(this).val();
-            var employee_nuber = "<?php echo e($employee_number); ?>";
-
-
-
-            $.ajax({
-                url: '<?php echo e(route('branchcode.get')); ?>',
-                type: 'POST',
-                data: {
-                    "branch_id": branch_id, "_token": "<?php echo e(csrf_token()); ?>",
-                },
-                success: function (data) {
-
-                    var d = JSON.parse(data);
-
-                    $("#old_employee_code").val(d.old_code);
-                    $("#employee_code").val(d.new_code);
-
-                }
-            });
-
         });
 
     </script>
