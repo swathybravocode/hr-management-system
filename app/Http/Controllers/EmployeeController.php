@@ -671,7 +671,7 @@ class EmployeeController extends Controller
 
     public function upload_employee_data()
     {
-        Excel::import(new EmployeeImport, request()->file('employee_photo'));
+        Excel::import(new EmployeeImport, request()->file('employee_data'));
 
         return back();
     }

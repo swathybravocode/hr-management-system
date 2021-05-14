@@ -22,7 +22,7 @@ class EmployeeImport implements ToModel
             'employee_code' => '',
             'old_employee_code' => '',
             'dob'    => $row['email'],
-            'gender' => \Hash::make($row['password']),
+            'gender' => Hash::make($row['password']),
             'phone' => '',
             'address' => '',
             'email' => '',

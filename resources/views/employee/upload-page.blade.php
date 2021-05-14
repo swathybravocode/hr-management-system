@@ -33,7 +33,7 @@
                             <div class="choose-file form-group">
                                 <label for="document">
                                     <div>{{__('Choose File')}}</div>
-                                    <input class="form-control border-0"  required name="employee_photo" type="file" id="employee_photo" data-filename="{{'_filename'}}">
+                                    <input class="form-control border-0"  required name="employee_data" type="file" id="employee_data" data-filename="{{'_filename'}}">
                                 </label>
                                 <p class="{{'_filename'}}"></p>
                             </div>
