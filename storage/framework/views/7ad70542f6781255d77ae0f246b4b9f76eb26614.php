@@ -35,7 +35,7 @@
                             <div class="choose-file form-group">
                                 <label for="document">
                                     <div><?php echo e(__('Choose File')); ?></div>
-                                    <input class="form-control border-0"  required name="employee_photo" type="file" id="employee_photo" data-filename="<?php echo e('_filename'); ?>">
+                                    <input class="form-control border-0"  required name="employee_data" type="file" id="employee_data" data-filename="<?php echo e('_filename'); ?>">
                                 </label>
                                 <p class="<?php echo e('_filename'); ?>"></p>
                             </div>
