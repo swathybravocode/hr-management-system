@@ -21,17 +21,17 @@ class CreateEmployeesTable extends Migration
             $table->date('dob')->nullable();
             $table->string('gender');
             $table->string('phone')->nullable();
-            $table->string('address');
-            $table->string('state_id');
-            $table->string('state_code');
-            $table->string('email');
-            $table->string('blood_group');
-            $table->string('head_quarter');
+            $table->string('address')->nullable();
+            $table->string('state_id')->nullable();
+            $table->string('state_code')->nullable();
+            $table->string('email')->nullable();
+            $table->string('blood_group')->nullable();
+            $table->string('head_quarter')->nullable();
 
             $table->string('employee_id');
             $table->integer('branch_id');
             $table->integer('department_id');
-            $table->integer('designation_id');
+            $table->integer('designation_id')->nullable();
             $table->string('company_doj')->nullable();
             $table->string('documents')->nullable();
 

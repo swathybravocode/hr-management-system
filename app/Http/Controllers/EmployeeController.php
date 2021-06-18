@@ -669,10 +669,10 @@ class EmployeeController extends Controller
         return view('employee.upload-page', compact('branches', 'departments'));
     }
 
-    public function upload_employee_data()
+    public function upload_employee_data(Request $request)
     {
-        Excel::import(new EmployeeImport, request()->file('employee_data'));
+        Excel::import(new EmployeeImport, $request->file('employee_data'));
 
-        return back();
+        return back()->with('success', 'Employee Details Uploaded');
     }
 }

@@ -15,11 +15,11 @@ class AddEmployeeDetailsToEmployeessTable extends Migration
     {
         Schema::table('employees', function (Blueprint $table) {
             $table->string('middle_name')->nullable();
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('employee_code');
             $table->string('old_employee_code');
-            $table->string('pan_card_number');
-            $table->string('aadhaar_card_number');
+            $table->string('pan_card_number')->nullable();
+            $table->string('aadhaar_card_number')->nullable();
 
         });
     }
