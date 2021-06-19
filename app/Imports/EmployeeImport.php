@@ -24,7 +24,7 @@ class EmployeeImport implements ToCollection
         {
             $login_id = DB::table('users')->insertGetId([
                 'name' => $row[3],
-                'email' => $row[9],
+                'email' => $row[31],
                 'password' => Hash::make($row[10]),
                 'type' => preg_replace('/\W+/','_', strtolower($row[15])),
                 'lang' => 'en',
@@ -40,9 +40,9 @@ class EmployeeImport implements ToCollection
                 'old_employee_code' => $row[1],
                 'dob'    => $row[8],
                 'gender' => $row[6],
-                'phone' => $row[3],
-                'address' => $row[3],
-                'email' => $row[3],
+                'phone' => $row[7],
+                'address' => 'N/A',
+                'email' => $row[9],
                 'blood_group' => $row[11],
                 'pan_card_number' => 'N/A',
                 'aadhaar_card_number' => 'N/A',
@@ -96,8 +96,8 @@ class EmployeeImport implements ToCollection
                         'amount' => $data,
                         'created_by' =>'1',
                     ]);
-            }         
-            
+            }
+
             $deduction['deduction1'] = $row[26];
             $deduction['deduction2'] = $row[27];
             $deduction['deduction3'] = $row[28];
@@ -130,11 +130,11 @@ class EmployeeImport implements ToCollection
                         'title' => $imp_deduction_title[$ded_key],
                         'amount' => $deductions,
                         'created_by' =>'1',
-                    ]);            
+                    ]);
             }
 
 
-           
+
 
             // SaturationDeduction::create([
             //     'employee_id' => '',

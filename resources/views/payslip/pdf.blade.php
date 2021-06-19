@@ -52,8 +52,8 @@ table.GeneratedTable thead {
                                 <strong>{{__('Name')}} &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&emsp;&emsp; {{$employee->name}}<br>
                                 <strong>{{__('Division')}}&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; {{$employee->department->name}}<br>
                                 {{-- <strong>{{__('Salary Date')}} :</strong> {{\Auth::user()->dateFormat( $employee->created_at)}}<br> --}}
-                                <strong>{{__('Bank Details')}}&nbsp;&nbsp; :</strong>&emsp;&emsp; {{('A/C # -')}} {{$employee->account_number}}<br>
-                                <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&emsp; {{$employee->bank_name}}
+                                <strong>{{__('Headquarter')}}&nbsp;&nbsp; :</strong>&emsp;&emsp;{{$employee->head_quarter}}<br>
+                                {{-- <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&emsp; {{$employee->bank_name}} --}}
 
                             </address>
                         </div>
@@ -61,7 +61,7 @@ table.GeneratedTable thead {
                             <address>
                                 <strong>{{__('Pay Slip')}} &emsp;&emsp;&emsp;&emsp;&nbsp;:</strong><span> {{ \Auth::user()->dateFormat( $payslip->salary_month)}}</span><br>
                                 <strong>{{__('Employee Code')}}&nbsp; :</strong> <span>{{ $employee->employee_code}}</span><br>
-                                <strong>{{__('Region')}}&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span>{{ $employee->branch->name}}</span><br>
+                                {{-- <strong>{{__('Region')}}&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span>{{ $employee->branch->name}}</span><br> --}}
                                 <strong>{{__('Currency')}}&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> <span>{{__('INR')}}</span><br>
 
                             </address>
