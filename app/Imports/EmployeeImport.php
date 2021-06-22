@@ -24,7 +24,7 @@ class EmployeeImport implements ToCollection
         {
             $login_id = DB::table('users')->insertGetId([
                 'name' => $row[3],
-                'email' => $row[31],
+                'email' => $row[9],
                 'password' => Hash::make($row[10]),
                 'type' => preg_replace('/\W+/','_', strtolower($row[15])),
                 'lang' => 'en',

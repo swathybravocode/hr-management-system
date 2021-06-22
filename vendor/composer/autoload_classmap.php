@@ -116,6 +116,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Middleware\\XSS' => $baseDir . '/app/Http/Middleware/XSS.php',
+    'App\\Imports\\EmployeeImport' => $baseDir . '/app/Imports/EmployeeImport.php',
     'App\\IncomeType' => $baseDir . '/app/IncomeType.php',
     'App\\Indicator' => $baseDir . '/app/Indicator.php',
     'App\\Leave' => $baseDir . '/app/Leave.php',

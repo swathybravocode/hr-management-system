@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
+use App\Jobs\SendQueueEmail;
 
 class PaySlipController extends Controller
 {
@@ -284,9 +286,16 @@ class PaySlipController extends Controller
             $payslipId    = Crypt::encrypt($payslip->id);
             $payslip->url = route('payslip.payslipPdf', $payslipId);
 
+            $now = Carbon::now();
+
             try
             {
-                Mail::to($payslip->email)->send(new PayslipSend($payslip));
+                // Mail::to($payslip->email)->send(new PayslipSend($payslip));
+
+                $details = (new SendQueueEmail($payslip))
+            	->delay($now->addSeconds(2));
+
+                dispatch($details);
             }
             catch(\Exception $e)
             {

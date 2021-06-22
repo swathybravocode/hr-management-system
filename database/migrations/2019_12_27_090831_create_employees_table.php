@@ -18,7 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('name');
-            $table->date('dob')->nullable();
+            $table->string('dob')->nullable();
             $table->string('gender');
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
