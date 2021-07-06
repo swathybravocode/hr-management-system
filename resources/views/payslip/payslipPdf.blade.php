@@ -39,7 +39,7 @@ table.GeneratedTable thead {
         <div class="text-md-right mb-2">
             <a href="#" class="btn btn-warning" onclick="saveAsPDF()"><span class="fa fa-download"></span></a>
         </div>
-        <div class="col-8">
+        <div class="col-12">
             <div class="invoice" id="printableArea">
                 <div class="invoice-print">
                     <div class="row">

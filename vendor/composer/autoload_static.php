@@ -744,6 +744,7 @@ class ComposerStaticInit561250a71bd3f2b1389faf6bb34be2d5
         'App\\Imports\\EmployeeImport' => __DIR__ . '/../..' . '/app/Imports/EmployeeImport.php',
         'App\\IncomeType' => __DIR__ . '/../..' . '/app/IncomeType.php',
         'App\\Indicator' => __DIR__ . '/../..' . '/app/Indicator.php',
+        'App\\Jobs\\SendQueueEmail' => __DIR__ . '/../..' . '/app/Jobs/SendQueueEmail.php',
         'App\\Leave' => __DIR__ . '/../..' . '/app/Leave.php',
         'App\\LeaveType' => __DIR__ . '/../..' . '/app/LeaveType.php',
         'App\\Loan' => __DIR__ . '/../..' . '/app/Loan.php',

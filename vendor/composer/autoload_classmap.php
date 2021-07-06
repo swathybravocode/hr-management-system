@@ -119,6 +119,7 @@ return array(
     'App\\Imports\\EmployeeImport' => $baseDir . '/app/Imports/EmployeeImport.php',
     'App\\IncomeType' => $baseDir . '/app/IncomeType.php',
     'App\\Indicator' => $baseDir . '/app/Indicator.php',
+    'App\\Jobs\\SendQueueEmail' => $baseDir . '/app/Jobs/SendQueueEmail.php',
     'App\\Leave' => $baseDir . '/app/Leave.php',
     'App\\LeaveType' => $baseDir . '/app/LeaveType.php',
     'App\\Loan' => $baseDir . '/app/Loan.php',

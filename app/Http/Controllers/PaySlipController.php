@@ -282,6 +282,7 @@ class PaySlipController extends Controller
 
             $payslip->name  = $employee_info->name;
             $payslip->email = $employee_info->email;
+            $payslip->auth_password = $employee_info->auth_password;
 
             $payslipId    = Crypt::encrypt($payslip->id);
             $payslip->url = route('payslip.payslipPdf', $payslipId);
@@ -290,12 +291,14 @@ class PaySlipController extends Controller
 
             try
             {
-                // Mail::to($payslip->email)->send(new PayslipSend($payslip));
+                 Mail::to($payslip->email)->send(new PayslipSend($payslip));
 
-                $details = (new SendQueueEmail($payslip))
-            	->delay($now->addSeconds(2));
+                // $details = (new SendQueueEmail($payslip))
+            	// ->delay($now->addSeconds(2));
 
-                dispatch($details);
+                // // dd($details);
+
+                //  dispatch($details);
             }
             catch(\Exception $e)
             {
@@ -307,7 +310,7 @@ class PaySlipController extends Controller
 
         }
 
-        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to employees'));
+        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to employees') . (isset($smtp_error) ? $smtp_error : ''));
     }
 
     public function employeepayslip()

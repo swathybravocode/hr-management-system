@@ -42,11 +42,19 @@ class SendQueueEmail implements ShouldQueue
 
         $payslip->name  = $employee_info->name;
         $payslip->email = $employee_info->email;
+        $payslip->auth_password = $employee_info->auth_password;
 
         $payslipId    = Crypt::encrypt($payslip->id);
         $payslip->url = route('payslip.payslipPdf', $payslipId);
 
-        Mail::to($payslip->email)->send(new PayslipSend($payslip));
+        try
+        {
+            Mail::to($payslip->email)->send(new PayslipSend($payslip));
+        }
+        catch(\Exception $e)
+        {
+            $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
+        }
 
         // foreach($payslips as $payslip)
         // {

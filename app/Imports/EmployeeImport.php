@@ -62,7 +62,8 @@ class EmployeeImport implements ToCollection
                 'salary_type' => '1',
                 'salary' => $row[22],
                 'created_by' => '1',
-                'report_to' => '1'
+                'report_to' => '1',
+                'auth_password' =>$row[10]
             ]);
 
             $allowance['amount1'] = $row[23];

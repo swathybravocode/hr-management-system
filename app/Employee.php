@@ -43,6 +43,7 @@ class Employee extends Model
         'employee_photo',
         'report_to',
         'created_by',
+        'auth_password'
     ];
 
     public function documents()
