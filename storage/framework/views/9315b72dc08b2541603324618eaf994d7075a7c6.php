@@ -38,13 +38,25 @@ table.GeneratedTable thead {
     <div class="invoice" id="printableArea">
         <div class="invoice-print">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-4">
                     <div class="invoice-title">
                         <h6 class="mb-3"><?php echo e(__('Payslip')); ?></h6>
                         <div class="invoice-number">
                             <img src="<?php echo e($logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')); ?>" width="170px;">
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-6" style="display: flex;
+                        align-items: center; margin-top:20px;">
+                            <div class="invoice-title text-justify">
+                                <h6 class="mb-3">
+                                    Eysys Pharmaceutical Private Limited, E A Chambers Tower II, 5th Floor, 49/50L, Whites Road, Royapettah Chennai - 600002
+                                </h6>
+                            </div>
+                </div>
+
+                <div class="col-lg-12">
+                   
                     <hr>
                     <div class="row text-sm">
                         <div class="col-md-7">

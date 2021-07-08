@@ -272,6 +272,9 @@ class UserController extends Controller
                 $obj_user->password = Hash::make($request_data['new_password']);;
                 $obj_user->save();
 
+                $update['auth_password'] = $request_data['new_password'];
+                Employee::where('user_id','=', $user_id)->update($update);
+
                 return redirect()->route('profile', $objUser->id)->with('success', __('Password successfully updated.'));
             }
             else

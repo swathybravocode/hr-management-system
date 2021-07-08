@@ -43,13 +43,24 @@ table.GeneratedTable thead {
             <div class="invoice" id="printableArea">
                 <div class="invoice-print">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-3">
                             <div class="invoice-title">
                                 <h6 class="mb-3">{{__('Payslip')}}</h6>
                                 <div class="invoice-number">
                                     <img src="{{$logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')}}" width="170px;">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6" style="display: flex;
+                        align-items: center; margin-top:20px;">
+                            <div class="invoice-title text-justify">
+                                <h6 class="mb-3">
+                                    Eysys Pharmaceutical Private Limited, E A Chambers Tower II, 5th Floor, 49/50L, Whites Road, Royapettah Chennai - 600002
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
                             <hr>
                             <div class="row text-sm">
                                 <div class="col-md-7">
@@ -57,8 +68,10 @@ table.GeneratedTable thead {
                                         <strong>{{__('Name')}} &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&emsp;&emsp; {{$employee->name}}<br>
                                         <strong>{{__('Division')}}&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; {{$employee->department->name}}<br>
                                         {{-- <strong>{{__('Salary Date')}} :</strong> {{\Auth::user()->dateFormat( $employee->created_at)}}<br> --}}
-                                        <strong>{{__('Bank Details')}}&nbsp;&nbsp; :</strong>&emsp;&emsp; {{('A/C # -')}} {{$employee->account_number}}<br>
-                                        <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&nbsp;&nbsp;&nbsp; {{$employee->bank_name}}
+                                        {{-- <strong>{{__('Bank Details')}}&nbsp;&nbsp; :</strong>&emsp;&emsp; {{('A/C # -')}} {{$employee->account_number}}<br> --}}
+                                        <strong>{{__('Headquarter')}}&nbsp;&nbsp; :</strong>&emsp;&emsp;{{$employee->head_quarter}}<br>
+
+                                        {{-- <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&nbsp;&nbsp;&nbsp; {{$employee->bank_name}} --}}
 
                                     </address>
                                 </div>
@@ -66,7 +79,7 @@ table.GeneratedTable thead {
                                     <address>
                                         <strong>{{__('Pay Slip')}} &emsp;&emsp;&emsp;&emsp;&nbsp;:</strong><span> {{ \Auth::user()->dateFormat( $payslip->salary_month)}}</span><br>
                                         <strong>{{__('Employee Code')}}&nbsp; :</strong> <span>{{ $employee->employee_code}}</span><br>
-                                        <strong>{{__('Region')}}&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span>{{ $employee->branch->name}}</span><br>
+                                        {{-- <strong>{{__('Region')}}&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span>{{ $employee->branch->name}}</span><br> --}}
                                         <strong>{{__('Currency')}}&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> <span>{{__('INR')}}</span><br>
 
                                     </address>

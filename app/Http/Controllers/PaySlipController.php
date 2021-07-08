@@ -291,14 +291,14 @@ class PaySlipController extends Controller
 
             try
             {
-                 Mail::to($payslip->email)->send(new PayslipSend($payslip));
+                 //Mail::to($payslip->email)->send(new PayslipSend($payslip));
 
-                // $details = (new SendQueueEmail($payslip))
-            	// ->delay($now->addSeconds(2));
+                $details = (new SendQueueEmail($payslip))
+            	->delay($now->addSeconds(2));
 
-                // // dd($details);
+                //dd($details);
 
-                //  dispatch($details);
+                 dispatch($details);
             }
             catch(\Exception $e)
             {
@@ -362,6 +362,8 @@ class PaySlipController extends Controller
 
         $payslip->name  = $employee->name;
         $payslip->email = $employee->email;
+        $payslip->auth_password = $employee->auth_password;
+
 
         $payslipId    = Crypt::encrypt($payslip->id);
         $payslip->url = route('payslip.payslipPdf', $payslipId);

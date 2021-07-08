@@ -165,7 +165,7 @@ class Utility extends Model
         $deduction['totalDeduction'] = SaturationDeduction::where('employee_id', $employeeId)->get()->sum('amount');
 
         $payslip['earning']        = $earning;
-        $payslip['totalEarning']   = $empPayslip->basic_salary + ($earning['totalAllowance']/30 * $worked_days) + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
+        $payslip['totalEarning']   = ($empPayslip->basic_salary/30 * $worked_days) + ($earning['totalAllowance']/30 * $worked_days) + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
 
         $payslip['deduction']      = $deduction;
         $payslip['totalDeduction'] = $deduction['totalLoan'] + $deduction['totalDeduction'];

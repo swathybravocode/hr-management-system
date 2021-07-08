@@ -47,15 +47,10 @@ class SendQueueEmail implements ShouldQueue
         $payslipId    = Crypt::encrypt($payslip->id);
         $payslip->url = route('payslip.payslipPdf', $payslipId);
 
-        try
-        {
-            Mail::to($payslip->email)->send(new PayslipSend($payslip));
-        }
-        catch(\Exception $e)
-        {
-            $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
-        }
-
+    
+        Mail::to($payslip->email)->send(new PayslipSend($payslip));
+        
+        
         // foreach($payslips as $payslip)
         // {
         //     Mail::to('reshmin.futura@gmail.com')->send(new PayslipSend($payslip));

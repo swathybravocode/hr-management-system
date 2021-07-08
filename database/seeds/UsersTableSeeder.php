@@ -505,7 +505,7 @@ class UsersTableSeeder extends Seeder
         $company = User::create(
             [
                 'name' => 'company',
-                'email' => 'company@example.com',
+                'email' => 'company@eysys.co.in',
                 'password' => Hash::make('1234'),
                 'type' => 'company',
                 'lang' => 'en',
@@ -721,7 +721,7 @@ class UsersTableSeeder extends Seeder
         $hr = User::create(
             [
                 'name' => 'hr',
-                'email' => 'hr@example.com',
+                'email' => 'hr@eysys.co.in',
                 'password' => Hash::make('1234'),
                 'type' => 'hr',
                 'lang' => 'en',

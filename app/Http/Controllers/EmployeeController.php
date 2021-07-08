@@ -218,6 +218,7 @@ class EmployeeController extends Controller
                     'employee_alternate_contact' => $request['employee_alternate_contact'],
                     'employee_photo' => $photoNameToStore,
                     'report_to' => $request['report_to'],
+                    'auth_password' => $request['password']
 
                 ]
             );
@@ -331,6 +332,7 @@ class EmployeeController extends Controller
                                    'name' => 'required',
                                    'dob' => 'required',
                                    'gender' => 'required',
+                                   'email' =>'required',
                                    'aadhaar_card_number' => 'required|string',
                                    'last_name' => 'required|string',
                                    'phone' => 'required|numeric',
@@ -373,7 +375,7 @@ class EmployeeController extends Controller
             }
             else
             {
-                $photoNameToStore = "";
+                $photoNameToStore = $old_employee_photo;
             }
 
             if($request->document)

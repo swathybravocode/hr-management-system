@@ -69,6 +69,10 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        {!! Form::label('email', __('Email'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
+                        {!! Form::text('email',null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
                         {!! Form::label('address', __('Address'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                         {!! Form::textarea('address',null, ['class' => 'form-control','rows'=>2]) !!}
                     </div>

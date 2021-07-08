@@ -187,7 +187,7 @@ class BranchController extends Controller
 
         $num_start_final = 0;
 
-        if($branch->name=='KL')
+        if($branch->name=='KER')
         {
             $num_start = 102;
             $num_start_final = $num_start+$emp_number;

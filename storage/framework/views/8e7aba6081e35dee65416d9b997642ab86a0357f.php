@@ -40,17 +40,28 @@ table.GeneratedTable thead {
         <div class="text-md-right mb-2">
             <a href="#" class="btn btn-warning" onclick="saveAsPDF()"><span class="fa fa-download"></span></a>
         </div>
-        <div class="col-8">
+        <div class="col-12">
             <div class="invoice" id="printableArea">
                 <div class="invoice-print">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-3">
                             <div class="invoice-title">
                                 <h6 class="mb-3"><?php echo e(__('Payslip')); ?></h6>
                                 <div class="invoice-number">
                                     <img src="<?php echo e($logo.'/'.(isset($company_logo) && !empty($company_logo)?$company_logo:'logo.png')); ?>" width="170px;">
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6" style="display: flex;
+                        align-items: center; margin-top:20px;">
+                            <div class="invoice-title text-justify">
+                                <h6 class="mb-3">
+                                    Eysys Pharmaceutical Private Limited, E A Chambers Tower II, 5th Floor, 49/50L, Whites Road, Royapettah Chennai - 600002
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">                            
                             <hr>
                             <div class="row text-sm">
                                 <div class="col-md-7">
@@ -58,7 +69,9 @@ table.GeneratedTable thead {
                                         <strong><?php echo e(__('Name')); ?> &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong>&emsp;&emsp; <?php echo e($employee->name); ?><br>
                                         <strong><?php echo e(__('Division')); ?>&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e($employee->department->name); ?><br>
                                         
-                                        <strong><?php echo e(__('Bank Details')); ?>&nbsp;&nbsp; :</strong>&emsp;&emsp; <?php echo e(('A/C # -')); ?> <?php echo e($employee->account_number); ?><br>
+                                        
+                                        <strong><?php echo e(__('Headquarter')); ?>&nbsp;&nbsp; :</strong>&emsp;&emsp;<?php echo e($employee->head_quarter); ?><br>
+
                                         <strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</strong>&emsp;&nbsp;&nbsp;&nbsp; <?php echo e($employee->bank_name); ?>
 
 
@@ -68,7 +81,7 @@ table.GeneratedTable thead {
                                     <address>
                                         <strong><?php echo e(__('Pay Slip')); ?> &emsp;&emsp;&emsp;&emsp;&nbsp;:</strong><span> <?php echo e(\Auth::user()->dateFormat( $payslip->salary_month)); ?></span><br>
                                         <strong><?php echo e(__('Employee Code')); ?>&nbsp; :</strong> <span><?php echo e($employee->employee_code); ?></span><br>
-                                        <strong><?php echo e(__('Region')); ?>&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;:</strong> <span><?php echo e($employee->branch->name); ?></span><br>
+                                        
                                         <strong><?php echo e(__('Currency')); ?>&emsp;&emsp;&emsp;&nbsp;&nbsp; :</strong> <span><?php echo e(__('INR')); ?></span><br>
 
                                     </address>
