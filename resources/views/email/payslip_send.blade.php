@@ -178,7 +178,7 @@
                                                     <tr>
                                                         <td align="left" style="font-size:0px;padding:0px 25px 0px 25px;padding-top:0px;padding-right:50px;padding-bottom:0px;padding-left:50px;word-break:break-word;">
                                                             <div style="font-family:Open Sans, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;color:#797e82;">
-                                                                <p style="margin: 10px 0;">{{__('Hope this email ﬁnds you well! Please see attached payslip for '.$payslip->salary_month)}}</p>
+                                                                <p style="margin: 10px 0;">{{__('This is a Test Mail. Hope this email ﬁnds you well! Please see attached payslip for '.$payslip->salary_month)}}</p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -199,7 +199,7 @@
                                                                         </a>
                                                                     </td>
 
-                                                                    
+
                                                             </div>
                                                         </td>
                                                                 </tr>
