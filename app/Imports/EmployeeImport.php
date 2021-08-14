@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class EmployeeImport implements ToCollection
 {
@@ -44,8 +46,8 @@ class EmployeeImport implements ToCollection
                 'address' => 'N/A',
                 'email' => $row[9],
                 'blood_group' => $row[11],
-                'pan_card_number' => 'N/A',
-                'aadhaar_card_number' => 'N/A',
+                'pan_card_number' => $row[17],
+                'aadhaar_card_number' => $row[19],
                 'employee_alternate_contact' => 'N/A',
                 'head_quarter' => $row[12],
                 'employee_id' => $row[13],
@@ -54,7 +56,7 @@ class EmployeeImport implements ToCollection
                 'designation_id' => $row[14],
                 'company_doj' => $row[16],
                 'account_holder_name' => $row[3],
-                'account_number' => 'N/A',
+                'account_number' => $row[18],
                 'bank_name' => 'N/A',
                 'bank_identifier_code' => 'N/A',
                 'branch_location' => 'N/A',
