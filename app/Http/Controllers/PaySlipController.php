@@ -126,8 +126,8 @@ class PaySlipController extends Controller
                 $payslipEmployee->net_payble           = $employee->get_net_salary();
                 $payslipEmployee->salary_month         = $formate_month_year;
                 $payslipEmployee->status               = 0;
-                // $payslipEmployee->basic_salary      = !empty($employee->salary) ? $employee->salary : 0;
-                $payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
+                $payslipEmployee->basic_salary         = !empty($employee->salary) ? $employee->salary : 0;
+                //$payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
                 $payslipEmployee->allowance            = Employee::allowance($employee->id, $worked_days);
                 $payslipEmployee->commission           = Employee::commission($employee->id);
                 $payslipEmployee->loan                 = Employee::loan($employee->id);
