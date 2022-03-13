@@ -48,3 +48,10 @@ Thumbs.db
 *.mov
 *.wmv
 
+storage/framework/sessions/sDufyM2WeHEMBi1OkEIGyyf4I7sFsZje4YR4ZfBh
+storage/framework/views/050ceb74517246f651462989b851fb9f600260e8.php
+storage/framework/views/77e4b90c47d1a7b1f989c4241d59eab02553fa39.php
+storage/framework/views/310ba812a196fdacf9195c8f1acd900551850cf8.php
+storage/framework/views/2190931e94ac82f15b591d8fce88886dbe466b66.php
+storage/framework/views/f527fe08049c1ec9aefd3a4c297d004f4d76e02f.php
+.gitignore

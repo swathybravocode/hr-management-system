@@ -207,7 +207,7 @@ class BranchController extends Controller
 
         // }
 
-        elseif($branch->name=='KA')
+        elseif($branch->name=='KNK')
         {
             $val = $emp_number;
             $num_start_a = str_pad($val,3,"0",STR_PAD_LEFT); // 0001
