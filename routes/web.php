@@ -117,6 +117,13 @@ Route::get('show-employee-profile/{id}', 'EmployeeController@profileShow')->name
         'XSS',
     ]
 );
+Route::get('change-employee-edit-permission/{id}', 'EmployeeController@editPermissonChange')->name('employee.edit.changePermission')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
 Route::get('lastlogin', 'EmployeeController@lastLogin')->name('lastlogin')->middleware(
     [
         'auth',
@@ -389,7 +396,7 @@ Route::get('payslip/paysalary/{id}/{date}', 'PaySlipController@paysalary')->name
         'XSS',
     ]
 );
-Route::get('payslip/bulk_pay_create/{date}', 'PaySlipController@bulk_pay_create')->name('payslip.bulk_pay_create')->middleware(
+Route::get('payslip/bulk_pay_create/{date}/{state}', 'PaySlipController@bulk_pay_create')->name('payslip.bulk_pay_create')->middleware(
     [
         'auth',
         'XSS',

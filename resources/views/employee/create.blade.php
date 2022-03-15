@@ -43,7 +43,7 @@
                                 {!! Form::label('gender', __('Gender'),['class'=>'form-control-label']) !!}<span class="text-danger pl-1">*</span>
                                 <div class="d-flex radio-check">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="g_male" value="Male" name="gender" class="custom-control-input">
+                                        <input type="radio" id="g_male" value="Male" name="gender" class="custom-control-input" checked>
                                         <label class="custom-control-label" for="g_male">{{__('Male')}}</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
@@ -144,7 +144,7 @@
                         </div>
                         <div class="form-group col-md-6 ">
                             {!! Form::label('company_doj', __('Company Date Of Joining'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('company_doj', null, ['class' => 'form-control datepicker','required' => 'required']) !!}
+                            {!! Form::text('company_doj', null, ['class' => 'form-control datepicker']) !!}
                         </div>
                         <div class="form-group col-md-12">
                             {{ Form::label('role_id', __('Report to'),['class'=>'form-control-label']) }}
@@ -223,7 +223,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             {!! Form::label('pan_card_number', __('PAN Card Number'),['class'=>'form-control-label']) !!}
-                            {!! Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control', 'required' => 'required']) !!}
+                            {!! Form::text('pan_card_number',old('pan_card_number'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
                 </div>

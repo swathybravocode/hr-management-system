@@ -8,6 +8,7 @@ use App\Employee;
 use App\Jobs\SendQueueEmail;
 use App\Leave;
 use App\Loan;
+use App\Branch;
 use App\Mail\PayslipSend;
 use App\OtherPayment;
 use App\Overtime;
@@ -57,7 +58,8 @@ class PaySlipController extends Controller
                 '2029' => '2029',
                 '2030' => '2030',
             ];
-            return view('payslip.index', compact('employees', 'month', 'year'));
+            $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            return view('payslip.index', compact('employees', 'month', 'year','branches'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -125,6 +127,12 @@ class PaySlipController extends Controller
     public function search_json(Request $request)
     {
         $formate_month_year = $request->datePicker;
+        $employees = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
+        if($request->branch_id)
+            {
+                $employees->where('branch_id', $request->branch_id);
+            }
+        $employees = $employees->get();
         $validatePaysilp = PaySlip::where('salary_month', '=', $formate_month_year)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
         if (empty($validatePaysilp)) {
             return;
@@ -149,7 +157,13 @@ class PaySlipController extends Controller
                     $join->on('pay_slips.salary_month', '=', \DB::raw("'" . $formate_month_year . "'"));
                     $join->leftjoin('payslip_types', 'payslip_types.id', '=', 'employees.salary_type');
                 }
-            )->where('employees.is_active', '=', '1')->where('employees.created_by', \Auth::user()->creatorId())->get();
+            )->where('employees.is_active', '=', '1')->where('employees.created_by', \Auth::user()->creatorId());
+            if($request->branch_id)
+            {
+                $paylip_employee->whereIn('pay_slips.employee_id',$employees);
+            }
+            $paylip_employee = $paylip_employee->get();
+            $data=[];
             foreach ($paylip_employee as $employee) {
                 if (Auth::user()->type == 'employee') {
                     if (Auth::user()->id == $employee->user_id) {
@@ -198,15 +212,27 @@ class PaySlipController extends Controller
             return redirect()->route('payslip.index')->with('error', __('Payslip Payment failed.'));
         }
     }
-    public function bulk_pay_create($date)
+    public function bulk_pay_create($date,$branch_id)
     {
-        $Employees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->get();
-        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->get();
-        return view('payslip.bulkcreate', compact('Employees', 'unpaidEmployees', 'date'));
+        $employee = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
+        if($branch_id)
+        {
+            $employee->where('branch_id', $branch_id);
+        }
+        $employees = $employee->get();
+        $Employees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->whereIn('employee_id',$employee)->get();
+        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id',$employee)->get();
+        return view('payslip.bulkcreate', compact('Employees', 'unpaidEmployees', 'date','branch_id'));
     }
-    public function bulkpayment(Request $request, $date)
+    public function bulkpayment(Request $request, $date,$branch_id)
     {
-        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->get();
+        $employee = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
+        if($branch_id)
+        {
+            $employee->where('branch_id', $branch_id);
+        }
+        $employees = $employee->get();
+        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id',$employee)->get();
         foreach ($unpaidEmployees as $employee) {
             $payslip = PaySlip::where('employee_id', $employee->employee_id)->where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->first();
             $employee_info = Employee::find($employee->employee_id);

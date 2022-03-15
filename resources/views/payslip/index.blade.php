@@ -39,7 +39,7 @@
                     <form>
                         <div class="d-flex justify-content-between w-100">
                             <h6>{{__('Employee Salary')}}</h6>
-                            <div class="float-right col-4">
+                            <div class="float-right col-3">
                                 <select class="form-control month_date select2" name="year" tabindex="-1" aria-hidden="true">
                                     <option value="--">--</option>
                                     @foreach($month as $k=>$mon)
@@ -47,8 +47,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="float-right col-4">
+                            <div class="float-right col-3">
                                 {{Form::select('year',$year,null,array('class'=>'form-control year_date select2'))}}
+                            </div>
+                            <div class="float-right col-3">
+                            <select class="form-control branch_id select2" name="branch_id" tabindex="-1" aria-hidden="true">
+                                    <option value="0">All</option>
+                                    @foreach($branches as $k=>$branche)
+                                        <option value="{{$k}}">{{$branche}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @can('Create Pay Slip')
                                 <input type="button" value="{{__('Bulk Payment')}}" class="btn-create badge-blue float-right search" id="bulk_payment">
@@ -141,14 +149,15 @@
 
             function callback() {
                 var month = $(".month_date").val();
-                var year = $(".year_date").val();
+                var year = $(".year_date").val(); 
+                var branch_id = $(".branch_id").val();
                 var datePicker = year + '-' + month;
 
                 $.ajax({
                     url: '{{route('payslip.search_json')}}',
                     type: 'POST',
                     data: {
-                        "datePicker": datePicker, "_token": "{{ csrf_token() }}",
+                        "datePicker": datePicker,"branch_id": branch_id, "_token": "{{ csrf_token() }}",
                     },
                     success: function (data) {
 
@@ -176,16 +185,17 @@
                 var month = $(".month_date").val();
                 var year = $(".year_date").val();
                 var datePicker = year + '_' + month;
-
+                var branch_id = $(".branch_id").val();
             });
             $(document).on('click', '#bulk_payment', 'a[data-ajax-popup="true"], button[data-ajax-popup="true"], div[data-ajax-popup="true"]', function () {
                 var month = $(".month_date").val();
                 var year = $(".year_date").val();
+                var branch_id = $(".branch_id").val();
                 var datePicker = year + '-' + month;
 
                 var title = 'Bulk Payment';
                 var size = 'md';
-                var url = 'payslip/bulk_pay_create/' + datePicker;
+                var url = 'payslip/bulk_pay_create/' + datePicker + '/' + branch_id;
 
                 // return false;
 

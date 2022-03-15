@@ -1,5 +1,5 @@
 <div class="card bg-none card-box">
-    {{Form::open(array('url'=>'payslip/bulkpayment/'.$date,'method'=>'post'))}}
+    {{Form::open(array('url'=>'payslip/bulkpayment/'.$date.'/'.$branch_id,'method'=>'post'))}}
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
