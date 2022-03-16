@@ -13,6 +13,8 @@ use App\User;
 use Spatie\Permission\Models\Role;
 use App\Utility;
 use File;
+use App\Allowance;
+use App\SaturationDeduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmployeeImport;
+use App\Imports\EmployeeSalaryImport;
 //use Faker\Provider\File;
 class EmployeeController extends Controller
 {
@@ -521,5 +524,58 @@ class EmployeeController extends Controller
     {
         Excel::import(new EmployeeImport, $request->file('employee_data'));
         return back()->with('success', 'Employee Details Uploaded');
+    }
+    public function upload_employee_salary_page(){
+        return view('employee.salary-upload-page');
+    }
+    public function upload_employee_salaries(Request $request)
+    {
+        $sheets = Excel::toArray(new EmployeeSalaryImport, $request->file('employee_salary_data'));
+        foreach ($sheets as $sheetno => $sheet) {
+            foreach ($sheet as $rowno => $rows) {
+                if ($rowno == 0) {
+                    $headings = $rows;
+                } else {
+                    foreach ($headings as $headcolno => $headcolumn) {
+                        if ($headcolumn == 'Other_Deductions(Loan)') {
+                            $data['Other_Deductions'] = $rows[$headcolno];
+                        }
+                        $data[$headcolumn] = $rows[$headcolno];
+                    }
+                    $employee = Employee::where('employee_code', $data['New Employee Code'])->first();
+                    if ($employee) {
+                        $indexes = [1 => "DA", 2 => "HRA", 3 => "Others"];
+                        foreach ($indexes as $ind => $indexe) {
+                            if($data[$indexe]!=null){
+                                Allowance::create([
+                                    'employee_id' => $employee->id,
+                                    'allowance_option' => $ind,
+                                    'title' => $indexe,
+                                    'amount' => $data[$indexe],
+                                    'created_by' => \Auth::id(),
+                                ]);
+                            }   
+                        }
+
+                        $indexes = [1 => "ESI", 2 => "PF", 3 => "TDS", 4 => "Other_Deductions"];
+                        foreach ($indexes as $ind => $indexe) {
+                            if($data[$indexe]!=null){
+                                SaturationDeduction::create([
+                                    'employee_id' => $employee->id,
+                                    'deduction_option' => $ind,
+                                    'title' => $indexe,
+                                    'amount' => $data[$indexe],
+                                    'created_by' => \Auth::id(),
+                                ]);
+                            }
+                        }
+                    } else {
+                        $message = 'New Employee Code doesnot exist';
+                        break;
+                    }
+                }
+            }
+        }
+        return back()->with('success', 'Employee Salary Details Uploaded');
     }
 }

@@ -885,3 +885,17 @@ Route::post('upload-employee-data', 'EmployeeController@upload_employee_data')->
         'XSS',
     ]
 );
+Route::get('upload-employee-salary-page', 'EmployeeController@upload_employee_salary_page')->name('employee.salary.upload.page')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
+Route::post('upload-employee-salary-data', 'EmployeeController@upload_employee_salaries')->name('employee.salary.upload.data')->middleware(
+    [
+        'auth',
+        'XSS',
+    ]
+);
+
