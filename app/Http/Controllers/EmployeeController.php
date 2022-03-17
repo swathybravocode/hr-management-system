@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Allowance;
 use App\Branch;
 use App\Department;
 use App\Designation;
 use App\Document;
 use App\Employee;
 use App\EmployeeDocument;
+use App\Imports\EmployeeImport;
+use App\Imports\EmployeeSalaryImport;
 use App\Mail\UserCreate;
+use App\SaturationDeduction;
 use App\User;
-use Spatie\Permission\Models\Role;
 use App\Utility;
 use File;
-use App\Allowance;
-use App\SaturationDeduction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\EmployeeImport;
-use App\Imports\EmployeeSalaryImport;
+use Spatie\Permission\Models\Role;
+
 //use Faker\Provider\File;
 class EmployeeController extends Controller
 {
@@ -49,16 +50,16 @@ class EmployeeController extends Controller
     {
         if (\Auth::user()->can('Create Employee')) {
             $company_settings = Utility::settings();
-            $documents        = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments      = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $designations     = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
-            $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
-            $roles            = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $all_branches     = Branch::all();
+            $documents = Document::where('created_by', \Auth::user()->creatorId())->get();
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $employees = User::where('created_by', \Auth::user()->creatorId())->get();
+            $employeesId = \Auth::user()->employeeIdFormat($this->employeeNumber());
+            $roles = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $all_branches = Branch::all();
             if ($all_branches == null) {
-                $employee_number  = $this->branchEmployeeNumber($all_branches[0]->id);
+                $employee_number = $this->branchEmployeeNumber($all_branches[0]->id);
             } else {
                 $employee_number = '0';
             }
@@ -87,21 +88,19 @@ class EmployeeController extends Controller
             'employee_alternate_contact' => 'required|numeric',
             'pan_card_number' => 'required|string',
             'address' => 'required|string',
-            
             'designation_id' => 'required',
             'report_to' => 'required',
         ];
         $rules = [
             'name' => 'required|string',
-            'employee_code' => 'required|string',
-            'old_employee_code' => 'required|string',
+            'employee_code' => 'required|string|unique:employees',
+            'old_employee_code' => 'required|string|unique:employees',
             'last_name' => 'required|string',
             'department_id' => 'required',
             'email' => 'required|unique:users|string',
             'password' => 'required|string',
             'employee_photo.*' => 'mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:20480',
-            'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
-
+            'document.[*][file]' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
         ];
         if (\Auth::user()->can('Create Employee')) {
             $validator = \Validator::make(
@@ -115,11 +114,11 @@ class EmployeeController extends Controller
             if ($request->hasFile('employee_photo')) {
                 $file_name_slug = preg_replace('/\W+/', '-', strtolower($request->name));
                 $filenameWithExt = $request->file('employee_photo')->getClientOriginalName();
-                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension       = $request->file('employee_photo')->getClientOriginalExtension();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('employee_photo')->getClientOriginalExtension();
                 $photoNameToStore = $file_name_slug . '_' . time() . '.' . $extension;
-                $dir             = storage_path('uploads/avatar/');
-                $image_path      = $dir . $photoNameToStore;
+                $dir = storage_path('uploads/avatar/');
+                $image_path = $dir . $photoNameToStore;
                 if (File::exists($image_path)) {
                     File::delete($image_path);
                 }
@@ -191,28 +190,29 @@ class EmployeeController extends Controller
                     'employee_alternate_contact' => $request['employee_alternate_contact'],
                     'employee_photo' => $photoNameToStore,
                     'report_to' => $request['report_to'],
-                    'auth_password' => $request['password']
+                    'auth_password' => $request['password'],
                 ]
             );
-            if ($request->hasFile('document')) {
+            if ($request->has('document')) {
                 foreach ($request->document as $key => $document) {
-                    $filenameWithExt = $request->file('document')[$key]->getClientOriginalName();
-                    $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension       = $request->file('document')[$key]->getClientOriginalExtension();
+                    $filenameWithExt = $request->file('document')[$key]['file']->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('document')[$key]['file']->getClientOriginalExtension();
                     $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-                    $dir             = storage_path('uploads/document/');
-                    $image_path      = $dir . $filenameWithExt;
+                    $dir = storage_path('uploads/document/');
+                    $image_path = $dir . $filenameWithExt;
                     if (File::exists($image_path)) {
                         File::delete($image_path);
                     }
                     if (!file_exists($dir)) {
                         mkdir($dir, 0777, true);
                     }
-                    $path              = $request->file('document')[$key]->storeAs('uploads/document/', $fileNameToStore);
+                    $path = $request->file('document')[$key]['file']->storeAs('uploads/document/', $fileNameToStore);
                     $employee_document = EmployeeDocument::create(
                         [
                             'employee_id' => $employee['employee_id'],
                             'document_id' => $key,
+                            'description' => $request->get('document')[$key]['description'],
                             'document_value' => $fileNameToStore,
                             'created_by' => \Auth::user()->creatorId(),
                         ]
@@ -222,7 +222,7 @@ class EmployeeController extends Controller
             }
             $setings = Utility::settings();
             if ($setings['employee_create'] == 1) {
-                $user->type     = 'Employee';
+                $user->type = 'Employee';
                 $user->password = $request['password'];
                 try {
                     Mail::to($user->email)->send(new UserCreate($user));
@@ -238,16 +238,18 @@ class EmployeeController extends Controller
     }
     public function edit($id)
     {
+
         $id = Crypt::decrypt($id);
         if (\Auth::user()->can('Edit Employee')) {
-            $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $documents = Document::where('created_by', \Auth::user()->creatorId())->get();
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employee     = Employee::find($id);
-            $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
-            $roles            = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $employee_number  = $this->employeeNumber();
+            $employee = Employee::find($id);
+            $employeesId = \Auth::user()->employeeIdFormat($employee->employee_id);
+            $roles = Role::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $employee_number = $this->employeeNumber();
+            $employeedocs = EmployeeDocument::where('employee_id', $id)->get();
             return view('employee.edit', compact(
                 'employee',
                 'employeesId',
@@ -256,6 +258,7 @@ class EmployeeController extends Controller
                 'designations',
                 'documents',
                 'employee_number',
+                'employeedocs',
                 'roles'
             ));
         } else {
@@ -265,7 +268,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         if (\Auth::user()->can('Edit Employee')) {
-            $user   = User::findOrFail($request->user_id);
+            $user = User::findOrFail($request->user_id);
             $rules = [
                 'name' => 'required|string',
                 'employee_code' => 'required|string',
@@ -282,7 +285,7 @@ class EmployeeController extends Controller
                 'last_name' => 'required|string',
                 'phone' => 'required|numeric',
                 'address' => 'required',
-                'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
+                'document.[*][file]' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
                 'employee_photo.*' => 'mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:20480',
             ];
             $validator = \Validator::make(
@@ -298,11 +301,11 @@ class EmployeeController extends Controller
             if ($request->hasFile('employee_photo')) {
                 $file_name_slug = preg_replace('/\W+/', '-', strtolower($request->name));
                 $filenameWithExt = $request->file('employee_photo')->getClientOriginalName();
-                $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                $extension       = $request->file('employee_photo')->getClientOriginalExtension();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('employee_photo')->getClientOriginalExtension();
                 $photoNameToStore = $file_name_slug . '_' . time() . '.' . $extension;
-                $dir             = storage_path('uploads/avatar/');
-                $image_path      = $dir . $photoNameToStore;
+                $dir = storage_path('uploads/avatar/');
+                $image_path = $dir . $photoNameToStore;
                 if (File::exists($dir . $old_employee_photo)) {
                     File::delete($dir . $old_employee_photo);
                 }
@@ -313,14 +316,15 @@ class EmployeeController extends Controller
             } else {
                 $photoNameToStore = $old_employee_photo;
             }
-            if ($request->document) {
+            if ($request->has('document')) {
                 foreach ($request->document as $key => $document) {
-                    if (!empty($document)) {
-                        $filenameWithExt = $request->file('document')[$key]->getClientOriginalName();
-                        $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        $extension       = $request->file('document')[$key]->getClientOriginalExtension();
+                    $employee_document = EmployeeDocument::where('employee_id', $employee->employee_id)->where('document_id', $key)->first();
+                    if ($request->file('document')[$key]['file']) {
+                        $filenameWithExt = $request->file('document')[$key]['file']->getClientOriginalName();
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        $extension = $request->file('document')[$key]['file']->getClientOriginalExtension();
                         $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-                        $dir        = storage_path('uploads/document/');
+                        $dir = storage_path('uploads/document/');
                         $image_path = $dir . $filenameWithExt;
                         if (File::exists($image_path)) {
                             File::delete($image_path);
@@ -328,23 +332,31 @@ class EmployeeController extends Controller
                         if (!file_exists($dir)) {
                             mkdir($dir, 0777, true);
                         }
-                        $path = $request->file('document')[$key]->storeAs('uploads/document/', $fileNameToStore);
-                        $employee_document = EmployeeDocument::where('employee_id', $employee->employee_id)->where('document_id', $key)->first();
-                        if (!empty($employee_document)) {
-                            $employee_document->document_value = $fileNameToStore;
-                            $employee_document->save();
-                        } else {
-                            $employee_document                 = new EmployeeDocument();
-                            $employee_document->employee_id    = $employee->employee_id;
-                            $employee_document->document_id    = $key;
-                            $employee_document->document_value = $fileNameToStore;
-                            $employee_document->save();
-                        }
+                        $path = $request->file('document')[$key]['file']->storeAs('uploads/document/', $fileNameToStore);
+
+                    } else {
+                        $fileNameToStore = $employee_document->document_value;
+                    }
+                    if ($employee_document) {
+                        $employee_document->description = $request->get('document')[$key]['description'];
+                        $employee_document->document_value = $fileNameToStore;
+                        $employee_document->save();
+                    } else {
+                        $employee_document = EmployeeDocument::create(
+                            [
+                                'employee_id' => $employee['employee_id'],
+                                'document_id' => $key,
+                                'description' => $request->get('document')[$key]['description'],
+                                'document_value' => $fileNameToStore,
+                                'created_by' => \Auth::user()->creatorId(),
+                            ]
+                        );
+                        $employee_document->save();
                     }
                 }
             }
             $employee = Employee::findOrFail($id);
-            $input    = $request->all();
+            $input = $request->all();
             $input['employee_photo'] = $photoNameToStore;
             $employee->fill($input)->save();
             $user['avatar'] = $photoNameToStore;
@@ -364,8 +376,8 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->can('Delete Employee')) {
-            $employee      = Employee::findOrFail($id);
-            $user          = User::where('id', '=', $employee->user_id)->first();
+            $employee = Employee::findOrFail($id);
+            $user = User::where('id', '=', $employee->user_id)->first();
             $emp_documents = EmployeeDocument::where('employee_id', $employee->employee_id)->get();
             $employee->delete();
             $user->delete();
@@ -384,13 +396,13 @@ class EmployeeController extends Controller
     public function show($id)
     {
         if (\Auth::user()->can('Show Employee')) {
-            $empId        = Crypt::decrypt($id);
-            $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $empId = Crypt::decrypt($id);
+            $documents = Document::where('created_by', \Auth::user()->creatorId())->get();
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employee     = Employee::find($empId);
-            $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
+            $employee = Employee::find($empId);
+            $employeesId = \Auth::user()->employeeIdFormat($employee->employee_id);
             return view('employee.show', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -401,7 +413,7 @@ class EmployeeController extends Controller
         $designations = Designation::where('department_id', $request->department_id)->get()->pluck('name', 'id')->toArray();
         return response()->json($designations);
     }
-    function employeeNumber()
+    public function employeeNumber()
     {
         $latest = Employee::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
         if (!$latest) {
@@ -445,13 +457,13 @@ class EmployeeController extends Controller
     public function profileShow($id)
     {
         if (\Auth::user()->can('Show Employee Profile')) {
-            $empId        = Crypt::decrypt($id);
-            $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $empId = Crypt::decrypt($id);
+            $documents = Document::where('created_by', \Auth::user()->creatorId())->get();
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employee     = Employee::find($empId);
-            $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
+            $employee = Employee::find($empId);
+            $employeesId = \Auth::user()->employeeIdFormat($employee->employee_id);
             return view('employee.show', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -460,19 +472,19 @@ class EmployeeController extends Controller
     public function editPermissonChange($id)
     {
         $id = Crypt::decrypt($id);
-        $employee     = Employee::find($id);
-        $user     = User::find($employee->user_id);
-        if( $user->hasPermissionTo('Edit Employee')){
+        $employee = Employee::find($id);
+        $user = User::find($employee->user_id);
+        if ($user->hasPermissionTo('Edit Employee')) {
             $user->revokePermissionTo('Edit Employee');
-        }else{
+        } else {
             $user->givePermissionTo('Edit Employee');
         }
         return redirect()->back()->with('success', 'Employee Permission to Edit Changed.');
     }
     public function deactivate_employee($id)
-        {
+    {
         if (\Auth::user()->can('Show Employee Profile')) {
-            $empId  = Crypt::decrypt($id);
+            $empId = Crypt::decrypt($id);
             $data['is_active'] = '0';
             // User::find(request('user_id'))->update($data);
             DB::table('users')->where('id', $empId)->update($data);
@@ -485,7 +497,7 @@ class EmployeeController extends Controller
     public function activate_employee($id)
     {
         if (\Auth::user()->can('Show Employee Profile')) {
-            $empId  = Crypt::decrypt($id);
+            $empId = Crypt::decrypt($id);
             $data['is_active'] = '1';
             DB::table('users')->where('id', $empId)->update($data);
             DB::table('employees')->where('user_id', $empId)->update($data);
@@ -507,8 +519,8 @@ class EmployeeController extends Controller
     public function get_employee_info(Request $request)
     {
         $emp_id = $request->employee_id;
-        $employee     = Employee::where('id', '=', $emp_id)->first();
-        return  response()->json(collect([
+        $employee = Employee::where('id', '=', $emp_id)->first();
+        return response()->json(collect([
             'old_employee_code' => $employee->employee_code,
             'old_branch_id' => $employee->branch_id,
             'old_department_id' => $employee->department_id,
@@ -516,8 +528,8 @@ class EmployeeController extends Controller
     }
     public function upload_employee_page()
     {
-        $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $departments      = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
         return view('employee.upload-page', compact('branches', 'departments'));
     }
     public function upload_employee_data(Request $request)
@@ -525,7 +537,8 @@ class EmployeeController extends Controller
         Excel::import(new EmployeeImport, $request->file('employee_data'));
         return back()->with('success', 'Employee Details Uploaded');
     }
-    public function upload_employee_salary_page(){
+    public function upload_employee_salary_page()
+    {
         return view('employee.salary-upload-page');
     }
     public function upload_employee_salaries(Request $request)
@@ -546,7 +559,7 @@ class EmployeeController extends Controller
                     if ($employee) {
                         $indexes = [1 => "DA", 2 => "HRA", 3 => "Others"];
                         foreach ($indexes as $ind => $indexe) {
-                            if($data[$indexe]!=null){
+                            if ($data[$indexe] != null) {
                                 Allowance::create([
                                     'employee_id' => $employee->id,
                                     'allowance_option' => $ind,
@@ -554,12 +567,12 @@ class EmployeeController extends Controller
                                     'amount' => $data[$indexe],
                                     'created_by' => \Auth::id(),
                                 ]);
-                            }   
+                            }
                         }
 
                         $indexes = [1 => "ESI", 2 => "PF", 3 => "TDS", 4 => "Other_Deductions"];
                         foreach ($indexes as $ind => $indexe) {
-                            if($data[$indexe]!=null){
+                            if ($data[$indexe] != null) {
                                 SaturationDeduction::create([
                                     'employee_id' => $employee->id,
                                     'deduction_option' => $ind,

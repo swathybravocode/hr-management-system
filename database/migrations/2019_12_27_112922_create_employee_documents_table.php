@@ -17,6 +17,7 @@ class CreateEmployeeDocumentsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('employee_id');
             $table->integer('document_id');
+            $table->string('description');
             $table->string('document_value');
             $table->integer('created_by');
             $table->timestamps();
