@@ -213,7 +213,7 @@ class BranchController extends Controller
             $num_start_a = str_pad($val,3,"0",STR_PAD_LEFT); // 0001
             $num_start_final = $num_start_a;
 
-            $branch_code = "EY/".$branch->name."/".$num_start_final;
+            $branch_code = "EY/KA/".$num_start_final;
 
             $new_emp_number = $emp_number;
             $new_emp_series = str_pad($new_emp_number,3,"0",STR_PAD_LEFT);
@@ -244,8 +244,9 @@ class BranchController extends Controller
     {
         $latest = Employee::where([['created_by', '=', \Auth::user()->creatorId()], ['branch_id','=', $branch_id]])->latest()->first();
 
-        $arr_emp = Employee::where('branch_id','=', $branch_id)->get();
-        $count = count($arr_emp);
+        $arr_emp = Employee::where('branch_id','=',$branch_id)->orderBy('employee_code','DESC')->first();
+        $arr_emp =explode('/',$arr_emp->employee_code);
+        $count = $arr_emp[2];
 
         if(!$latest)
         {
