@@ -402,7 +402,7 @@ Route::get('payslip/bulk_pay_create/{date}/{state}', 'PaySlipController@bulk_pay
         'XSS',
     ]
 );
-Route::post('payslip/bulkpayment/{date}', 'PaySlipController@bulkpayment')->name('payslip.bulkpayment')->middleware(
+Route::post('payslip/bulkpayment/{date}/{branch_id}', 'PaySlipController@bulkpayment')->name('payslip.bulkpayment')->middleware(
     [
         'auth',
         'XSS',

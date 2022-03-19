@@ -239,9 +239,17 @@ class PaySlipController extends Controller
             $employee->where('branch_id', $branch_id);
         }
         $employees = $employee->get();
-        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id', $employee)->get();
+        $unpaidEmployees = PaySlip::where('salary_month', $date)
+        ->where('created_by', \Auth::user()->creatorId())
+        ->where('status', '=', 0)
+        ->whereIn('employee_id', $employee)
+        ->get();
         foreach ($unpaidEmployees as $employee) {
-            $payslip = PaySlip::where('employee_id', $employee->employee_id)->where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->first();
+            $payslip = PaySlip::where('employee_id', $employee->employee_id)
+            ->where('salary_month', $date)
+            ->where('created_by', \Auth::user()->creatorId())
+            ->where('status', '=', 0)
+            ->first();
             $employee_info = Employee::find($employee->employee_id);
             $payslip->name = $employee_info->name;
             $payslip->email = $employee_info->email;

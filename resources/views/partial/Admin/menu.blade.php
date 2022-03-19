@@ -529,8 +529,6 @@
                         </div>
                     </li>
                 @endif
-
-
                 @if(Gate::check('Manage Company Settings') || Gate::check('Manage System Settings'))
                     <li class="nav-item">
                         <a href="{{ route('settings.index') }}" class="nav-link {{ request()->is('settings*') ? 'active' : '' }}">
