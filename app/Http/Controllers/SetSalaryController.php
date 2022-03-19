@@ -25,7 +25,7 @@ class SetSalaryController extends Controller
                 [
                     'created_by' => \Auth::user()->creatorId(),
                 ]
-            )->get();
+            )->where('is_active', '=', '1')->get();
 
             return view('setsalary.index', compact('employees'));
         }

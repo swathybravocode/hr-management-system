@@ -86,37 +86,49 @@ class PaySlipController extends Controller
         $formate_month_year = $year . '-' . $month;
         $validatePaysilp = PaySlip::where('salary_month', '=', $formate_month_year)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
         $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->orWhere('company_doj', '<=', date($month . '-t-' . $year))->get();
-        $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->where('salary', '<=', 0)->first();
-        if (!empty($employeesSalary)) {
-            return redirect()->route('payslip.index')->with('error', __('Please set employee salary.'));
-        } 
+        $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->where('salary', '<=', 0)->get(); 
+        $i=$j=0;
         foreach ($employees as $employee) {
-            $leaves = Leave::where([
-                ['employee_id', '=', $employee->id], ['status', '=', 'Approve'], ['loss_of_pay', '=', '1'], ['applied_on', 'like', '%' . $formate_month_year . '%'],
-            ])->sum('total_leave_days');
-            $total_leaves = ((int) $leaves);
-            $worked_days = 30 - $total_leaves;
-            $total_basic = ($employee->salary / 30) * ((int) $worked_days);
-            $payslipEmployee = PaySlip::where('salary_month', '=', $formate_month_year)->where('employee_id', $employee->id)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
-            if (!$payslipEmployee) {
-                $payslipEmployee = new PaySlip();
+            if($employee->salary)
+            {
+                $leaves = Leave::where([
+                    ['employee_id', '=', $employee->id], ['status', '=', 'Approve'], ['loss_of_pay', '=', '1'], ['applied_on', 'like', '%' . $formate_month_year . '%'],
+                ])->sum('total_leave_days');
+                $total_leaves = ((int) $leaves);
+                $worked_days = 30 - $total_leaves;
+                $total_basic = ($employee->salary / 30) * ((int) $worked_days);
+                $payslipEmployee = PaySlip::where('salary_month', '=', $formate_month_year)->where('employee_id', $employee->id)->where('created_by', \Auth::user()->creatorId())->first();
+                if (!$payslipEmployee) {
+                    $payslipEmployee = new PaySlip();
+                }
+                $payslipEmployee->employee_id = $employee->id;
+                $payslipEmployee->net_payble = $employee->get_net_salary();
+                $payslipEmployee->salary_month = $formate_month_year;
+                $payslipEmployee->status = 0;
+                $payslipEmployee->basic_salary = !empty($employee->salary) ? $employee->salary : 0;
+                //$payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
+                $payslipEmployee->allowance = Employee::allowance($employee->id, $worked_days);
+                $payslipEmployee->commission = Employee::commission($employee->id);
+                $payslipEmployee->loan = Employee::loan($employee->id);
+                $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
+                $payslipEmployee->other_payment = Employee::other_payment($employee->id);
+                $payslipEmployee->overtime = Employee::overtime($employee->id);
+                $payslipEmployee->created_by = \Auth::user()->creatorId();
+                $payslipEmployee->save();
+                $i = $i+1;
             }
-            $payslipEmployee->employee_id = $employee->id;
-            $payslipEmployee->net_payble = $employee->get_net_salary();
-            $payslipEmployee->salary_month = $formate_month_year;
-            $payslipEmployee->status = 0;
-            $payslipEmployee->basic_salary = !empty($employee->salary) ? $employee->salary : 0;
-            //$payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
-            $payslipEmployee->allowance = Employee::allowance($employee->id, $worked_days);
-            $payslipEmployee->commission = Employee::commission($employee->id);
-            $payslipEmployee->loan = Employee::loan($employee->id);
-            $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
-            $payslipEmployee->other_payment = Employee::other_payment($employee->id);
-            $payslipEmployee->overtime = Employee::overtime($employee->id);
-            $payslipEmployee->created_by = \Auth::user()->creatorId();
-            $payslipEmployee->save();
+            else{
+                $j= $j+1;
+            }
         }
-        return redirect()->route('payslip.index')->with('success', __('Payslip successfully created.'));
+        $return = redirect()->route('payslip.index')->with('success', __('Payslip successfully created For '.$i.' Employees'));
+        if (!empty($employeesSalary)) {
+            $return =  $return->with('error', __('Please set employee salary for '.count($employeesSalary).' Employees'));
+        }
+        if($j){
+            $return =  $return->with('error', __('Basic Salary not set for '.$j.' Employees'));
+        }
+        return  $return;
     }
     public function showemployee($paySlip)
     {
