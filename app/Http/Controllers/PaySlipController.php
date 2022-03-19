@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Allowance;
+use App\Branch;
 use App\Commission;
 use App\Employee;
 use App\Jobs\SendQueueEmail;
 use App\Leave;
 use App\Loan;
-use App\Branch;
 use App\Mail\PayslipSend;
 use App\OtherPayment;
 use App\Overtime;
@@ -58,8 +58,8 @@ class PaySlipController extends Controller
                 '2029' => '2029',
                 '2030' => '2030',
             ];
-            $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            return view('payslip.index', compact('employees', 'month', 'year','branches'));
+            $branches = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            return view('payslip.index', compact('employees', 'month', 'year', 'branches'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -85,39 +85,38 @@ class PaySlipController extends Controller
         $year = $request->year;
         $formate_month_year = $year . '-' . $month;
         $validatePaysilp = PaySlip::where('salary_month', '=', $formate_month_year)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
-        if (empty($validatePaysilp)) {
-            $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->orWhere('company_doj', '<=', date($month . '-t-' . $year))->get();
-            $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->where('salary', '<=', 0)->first();
-            if (!empty($employeesSalary)) {
-                return redirect()->route('payslip.index')->with('error', __('Please set employee salary.'));
-            }
-            foreach ($employees as $employee) {
-                $leaves = Leave::where([
-                    ['employee_id', '=', $employee->id], ['status', '=', 'Approve'], ['loss_of_pay', '=', '1'], ['applied_on', 'like', '%' . $formate_month_year . '%'],
-                ])->sum('total_leave_days');
-                $total_leaves = ((int) $leaves);
-                $worked_days = 30 - $total_leaves;
-                $total_basic = ($employee->salary / 30) * ((int) $worked_days);
+        $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->orWhere('company_doj', '<=', date($month . '-t-' . $year))->get();
+        $employeesSalary = Employee::where('created_by', \Auth::user()->creatorId())->where('is_active', '=', '1')->where('salary', '<=', 0)->first();
+        if (!empty($employeesSalary)) {
+            return redirect()->route('payslip.index')->with('error', __('Please set employee salary.'));
+        } 
+        foreach ($employees as $employee) {
+            $leaves = Leave::where([
+                ['employee_id', '=', $employee->id], ['status', '=', 'Approve'], ['loss_of_pay', '=', '1'], ['applied_on', 'like', '%' . $formate_month_year . '%'],
+            ])->sum('total_leave_days');
+            $total_leaves = ((int) $leaves);
+            $worked_days = 30 - $total_leaves;
+            $total_basic = ($employee->salary / 30) * ((int) $worked_days);
+            $payslipEmployee = PaySlip::where('salary_month', '=', $formate_month_year)->where('employee_id', $employee->id)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
+            if (!$payslipEmployee) {
                 $payslipEmployee = new PaySlip();
-                $payslipEmployee->employee_id = $employee->id;
-                $payslipEmployee->net_payble = $employee->get_net_salary();
-                $payslipEmployee->salary_month = $formate_month_year;
-                $payslipEmployee->status = 0;
-                $payslipEmployee->basic_salary = !empty($employee->salary) ? $employee->salary : 0;
-                //$payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
-                $payslipEmployee->allowance = Employee::allowance($employee->id, $worked_days);
-                $payslipEmployee->commission = Employee::commission($employee->id);
-                $payslipEmployee->loan = Employee::loan($employee->id);
-                $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
-                $payslipEmployee->other_payment = Employee::other_payment($employee->id);
-                $payslipEmployee->overtime = Employee::overtime($employee->id);
-                $payslipEmployee->created_by = \Auth::user()->creatorId();
-                $payslipEmployee->save();
             }
-            return redirect()->route('payslip.index')->with('success', __('Payslip successfully created.'));
-        } else {
-            return redirect()->route('payslip.index')->with('error', __('Payslip Already created.'));
+            $payslipEmployee->employee_id = $employee->id;
+            $payslipEmployee->net_payble = $employee->get_net_salary();
+            $payslipEmployee->salary_month = $formate_month_year;
+            $payslipEmployee->status = 0;
+            $payslipEmployee->basic_salary = !empty($employee->salary) ? $employee->salary : 0;
+            //$payslipEmployee->basic_salary         = !empty($employee->salary) ? $total_basic : 0;
+            $payslipEmployee->allowance = Employee::allowance($employee->id, $worked_days);
+            $payslipEmployee->commission = Employee::commission($employee->id);
+            $payslipEmployee->loan = Employee::loan($employee->id);
+            $payslipEmployee->saturation_deduction = Employee::saturation_deduction($employee->id);
+            $payslipEmployee->other_payment = Employee::other_payment($employee->id);
+            $payslipEmployee->overtime = Employee::overtime($employee->id);
+            $payslipEmployee->created_by = \Auth::user()->creatorId();
+            $payslipEmployee->save();
         }
+        return redirect()->route('payslip.index')->with('success', __('Payslip successfully created.'));
     }
     public function showemployee($paySlip)
     {
@@ -128,10 +127,9 @@ class PaySlipController extends Controller
     {
         $formate_month_year = $request->datePicker;
         $employees = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
-        if($request->branch_id)
-            {
-                $employees->where('branch_id', $request->branch_id);
-            }
+        if ($request->branch_id) {
+            $employees->where('branch_id', $request->branch_id);
+        }
         $employees = $employees->get();
         $validatePaysilp = PaySlip::where('salary_month', '=', $formate_month_year)->where('created_by', \Auth::user()->creatorId())->get()->toarray();
         if (empty($validatePaysilp)) {
@@ -158,12 +156,11 @@ class PaySlipController extends Controller
                     $join->leftjoin('payslip_types', 'payslip_types.id', '=', 'employees.salary_type');
                 }
             )->where('employees.is_active', '=', '1')->where('employees.created_by', \Auth::user()->creatorId());
-            if($request->branch_id)
-            {
-                $paylip_employee->whereIn('pay_slips.employee_id',$employees);
+            if ($request->branch_id) {
+                $paylip_employee->whereIn('pay_slips.employee_id', $employees);
             }
             $paylip_employee = $paylip_employee->get();
-            $data=[];
+            $data = [];
             foreach ($paylip_employee as $employee) {
                 if (Auth::user()->type == 'employee') {
                     if (Auth::user()->id == $employee->user_id) {
@@ -212,27 +209,25 @@ class PaySlipController extends Controller
             return redirect()->route('payslip.index')->with('error', __('Payslip Payment failed.'));
         }
     }
-    public function bulk_pay_create($date,$branch_id)
+    public function bulk_pay_create($date, $branch_id)
     {
         $employee = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
-        if($branch_id)
-        {
+        if ($branch_id) {
             $employee->where('branch_id', $branch_id);
         }
         $employees = $employee->get();
-        $Employees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->whereIn('employee_id',$employee)->get();
-        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id',$employee)->get();
-        return view('payslip.bulkcreate', compact('Employees', 'unpaidEmployees', 'date','branch_id'));
+        $Employees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->whereIn('employee_id', $employee)->get();
+        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id', $employee)->get();
+        return view('payslip.bulkcreate', compact('Employees', 'unpaidEmployees', 'date', 'branch_id'));
     }
-    public function bulkpayment(Request $request, $date,$branch_id)
+    public function bulkpayment(Request $request, $date, $branch_id)
     {
         $employee = Employee::select('id')->where('created_by', \Auth::user()->creatorId());
-        if($branch_id)
-        {
+        if ($branch_id) {
             $employee->where('branch_id', $branch_id);
         }
         $employees = $employee->get();
-        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id',$employee)->get();
+        $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->whereIn('employee_id', $employee)->get();
         foreach ($unpaidEmployees as $employee) {
             $payslip = PaySlip::where('employee_id', $employee->employee_id)->where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->first();
             $employee_info = Employee::find($employee->employee_id);
@@ -300,9 +295,9 @@ class PaySlipController extends Controller
             } catch (\Exception $e) {
                 $smtp_error = __('E-Mail has been not sent due to SMTP configuration');
             }
-            return response()->json(['is_success' => false,'message' => __('Payslip successfully sent.')], (isset($smtp_error) ? $smtp_error : ''));
+            return response()->json(['is_success' => false, 'message' => __('Payslip successfully sent.')], (isset($smtp_error) ? $smtp_error : ''));
         }
-        return response()->json(['is_success' => true,'message' => __('Payslip successfully sent.')], 200);
+        return response()->json(['is_success' => true, 'message' => __('Payslip successfully sent.')], 200);
     }
     public function payslipPdf($id)
     {
