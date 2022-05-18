@@ -43,29 +43,31 @@ Route::group(
             'auth',
             'XSS',
         ],
-    ], function (){
+    ],
+    function () {
 
-    Route::resource('settings', 'SettingsController');
-    Route::post('email-settings', 'SettingsController@saveEmailSettings')->name('email.settings');
-    Route::post('company-settings', 'SettingsController@saveCompanySettings')->name('company.settings');
-    Route::post('payment-settings', 'SettingsController@savePaymentSettings')->name('payment.settings');
-    Route::post('system-settings', 'SettingsController@saveSystemSettings')->name('system.settings');
-    Route::get('company-setting', 'SettingsController@companyIndex')->name('company.setting');
-    Route::get('company-email-setting/{name}', 'SettingsController@updateEmailStatus')->name('company.email.setting');
-    Route::post('pusher-settings', 'SettingsController@savePusherSettings')->name('pusher.settings');
-    Route::post('business-setting', 'SettingsController@saveBusinessSettings')->name('business.setting');
+        Route::resource('settings', 'SettingsController');
+        Route::post('email-settings', 'SettingsController@saveEmailSettings')->name('email.settings');
+        Route::post('company-settings', 'SettingsController@saveCompanySettings')->name('company.settings');
+        Route::post('payment-settings', 'SettingsController@savePaymentSettings')->name('payment.settings');
+        Route::post('system-settings', 'SettingsController@saveSystemSettings')->name('system.settings');
+        Route::get('company-setting', 'SettingsController@companyIndex')->name('company.setting');
+        Route::get('company-email-setting/{name}', 'SettingsController@updateEmailStatus')->name('company.email.setting');
+        Route::post('pusher-settings', 'SettingsController@savePusherSettings')->name('pusher.settings');
+        Route::post('business-setting', 'SettingsController@saveBusinessSettings')->name('business.setting');
 
-    Route::get('test-mail', 'SettingsController@testMail')->name('test.mail');
-    Route::post('test-mail', 'SettingsController@testSendMail')->name('test.send.mail');
-}
+        Route::get('test-mail', 'SettingsController@testMail')->name('test.mail');
+        Route::post('test-mail', 'SettingsController@testSendMail')->name('test.send.mail');
+    }
 );
 
 
 Route::get(
-    '/test', [
-               'as' => 'test.email',
-               'uses' => 'SettingsController@testEmail',
-           ]
+    '/test',
+    [
+        'as' => 'test.email',
+        'uses' => 'SettingsController@testEmail',
+    ]
 )->middleware(
     [
         'auth',
@@ -73,10 +75,11 @@ Route::get(
     ]
 );
 Route::post(
-    '/test/send', [
-                    'as' => 'test.email.send',
-                    'uses' => 'SettingsController@testEmailSend',
-                ]
+    '/test/send',
+    [
+        'as' => 'test.email.send',
+        'uses' => 'SettingsController@testEmailSend',
+    ]
 )->middleware(
     [
         'auth',
@@ -670,14 +673,15 @@ Route::group(
             'auth',
             'XSS',
         ],
-    ], function (){
-    Route::get('change-language/{lang}', 'LanguageController@changeLanquage')->name('change.language');
-    Route::get('manage-language/{lang}', 'LanguageController@manageLanguage')->name('manage.language');
-    Route::post('store-language-data/{lang}', 'LanguageController@storeLanguageData')->name('store.language.data');
-    Route::get('create-language', 'LanguageController@createLanguage')->name('create.language');
-    Route::post('store-language', 'LanguageController@storeLanguage')->name('store.language');
-    Route::delete('/lang/{lang}', 'LanguageController@destroyLang')->name('lang.destroy');
-}
+    ],
+    function () {
+        Route::get('change-language/{lang}', 'LanguageController@changeLanquage')->name('change.language');
+        Route::get('manage-language/{lang}', 'LanguageController@manageLanguage')->name('manage.language');
+        Route::post('store-language-data/{lang}', 'LanguageController@storeLanguageData')->name('store.language.data');
+        Route::get('create-language', 'LanguageController@createLanguage')->name('create.language');
+        Route::post('store-language', 'LanguageController@storeLanguage')->name('store.language');
+        Route::delete('/lang/{lang}', 'LanguageController@destroyLang')->name('lang.destroy');
+    }
 );
 
 Route::resource('roles', 'RoleController')->middleware(
@@ -898,4 +902,13 @@ Route::post('upload-employee-salary-data', 'EmployeeController@upload_employee_s
         'XSS',
     ]
 );
+Route::get('/cleareverything', function () {
+    $clearcache = Artisan::call('cache:clear');
+    //echo "Cache cleared<br>";
 
+    $clearview = Artisan::call('view:clear');
+    //echo "View cleared<br>";
+
+    $clearconfig = Artisan::call('config:cache');
+    //echo "Config cleared<br>";
+});
