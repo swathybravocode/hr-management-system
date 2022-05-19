@@ -243,6 +243,7 @@ class PaySlipController extends Controller
             ->whereIn('employee_id', $employee)
             ->get();
             $count=0;
+            $total_count=0;
         foreach ($unpaidEmployees as $employee) {
             $payslip = PaySlip::where('employee_id', $employee->employee_id)
                 ->where('salary_month', $date)
@@ -277,6 +278,7 @@ class PaySlipController extends Controller
                         "subject": "Regarding to payslip generator"
                       }';
             $request = $client->post('https://api.sendinblue.com/v3/smtp/email', ['headers' => $headers, "body" => $body]);
+            $total_count++;
             if ($request->getStatusCode() >= 200 && $request->getStatusCode() <= 204) {
                 $employee->status = 1;
                 $count++;
@@ -287,7 +289,7 @@ class PaySlipController extends Controller
                 //return response()->json(['is_success' => false, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
             }
         }
-        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to '.$count.' employees'));
+        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to '.$count.' employees Out of ' .$total_count.' employees.'));
     }
     public function employeepayslip()
     {
