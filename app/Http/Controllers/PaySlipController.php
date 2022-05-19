@@ -242,6 +242,7 @@ class PaySlipController extends Controller
             ->where('status', '=', 0)
             ->whereIn('employee_id', $employee)
             ->get();
+            $count=0;
         foreach ($unpaidEmployees as $employee) {
             $payslip = PaySlip::where('employee_id', $employee->employee_id)
                 ->where('salary_month', $date)
@@ -277,14 +278,16 @@ class PaySlipController extends Controller
                       }';
             $request = $client->post('https://api.sendinblue.com/v3/smtp/email', ['headers' => $headers, "body" => $body]);
             if ($request->getStatusCode() >= 200 && $request->getStatusCode() <= 204) {
-                return response()->json(['is_success' => true, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
+                $employee->status = 1;
+                $count++;
+                $employee->save();
+                //return response()->json(['is_success' => true, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
             } else {
-                return response()->json(['is_success' => false, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
+                $employee->save();
+                //return response()->json(['is_success' => false, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
             }
-            $employee->status = 1;
-            $employee->save();
         }
-        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to employees') . (isset($smtp_error) ? $smtp_error : ''));
+        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to '.$count.' employees'));
     }
     public function employeepayslip()
     {
