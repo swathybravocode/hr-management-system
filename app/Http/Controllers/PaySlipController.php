@@ -242,8 +242,8 @@ class PaySlipController extends Controller
             ->where('status', '=', 0)
             ->whereIn('employee_id', $employee)
             ->get();
-            $count=0;
-            $total_count=0;
+        $count = 0;
+        $total_count = 0;
         foreach ($unpaidEmployees as $employee) {
             $payslip = PaySlip::where('employee_id', $employee->employee_id)
                 ->where('salary_month', $date)
@@ -289,7 +289,15 @@ class PaySlipController extends Controller
                 //return response()->json(['is_success' => false, 'message' => __('Payslip successfully sent.')], $request->getStatusCode());
             }
         }
-        return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to '.$count.' employees Out of ' .$total_count.' employees.'));
+        if ($total_count && $count)
+            return redirect()->route('payslip.index')->with('success', __('Payslip bulk payment done & successfully sent to ' . $count . ' employees Out of ' . $total_count . ' employees.'));
+        elseif ($total_count && !$count) {
+            return redirect()->route('payslip.index')->with('error', __('Mail Sending Failed'));
+        } elseif (!$total_count) {
+            return redirect()->route('payslip.index')->with('error', __('Mails has already send to all employees'));
+        } else {
+            return redirect()->route('payslip.index')->with('error', __('Something Went wrong'));
+        }
     }
     public function employeepayslip()
     {

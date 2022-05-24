@@ -3,15 +3,15 @@
     address {
         text-align: justify;
     }
-    
+
     address span {
         float: right;
     }
-    
+
     #payslip-table {
         border-radius: 3px;
     }
-    
+
     table.GeneratedTable {
         width: 100%;
         background-color: #ccc;
@@ -22,7 +22,7 @@
         color: rgb(156, 155, 155);
         text-align: left;
     }
-    
+
     table.GeneratedTable td,
     table.GeneratedTable th {
         border-width: 2px;
@@ -30,18 +30,18 @@
         border-style: solid;
         padding: 10px;
     }
-    
+
     table.GeneratedTable thead {
         background-color: #ccc;
     }
-    
+
     .GeneralDetailsTable tr,
     .GeneralDetailsTable td,
     .GeneralDetailsTable th {
         padding: 0px !important;
         border: none !important;
     }
-    
+
     .trucate {
         width: 180px;
         white-space: nowrap;
@@ -172,7 +172,11 @@
                             <tr>
                                 <td>
                                     {{-- @php $basic_amount = ($payslip->basic_salary/30) * ((int)$worked_days); @endphp --}}
-                                    <p>{{__('Basic Salary')}} <span style="float:right">{{  \Auth::user()->priceFormat($payslip->basic_salary)}}</span></p>
+                                    <p>{{__('Basic Salary')}} <span style="float:right">{{  \Auth::user()->priceFormat($payslipDetail['basic_salary'])}}</span></p>
+                                    <p style="display:none">{{__('Basic Salary')}} <span>{{  \Auth::user()->priceFormat($payslip->basic_salary)}}</span></p>
+                                    <p style="display:none">{{__('basic_salary')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['basic_salary'])}}</span></p>
+                                    <p style="display:none">{{__('totalAllowance')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['totalAllowance'])}}</span></p>
+                                    <p style="display:none">{{__('worked_days')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['worked_days'])}}</span></p>
                                     @foreach($payslipDetail['earning']['allowance'] as $allowance) {{-- @php $allowance_amount = ($allowance->amount/30) * ((int)$worked_days); @endphp --}}
                                     <p>{{$allowance->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $allowance->amount)}}</span></p>
                                     @endforeach @foreach($payslipDetail['earning']['commission'] as $commission)
