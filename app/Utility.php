@@ -12,13 +12,10 @@ class Utility extends Model
     public static function settings()
     {
         $data = DB::table('settings');
-        if(\Auth::check())
-        {
+        if (\Auth::check()) {
             $userId = \Auth::user()->creatorId();
             $data   = $data->where('created_by', '=', $userId);
-        }
-        else
-        {
+        } else {
             $data = $data->where('created_by', '=', 1);
         }
         $data = $data->get();
@@ -60,8 +57,7 @@ class Utility extends Model
             "default_language" => "en",
         ];
 
-        foreach($data as $row)
-        {
+        foreach ($data as $row) {
             $settings[$row->name] = $row->value;
         }
 
@@ -73,14 +69,16 @@ class Utility extends Model
         $dir     = base_path() . '/resources/lang/';
         $glob    = glob($dir . "*", GLOB_ONLYDIR);
         $arrLang = array_map(
-            function ($value) use ($dir){
+            function ($value) use ($dir) {
                 return str_replace($dir, '', $value);
-            }, $glob
+            },
+            $glob
         );
         $arrLang = array_map(
-            function ($value) use ($dir){
+            function ($value) use ($dir) {
                 return preg_replace('/[0-9]+/', '', $value);
-            }, $arrLang
+            },
+            $arrLang
         );
         $arrLang = array_filter($arrLang);
 
@@ -90,8 +88,7 @@ class Utility extends Model
     public static function getValByName($key)
     {
         $setting = Utility::settings();
-        if(!isset($setting[$key]) || empty($setting[$key]))
-        {
+        if (!isset($setting[$key]) || empty($setting[$key])) {
             $setting[$key] = '';
         }
 
@@ -102,28 +99,22 @@ class Utility extends Model
     {
         $envFile = app()->environmentFilePath();
         $str     = file_get_contents($envFile);
-        if(count($values) > 0)
-        {
-            foreach($values as $envKey => $envValue)
-            {
+        if (count($values) > 0) {
+            foreach ($values as $envKey => $envValue) {
                 $keyPosition       = strpos($str, "{$envKey}=");
                 $endOfLinePosition = strpos($str, "\n", $keyPosition);
                 $oldLine           = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
                 // If key does not exist, add it
-                if(!$keyPosition || !$endOfLinePosition || !$oldLine)
-                {
+                if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
                     $str .= "{$envKey}='{$envValue}'\n";
-                }
-                else
-                {
+                } else {
                     $str = str_replace($oldLine, "{$envKey}='{$envValue}'", $str);
                 }
             }
         }
         $str = substr($str, 0, -1);
         $str .= "\n";
-        if(!file_put_contents($envFile, $str))
-        {
+        if (!file_put_contents($envFile, $str)) {
             return false;
         }
 
@@ -147,9 +138,9 @@ class Utility extends Model
         'leave_status' => 'Leave Status',
     ];
 
-    public static function employeePayslipDetail($employeeId, $worked_days)
+    public static function employeePayslipDetail($employeeId, $worked_days,$month)
     {
-        $empPayslip                   = PaySlip::where('employee_id', $employeeId)->where('created_by', \Auth::user()->creatorId())->first();
+        $empPayslip                   = PaySlip::where('employee_id', $employeeId)->where('salary_month', $month)->where('created_by', \Auth::user()->creatorId())->first();
         $earning['allowance']         = Allowance::where('employee_id', $employeeId)->get();
         $earning['totalAllowance']    = Allowance::where('employee_id', $employeeId)->get()->sum('amount');
         $earning['commission']        = Commission::where('employee_id', $employeeId)->get();
@@ -164,11 +155,11 @@ class Utility extends Model
         $deduction['deduction']      = SaturationDeduction::where('employee_id', $employeeId)->get();
         $deduction['totalDeduction'] = SaturationDeduction::where('employee_id', $employeeId)->get()->sum('amount');
         $payslip['worked_days']    = $worked_days;
-        $payslip['basic_salary']   =  ($empPayslip->basic_salary/30 * $worked_days);
-        $payslip['totalAllowance'] = ($earning['totalAllowance']/30 * $worked_days);
+        $payslip['basic_salary']   =  $empPayslip->basic_salary;
+        $payslip['totalAllowance'] = $earning['totalAllowance'];
 
         $payslip['earning']        = $earning;
-        $payslip['totalEarning']   = ($empPayslip->basic_salary/30 * $worked_days) + ($earning['totalAllowance']/30 * $worked_days) + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
+        $payslip['totalEarning']   = $empPayslip->basic_salary  + $earning['totalAllowance'] + $earning['totalCommission'] + $earning['totalOtherPayment'] + $earning['totalOverTime'];
 
         $payslip['deduction']      = $deduction;
         $payslip['totalDeduction'] = $deduction['totalLoan'] + $deduction['totalDeduction'];
@@ -179,22 +170,17 @@ class Utility extends Model
 
     public static function delete_directory($dir)
     {
-        if(!file_exists($dir))
-        {
+        if (!file_exists($dir)) {
             return true;
         }
-        if(!is_dir($dir))
-        {
+        if (!is_dir($dir)) {
             return unlink($dir);
         }
-        foreach(scandir($dir) as $item)
-        {
-            if($item == '.' || $item == '..')
-            {
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
                 continue;
             }
-            if(!self::delete_directory($dir . DIRECTORY_SEPARATOR . $item))
-            {
+            if (!self::delete_directory($dir . DIRECTORY_SEPARATOR . $item)) {
                 return false;
             }
         }

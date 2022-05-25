@@ -81,7 +81,7 @@
                 <div class="col-lg-9" style="display: flex; align-items: center;">
                     <div class=" invoice-title text-justify px-3">
                         <h6 class="mb-3">
-                            Eysys Pharmaceutical Private Limited, E A Chambers Tower II, 5th Floor, 49/50L, Whites Road, Royapettah Chennai - 600002
+                           Eysys Pharmaceutical Private Limited, E A Chambers Tower II, 5th Floor, 49/50L, Whites Road, Royapettah Chennai - 600002
                         </h6>
                     </div>
                 </div>
@@ -122,48 +122,6 @@
             <div class="row mt-2">
                 <div class="col-md-12">
                     <div id="payslip-table" class="table-responsive">
-                        {{--
-                        <table class="table table-striped table-hover table-md">
-                            <tbody>
-                                <tr class="font-weight-bold">
-                                    <th>{{__('Earning')}}</th>
-                                    <th>{{__('Amount')}}</th>
-                                </tr>
-                                <tr>
-                                    <td>{{__('Basic Salary')}}</td>
-                                    <td>{{ \Auth::user()->priceFormat( $payslip->basic_salary)}}</td>
-                                </tr>
-                                @foreach($payslipDetail['earning']['allowance'] as $allowance)
-                                <tr>
-                                    <td>{{$allowance->title}}</td>
-                                    <td>{{ \Auth::user()->priceFormat( $allowance->amount)}}</td>
-                                </tr>
-                                @endforeach @foreach($payslipDetail['earning']['commission'] as $commission)
-                                <tr>
-                                    <td>{{$commission->title}}</td>
-                                    <td>{{ \Auth::user()->priceFormat( $commission->amount)}}</td>
-                                </tr>
-                                @endforeach @foreach($payslipDetail['earning']['otherPayment'] as $otherPayment)
-                                <tr>
-                                    <td>{{$otherPayment->title}}</td>
-                                    <td>{{ \Auth::user()->priceFormat( $otherPayment->amount)}}</td>
-                                </tr>
-                                @endforeach @foreach($payslipDetail['earning']['overTime'] as $overTime)
-                                <tr>
-                                    <td>{{$overTime->title}}</td>
-                                    <td>{{ \Auth::user()->priceFormat( $overTime->amount)}}</td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td>{{__('Total Earning')}}</td>
-                                    <td>{{ \Auth::user()->priceFormat($payslipDetail['totalEarning'])}}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{__('Net Salary')}}</td>
-                                    <td>{{ \Auth::user()->priceFormat($payslip->net_payble)}}</td>
-                                </tr>
-                            </tbody>
-                        </table> --}}
                         <table class="GeneratedTable">
                             <tr>
                                 <th scope="col">{{__('Earnings')}} <span style="float:right">{{__('Amount')}}</span></th>
@@ -171,13 +129,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    {{-- @php $basic_amount = ($payslip->basic_salary/30) * ((int)$worked_days); @endphp --}}
                                     <p>{{__('Basic Salary')}} <span style="float:right">{{  \Auth::user()->priceFormat($payslipDetail['basic_salary'])}}</span></p>
-                                    <p style="display:none">{{__('Basic Salary')}} <span>{{  \Auth::user()->priceFormat($payslip->basic_salary)}}</span></p>
-                                    <p style="display:none">{{__('basic_salary')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['basic_salary'])}}</span></p>
-                                    <p style="display:none">{{__('totalAllowance')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['totalAllowance'])}}</span></p>
-                                    <p style="display:none">{{__('worked_days')}} <span>{{  \Auth::user()->priceFormat($payslipDetail['worked_days'])}}</span></p>
-                                    @foreach($payslipDetail['earning']['allowance'] as $allowance) {{-- @php $allowance_amount = ($allowance->amount/30) * ((int)$worked_days); @endphp --}}
+                                    @foreach($payslipDetail['earning']['allowance'] as $allowance)
                                     <p>{{$allowance->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $allowance->amount)}}</span></p>
                                     @endforeach @foreach($payslipDetail['earning']['commission'] as $commission)
                                     <p>{{$commission->title}} <span style="float:right">{{ \Auth::user()->priceFormat( $commission->amount)}}</span></p>
@@ -195,7 +148,6 @@
                                     <p>{{$deduction->title}} <span style="float:right">{{  \Auth::user()->priceFormat( $deduction->amount)}}</span></p>
                                     @endforeach
                                     <p><span style="float:right"></span></p>
-                                    <!--<p><b>Unpaid Leave</b> <span style="float:right"><b>{{ \Auth::user()->priceFormat($unpaid_deductions)}}</b></span></p>-->
                                     <p><span style="float:right"></span></p>
                                     <p><b>Total Deductions</b> <span style="float:right"><b>{{ \Auth::user()->priceFormat($payslipDetail['totalDeduction'] + $unpaid_deductions)}}</b></span></p>
                                 </td>
@@ -213,30 +165,6 @@
                         </table>
                     </div>
                 </div>
-                {{--
-                <div class="col-md-6">
-                    <div id="payslip-table" class="table-responsive">
-                        <table class="table table-striped table-hover table-md">
-                            <tbody>
-                                <tr class="font-weight-bold">
-                                    <th>{{__('Deduction')}}</th>
-                                    <th class="text-right">{{__('Amount')}}</th>
-                                </tr>
-                                @foreach($payslipDetail['deduction']['loan'] as $loan)
-                                <tr>
-                                    <td>{{$loan->title}}</td>
-                                    <td class="text-right">{{ \Auth::user()->priceFormat( $loan->amount)}}</td>
-                                </tr>
-                                @endforeach @foreach($payslipDetail['deduction']['deduction'] as $deduction)
-                                <tr>
-                                    <td>{{$deduction->title}}</td>
-                                    <td class="text-right">{{ \Auth::user()->priceFormat( $deduction->amount)}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div> --}}
             </div>
         </div>
         <hr>
