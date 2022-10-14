@@ -250,7 +250,13 @@ class PaySlipController extends Controller
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('status', '=', 0)
                 ->first();
+            if (!$payslip) {
+                return redirect()->route('payslip.index')->with('error', __('PaySlip Not available'));
+            }
             $employee_info = Employee::find($employee->employee_id);
+            if (!$employee_info) {
+                return redirect()->route('payslip.index')->with('error', __('Employee Details not found'));
+            }
             $payslip->name = $employee_info->name;
             $payslip->email = $employee_info->email;
             $payslip->auth_password = $employee_info->auth_password;
@@ -270,7 +276,7 @@ class PaySlipController extends Controller
                         },
                         "to": [
                               {
-                                "email": "' . $payslip->email . '",
+                                "email": "' . preg_replace('/\s+/', '', $payslip->email) . '",
                                 "name": "' . $payslip->name . '"
                               }
                         ],
@@ -314,7 +320,7 @@ class PaySlipController extends Controller
         $worked_days = 30 - $total_leaves;
         $payslip = PaySlip::where('employee_id', $id)->where('salary_month', $month)->where('created_by', \Auth::user()->creatorId())->first();
         $employee = Employee::find($payslip->employee_id);
-        $payslipDetail = Utility::employeePayslipDetail($id, $worked_days ,$month);
+        $payslipDetail = Utility::employeePayslipDetail($id, $worked_days, $month);
         if ($worked_days < 30) {
             $deductions = $payslip->net_payble - $payslipDetail['netEarning'];
             $unpaid_deductions = (int) $deductions;
@@ -347,7 +353,7 @@ class PaySlipController extends Controller
                     },
                     "to": [
                           {
-                            "email": "' . $payslip->email . '",
+                            "email": "' . preg_replace('/\s+/', '', $payslip->email) . '",
                             "name": "' . $payslip->name . '"
                           }
                     ],
@@ -372,7 +378,7 @@ class PaySlipController extends Controller
         ])->sum('total_leave_days');
         $total_leaves = ((int) $leaves);
         $worked_days = 30 - $total_leaves;
-        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id, $worked_days,$payslip->salary_month);
+        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id, $worked_days, $payslip->salary_month);
         if ($worked_days < 30) {
             $deductions = $payslip->net_payble - $payslipDetail['netEarning'];
             $unpaid_deductions = (int) $deductions;
